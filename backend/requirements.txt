@@ -1,0 +1,3 @@
+-r src/config/requirements/base.txt 
+-r src/config/requirements/dev.txt 
+-r src/config/requirements/test.txt

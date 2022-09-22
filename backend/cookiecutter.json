@@ -1,0 +1,7 @@
+{
+  "project_slug": "python-django",
+  "project_name": "ckl_django",
+  "project_title": "Python Django",
+  "enable_sentry": "y",
+  "enable_health_check": "n"
+}
