@@ -1,0 +1,98 @@
+{
+  "name": "mb-token-factory",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@sentry/react": "^7.12.1",
+    "@sentry/tracing": "^7.12.1",
+    "@stellar/design-system": "^0.8.1",
+    "@stellar/freighter-api": "^1.2.0",
+    "@testing-library/jest-dom": "~5.16.5",
+    "@testing-library/react": "~13.4.0",
+    "@types/react": "~18.0.20",
+    "@types/react-router-dom": "~5.3.3",
+    "axios": "~0.27.2",
+    "env-cmd": "~10.1.0",
+    "eslint-plugin-jest-dom": "^4.0.2",
+    "js-file-download": "^0.4.12",
+    "react": "~18.2.0",
+    "react-dom": "~18.2.0",
+    "react-feather": "^2.0.10",
+    "react-router-dom": "~6.4.0",
+    "react-scripts": "~5.0.1",
+    "react-tabs": "^5.1.0",
+    "sass": "~1.54.9",
+    "typescript": "~4.8.3",
+    "web-vitals": "~3.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "~29.0.2",
+    "@types/node": "~16.11.7",
+    "@types/node-sass": "^4.11.1",
+    "@types/react-dom": "~18.0.6",
+    "@types/react-tabs": "^5.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
+    "eslint-import-resolver-typescript": "~3.5.1",
+    "eslint-plugin-jest": "^27.0.4",
+    "eslint-plugin-prettier": "~4.2.1",
+    "eslint-plugin-react": "~7.31.8",
+    "eslint-plugin-react-hooks": "~4.6.0",
+    "eslint-plugin-testing-library": "^5.6.4",
+    "prettier": "~2.7.1"
+  },
+  "scripts": {
+    "start": "react-scripts --max_old_space_size=8128 start",
+    "start:dev": "env-cmd -f ./src/config/.env.local npm start",
+    "start:staging": "env-cmd -f ./src/config/.env.staging npm start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "test:coverage": "npm run test -- --coverage --watchAll=false",
+    "eject": "react-scripts eject",
+    "lint:staged": "lint-staged",
+    "lint": "eslint src/",
+    "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write",
+      "lint --check"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/index.tsx",
+      "src/app/core/**/*.tsx",
+      "src/app/core/**/**/*.tsx",
+      "src/components/**/**/index.tsx"
+    ],
+    "coverageReporters": [
+      "json",
+      "text"
+    ]
+  }
+}

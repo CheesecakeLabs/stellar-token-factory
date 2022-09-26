@@ -1,0 +1,28 @@
+.content {
+  display: block;
+  padding: 0px !important;
+  width: 100% !important;
+
+  p {
+    width: 100%;
+    margin-bottom: 5px !important;
+    line-height: 16px;
+    font-size: 13px !important;
+  }
+}
+
+.btBack {
+  background-color: var(--pal-background-secondary);
+  padding: 10px 15px;
+  width: 140px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  display: flex;
+  cursor: pointer;
+  margin-top: 10px;
+  
+  svg {
+    margin-right: 10px;
+  }
+}

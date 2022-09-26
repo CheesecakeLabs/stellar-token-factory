@@ -1,0 +1,51 @@
+.accordion {
+  margin-top: 20px;
+}
+
+.accordionItem {
+  width: 100%;
+  background-color: var(--pal-background-tertiary);
+  border-radius: 5px;
+  padding: 10px 20px 10px 15px;
+  justify-content: space-between;
+  display: flex;
+  box-shadow: var(--Card-shadow);
+  cursor: pointer;
+
+  p {
+    font-size: 10px;
+  }
+}
+
+.accordionContent {
+  padding: 0px 20px 20px 20px !important;
+
+  label {
+    margin-top: 20px !important;
+  }
+}
+
+.inputForm {
+  display: flex;
+  margin-top: 20px;
+
+  button {
+    margin-left: 10px;
+  }
+}
+
+.fieldAccount {
+  width: calc(100% - 80px);
+}
+
+.contentForm {
+  display: flex;
+}
+
+.spacer {
+  width: 20px;
+}
+
+.iconTooltip {
+  margin-left: 5px !important;
+}

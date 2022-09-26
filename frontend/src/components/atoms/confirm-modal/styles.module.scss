@@ -1,0 +1,11 @@
+.contentButtons {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+}

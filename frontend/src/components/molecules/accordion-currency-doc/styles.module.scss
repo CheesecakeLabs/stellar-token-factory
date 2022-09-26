@@ -1,0 +1,55 @@
+.accordion {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.accordionItem {
+  width: 100%;
+  background-color: var(--pal-background-tertiary);
+  border-radius: 5px;
+  padding: 10px 20px 10px 15px;
+  justify-content: space-between;
+  display: flex;
+  box-shadow: var(--Card-shadow);
+  cursor: pointer;
+
+  p {
+    font-size: 10px;
+  }
+}
+
+.accordionContent {
+  padding: 10px 20px 20px 20px !important;
+}
+
+.inputForm {
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin-left: 10px;
+    margin-top: 10px;
+  }
+}
+
+.listData {
+  background-color: var(--pal-background-primary);
+  border-radius: 5px;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+  margin-bottom: 8px;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.spacer {
+  width: 10px;
+}
+
+.listAction {
+  display: flex;
+
+  svg {
+    cursor: pointer !important;
+  }
+}

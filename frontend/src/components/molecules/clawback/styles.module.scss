@@ -1,0 +1,47 @@
+.fields {
+  max-width: 720px;
+  margin-bottom: 20px;
+}
+
+.fieldTarget {
+  margin-bottom: 20px;
+}
+
+.contentSubmit {
+  margin-top: 20px;
+
+  button {
+    width: 160px !important;
+  }
+}
+
+.toogle {
+  margin-right: 40px;
+  display: flex;
+  margin-bottom: 20px;
+
+  label {
+    align-items: flex-end !important;
+    justify-content: flex-end !important;
+    margin-top: 0px !important;
+  }
+}
+
+.infoClaimable {
+  display: flex;
+  width: calc(100% - 180px);
+
+  p {
+    font-size: 14px;
+  }
+
+  a {
+    color: var(--pal-text-secondary);
+    font-weight: bold;
+  }
+}
+
+.iconInfo {
+  margin-right: 8px !important;
+  margin-top: 5px !important;
+}

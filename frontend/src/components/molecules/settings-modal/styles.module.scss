@@ -1,0 +1,109 @@
+.darkBG {
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 98;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+}
+
+.modal {
+  width: 800px;
+  max-height: 95vh;
+  overflow-y: auto;
+  background: var(--pal-background-primary);
+  z-index: 10;
+  position: relative !important;
+  border-radius: 8px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+  padding: 10px 20px 20px 20px;
+}
+
+.contentControllers {
+  display: flex;
+
+  label {
+    margin: 0px 50px 0px 20px;
+  }
+}
+
+.inputForm {
+  display: flex;
+  margin: 20px !important;
+
+  button {
+    margin-left: 10px;
+  }
+}
+
+.fieldAccount {
+  width: calc(100% - 80px);
+}
+
+.listData {
+  background-color: var(--pal-background-secondary);
+  border-radius: 5px;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+  margin-bottom: 8px;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.listAction {
+  display: flex;
+
+  svg {
+    cursor: pointer !important;
+  }
+}
+
+.button {
+  margin-top: 40px;
+  width: 100%;
+  justify-content: flex-end;
+  display: flex;
+}
+
+.titles {
+  margin: 30px 0 10px 10px;
+  line-height: 1.375rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  font-size: 14px;
+  color: var(--pal-text-primary);
+}
+
+.empty {
+  justify-content: center;
+
+  p {
+    text-align: center;
+    margin-top: 0 !important;
+    font-size: 14px;
+  }
+
+  svg {
+    text-align: center;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+.spacer {
+  width: 20px;
+}
+
+.iconTooltip {
+  margin-left: 8px;
+}

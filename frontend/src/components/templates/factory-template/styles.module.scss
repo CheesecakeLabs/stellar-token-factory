@@ -1,0 +1,42 @@
+.tab {
+  list-style-type: none !important;
+  list-style: none !important;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+
+  &::before {
+    content: none;
+  }
+}
+
+.main {
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.textAddress {
+  font-size: 14px;
+  display: inline;
+}
+
+.cardAddress {
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+
+  p {
+    font-size: 13px;
+    margin-top: 4px !important;
+  }
+}
+
+.issuerActions {
+  display: flex;
+
+  button {
+    height: 35px;
+    margin-left: 5px !important;
+  }
+}

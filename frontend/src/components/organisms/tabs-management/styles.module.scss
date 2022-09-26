@@ -1,0 +1,28 @@
+.tab {
+  list-style-type: none !important;
+  list-style: none !important;
+  font-size: 14px;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: var(--pal-background-secondary);
+  color: var(--pal-text-primary);
+  border-radius: 5px 5px 0 0;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  &::before {
+    content: none;
+  }
+}
+
+.tabUnauthorized {
+  opacity: 30%;
+}
+
+.selectedTabClassName {
+  background-color: var(--pal-brand-primary);
+  color: white;
+  border-radius: 5px 5px 0 0;
+  outline: none;
+}
