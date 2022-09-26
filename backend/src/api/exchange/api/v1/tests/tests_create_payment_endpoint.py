@@ -63,7 +63,7 @@ def test_create_payment_successfully(
         client=client, network=network, **request_data
     )
 
-    load_account_mock.call_count == 3
+    assert load_account_mock.call_count == 3
 
     assert response.status_code == status.HTTP_200_OK
     response_json = response.json()

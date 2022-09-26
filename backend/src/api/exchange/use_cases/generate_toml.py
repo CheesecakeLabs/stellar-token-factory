@@ -8,12 +8,12 @@ from rest_framework import status
 from toml.ordered import TomlOrderedEncoder
 
 from api.core.helpers.business_errors import INVALID_NETWORK, BusinessException
-from api.core.use_cases.base import BaseUseCase
+from api.core.use_cases.base_stellar import BaseStellarUseCase
 from api.stellar.helpers.exceptions import InvalidNetwork
 from api.stellar.helpers.utils import get_network_data
 
 
-class GenerateTOMLUseCase(BaseUseCase):
+class GenerateTOMLUseCase(BaseStellarUseCase):
     def execute(
         self,
         network: str,

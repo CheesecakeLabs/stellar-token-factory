@@ -1,25 +1,16 @@
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
-from rest_framework import status
 
-from api.core.helpers.business_errors import (
-    ACCOUNT_NOT_FOUND,
-    INVALID_NETWORK,
-    INVALID_PUBLIC_KEY,
-    INVALID_SIGNER_KEY,
-    BusinessException,
-)
-from api.core.use_cases.base import BaseUseCase
+from api.core.helpers.business_errors import INVALID_SIGNER_KEY
+from api.core.use_cases.base_stellar import BaseStellarUseCase
 from api.stellar.helpers.accounts import StellarAccount
 from api.stellar.helpers.constants import (
     AUTHORIZATION_CLAWBACK_ENABLED,
     AUTHORIZATION_REVOCABLE,
 )
-from api.stellar.helpers.exceptions import InvalidNetwork
-from api.stellar.helpers.transactions import StellarTransaction
 
 
-class SetOptionsUseCase(BaseUseCase):
+class SetOptionsUseCase(BaseStellarUseCase):
     def _get_flags(self, clawback: bool, freeze: bool) -> list[int]:
         if clawback:
             return [AUTHORIZATION_REVOCABLE, AUTHORIZATION_CLAWBACK_ENABLED]
@@ -60,34 +51,14 @@ class SetOptionsUseCase(BaseUseCase):
             signers: Updated list of signers with low weight
         """
         # Check if public key is valid
-        try:
-            StellarTransaction.validate_public_key(public_key=public_key)
-        except:
-            raise BusinessException(
-                INVALID_PUBLIC_KEY, status_code=status.HTTP_400_BAD_REQUEST
-            )
+        self._validate_public_key(public_key)
 
         # Check if signers keys are valid
-        if signers:
-            for signer in signers:
-                try:
-                    StellarTransaction.validate_public_key(public_key=signer)
-                except:
-                    raise BusinessException(
-                        INVALID_SIGNER_KEY, status_code=status.HTTP_400_BAD_REQUEST
-                    )
+        for signer in signers or []:
+            self._validate_public_key(signer, INVALID_SIGNER_KEY)
 
         # Check if account exists and starts the transaction
-        try:
-            stellar = StellarTransaction(network=network, source_public_key=public_key)
-        except InvalidNetwork:
-            raise BusinessException(
-                INVALID_NETWORK, status_code=status.HTTP_400_BAD_REQUEST
-            )
-        except:
-            raise BusinessException(
-                ACCOUNT_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND
-            )
+        stellar = self._get_stellar_transaction_class(network, public_key)
 
         stellar_acc = StellarAccount(network=network)
 
