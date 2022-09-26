@@ -1,1 +1,0 @@
-web: sh -c 'cd ./src/ && exec gunicorn api.core.wsgi --timeout 1200 --workers $TOKENFACTORY_API_NUMBER_WORKERS --worker-connections 2048 --bind $DEFAULT_HOST:$DEFAULT_PORT'

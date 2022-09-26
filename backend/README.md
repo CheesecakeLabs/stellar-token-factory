@@ -45,14 +45,7 @@ The application will be available at [http://localhost:8000/](http://localhost:8
 
 ### Running with Docker
 
-1. Copy the file `local.example.env` to `local.env`.
-
-2. Run
-```bash
-make docker-up
-```
-
-The application will be available at [http://localhost:8000/](http://localhost:8000/)
+Follow the instructions in the project root folder.
 
 ## Tests and lint
 
