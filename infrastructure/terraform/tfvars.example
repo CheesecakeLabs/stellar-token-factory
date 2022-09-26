@@ -1,0 +1,233 @@
+region = "us-east-1"
+aws_profile = "default"
+project_name = "example"
+
+network_config = {
+  cidr_vpc               = "10.0.0.0/16"
+  cidr_public_subnet     = "10.0.#SEQUENCE#.0/24"
+  cidr_private_subnet    = "10.0.#SEQUENCE#.0/24"
+  cidr_database_subnet   = "10.0.#SEQUENCE#.0/24"
+  availability_zones     = ["a", "c"]
+  enable_nat_gateway     = true
+  single_nat_gateway     = true
+  one_nat_gateway_per_az = false
+}
+
+cluster_config = {
+  instance_type     = "t3.small"
+  desired_instances = 2
+  max_instances     = 2
+  min_instances     = 2
+  root_block = {
+    encrypted   = true
+    volume_size = 30
+  }
+}
+
+postgres_config = {
+    enable                                = true
+    instance_type                         = "db.t3.micro"
+    username                              = "root"
+    password                              = "SMI8f2nuSnq2dn"
+    backup_retention_period               = 30
+    storage_size                          = 50
+    storage_encrypted                     = true
+    multi_az                              = false
+    deletion_protection                   = true
+    enabled_cloudwatch_logs_exports       = ["postgresql"]
+    monitoring_interval                   = 60
+    performance_insights_enabled          = true
+    performance_insights_retention_period = 7
+    maintenance_window                    = "sat:03:30-sat:04:00"
+    backup_window                         = null
+  }
+
+domains = {
+  apex     = "project-staging.ckl.tools"
+  services = {
+    backend  = []
+    frontend = ["project-staging.ckl.tools"]
+    kong     = ["api.project-staging.ckl.tools"]
+  }
+}
+
+services_config = {
+    kong = {
+    image_name           = "kong:2.7.0"
+    task_count           = 1
+    container_port       = 8000
+    additional_ports     = [8001]
+    log_retention        = 30
+    health_check_path    = "/"
+    health_check_matcher = "200,404"
+    features = {
+      http                 = true
+      force_https_redirect = true
+      service_discovery    = true
+    }
+    cronjobs = {}
+    env_vars = {
+      KONG_DATABASE         = "postgres"
+      KONG_PG_HOST          = "__INJECT__"
+      KONG_PG_DATABASE      = "__INJECT__"
+      KONG_PG_USER          = "kong"
+      KONG_PROXY_ACCESS_LOG = "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG = "/dev/stdout"
+      KONG_PROXY_ERROR_LOG  = "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG  = "/dev/stderr"
+      KONG_PROXY_LISTEN     = "0.0.0.0:8000"
+      KONG_PROXY_LISTEN_SSL = "0.0.0.0:8443"
+      KONG_ADMIN_LISTEN     = "0.0.0.0:8001"
+    }
+    protected_envs = {
+      KONG_PG_PASSWORD = "SMsCmic2hsf324@"
+    }
+  }
+  konga = {
+    image_name           = "pantsel/konga:latest"
+    task_count           = 1
+    container_port       = 1337
+    additional_ports     = []
+    log_retention        = 30
+    health_check_path    = "/"
+    health_check_matcher = "200,404"
+    features = {
+      http                 = false
+      force_https_redirect = false
+      service_discovery    = true
+    }
+    cronjobs = {}
+    env_vars = {
+      NODE_ENV    = "staging"
+      DB_ADAPTER  = "postgres"
+      DB_HOST     = "__INJECT__"
+      DB_PORT     = "5432"
+      DB_USER     = "kong"
+      DB_DATABASE = "konga"
+    }
+    protected_envs = {
+      DB_PASSWORD = "__INJECT__"
+    }
+  }
+  backend = {
+    task_count        = 1
+    container_port    = 7000
+    log_retention     = 30
+    health_check_path = "/health_check/"
+    features = {
+      http                 = false
+      force_https_redirect = false
+      service_discovery    = true
+    }
+    cronjobs = {
+      echo = {
+        cron = "0/10 * * * ? *"
+        command = ["python", "src/manage.py", "check"]
+      }
+    }
+    env_vars = {
+      ENVIRONMENT = "__INJECT__"
+      AWS_REGION = "__INJECT__"
+      AWS_STORAGE_BUCKET_NAME = "__INJECT__"
+      DJANGO_SECRET_KEY = null
+      DJANGO_DEBUG = "False"
+      DJANGO_ALLOWED_HOSTS = "*,"
+      EMAIL_FROM = null
+    }
+    protected_envs = {
+      DATABASE_URL = "__INJECT__"
+      PRIVATE_KEY = "example-key"
+      ADMINJS_COOKIE_SECURITY_SECRET="SMifuUSg720JSba"
+    }
+  }
+  frontend = {
+    task_count = 1
+    container_port = 5000
+    log_retention = 30
+    health_check_path = "/"
+    features = {
+      http = true
+      force_https_redirect = true
+      service_discovery = false
+    }
+    cronjobs = {}
+    env_vars = {
+      NODE_ENV = "production"
+    }
+    protected_envs = {}
+  }
+}
+
+  kong_config = {
+    enabled = true
+    rds = {
+      enabled                      = true
+      db_username                  = "root"
+      db_engine_version            = "11.12"
+      db_instance_class            = "db.t3.micro"
+      db_storage_size              = 10
+      db_backup_retention_period   = 0
+      db_subnets_name              = "db-subnets"
+      db_multi_az                  = false
+      storage_encrypted            = true
+      db_final_snapshot_identifier = ""
+      db_family                    = "postgres11"
+      db_storage_type              = "gp2"
+      db_instance_count            = 1
+      monitoring_interval          = 0
+      enabled_cloudwatch_logs_exports       = ["postgresql"]
+      description                  = "Kong API Gateway"
+      maintenance_window           = "sat:03:30-sat:04:00"
+      performance_insights_enabled = true
+      performance_insights_retention_period = 7
+      backup_window                         = null
+    }
+  }
+
+  bastion_config = {
+    enabled          = true
+    allowed_cidr     = []
+    instance_type    = "t2.micro"
+    enable_public_ip = true
+    security_group = {
+      private  = false
+      database = false
+      kong     = true
+    }
+  }
+
+enable_scheduler_ec2_rds = true
+
+/* 
+This schedule will start EC2 Auto-Scaling instances and RDS instances every weekday at 7am (GMT-3)
+and stop everyday at 7pm (GMT-3)      
+*/ 
+schedules_definitions = [{
+    name                           = "start-weekdays-7am"
+    aws_regions                    = ["us-east-2"]
+    cloudwatch_schedule_expression = "cron(00 10 ? * 2-6 *)"
+    schedule_action                = "start"
+    autoscaling_schedule           = "true"
+    ec2_schedule                   = "true"
+    rds_schedule                   = "true"
+    cloudwatch_alarm_schedule      = "false"
+    scheduler_tag = {
+      key   = "ckl:schedule"
+      value = "mon-fri-7-19"
+    }
+  },
+  {
+    name                           = "stop-everyday-7pm"
+    aws_regions                    = ["us-east-2"]
+    cloudwatch_schedule_expression = "cron(00 22 * * ? *)"
+    schedule_action                = "stop"
+    autoscaling_schedule           = "true"
+    ec2_schedule                   = "true"
+    rds_schedule                   = "true"
+    cloudwatch_alarm_schedule      = "false"
+    scheduler_tag = {
+      key   = "ckl:schedule"
+      value = "mon-fri-7-19"
+    }
+  },
+  ]
