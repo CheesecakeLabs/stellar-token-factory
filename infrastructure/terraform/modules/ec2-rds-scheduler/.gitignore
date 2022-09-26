@@ -1,0 +1,12 @@
+.terraform
+.terraform.lock.hcl
+*.tfstate*
+*.zip
+terraform.tfstate.d
+.tox
+__pycache__
+.pytest_cache
+.coverage
+.mypy_cache
+.venv
+.idea

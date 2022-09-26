@@ -1,0 +1,13 @@
+variable "region" {}
+variable "environment" {}
+variable "project_name" {}
+variable "name_prefix" {}
+variable "default_tags" {}
+variable "vpc_id" {}
+variable "subnet_ids" {}
+variable "availability_zone" {}
+variable "security_group" {}
+variable "postgres_config" {}
+variable "mariadb_config" {}
+variable "kong_config" {}
+variable "rds_monitoring_role" {}
