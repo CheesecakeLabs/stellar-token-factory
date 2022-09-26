@@ -1,0 +1,9 @@
+variable "environment" {}
+variable "project_name" {}
+variable "name_prefix" {}
+variable "vpc_id" {}
+variable "default_tags" {}
+variable "services_config" {}
+variable "kong_config" {}
+variable "bastion_config" {}
+variable "scheduled_lambda" {}
