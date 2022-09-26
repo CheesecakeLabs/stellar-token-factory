@@ -44,7 +44,7 @@
   "scripts": {
     "start": "react-scripts --max_old_space_size=8128 start",
     "start:dev": "env-cmd -f ./src/config/.env.local npm start",
-    "start:staging": "env-cmd -f ./src/config/.env.staging npm start",
+    "start:dev-docker": "npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "npm run test -- --coverage --watchAll=false",

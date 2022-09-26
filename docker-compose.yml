@@ -1,0 +1,60 @@
+version: "3"
+
+volumes:
+  node-modules:
+
+services:
+  ## Backend ##
+  backend:
+    profiles: ['all', 'backend']
+    platform: linux/amd64
+    container_name: backend
+    build:
+      context: ./backend
+      target: dev
+    volumes:
+      - ./backend/:/usr/src/app
+    ports:
+      - 8000:8000
+    environment:
+      ENV: ${BACKEND_ENV:-development}
+      AWS_ACCESS_KEY: ${AWS_ACCESS_KEY:-}
+      AWS_SECRET_KEY: ${AWS_SECRET_KEY:-}
+      AWS_REGION: ${AWS_REGION:-us-east-2}
+      AWS_CLOUDWATCH_LOG_GROUP_NAME: ${AWS_CLOUDWATCH_LOG_GROUP_NAME:-}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-example_secret}
+      DJANGO_DEBUG: ${DJANGO_DEBUG:-True}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS:-localhost,}
+      DJANGO_CSRF_TRUSTED_ORIGINS: ${DJANGO_CSRF_TRUSTED_ORIGINS:-http://localhost,}
+      CORS_ALLOW_ALL_ORIGINS: ${CORS_ALLOW_ALL_ORIGINS:-True}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-*,}
+      INTERNAL_IPS: ${INTERNAL_IPS:-localhost,}
+      SENTRY_DSN: ${SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-5}
+      REFRESH_TOKEN_EXPIRE_DAYS: ${REFRESH_TOKEN_EXPIRE_DAYS:-1}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-example_secret}
+      TRANSACTION_TIMEOUT: ${TRANSACTION_TIMEOUT:-1800}
+      ACCOUNT_STARTING_BALANCE: ${ACCOUNT_STARTING_BALANCE:-2.01}
+      STELLAR_TOML_VERSION: ${STELLAR_TOML_VERSION:-2.5.0}
+      DEFAULT_THRESHOLD: ${DEFAULT_THRESHOLD:-21}
+      DEFAULT_SIGNER_LOW_WEIGHT: ${DEFAULT_SIGNER_LOW_WEIGHT:-1}
+      HORIZON_PUBLIC_API_SERVER: ${HORIZON_PUBLIC_API_SERVER:-https://horizon-testnet.stellar.org}
+      HORIZON_TEST_API_SERVER: ${HORIZON_TEST_API_SERVER:-https://horizon-testnet.stellar.org}
+      PUBLIC_NETWORK_PASSPHRASE: ${PUBLIC_NETWORK_PASSPHRASE:-Test SDF Network ; September 2015}
+      TEST_NETWORK_PASSPHRASE: ${TEST_NETWORK_PASSPHRASE:-Test SDF Network ; September 2015}
+  ## Frontend ##
+  frontend:
+    profiles: ['all', 'frontend']
+    platform: linux/amd64
+    container_name: frontend
+    build:
+      context: ./frontend
+      target: dev-docker
+      args:
+        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://host.docker.internal:8000}
+        REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
+    volumes:
+      - ./frontend/:/usr/src/app
+      - node-modules:/usr/src/app/node_modules
+    ports:
+      - 3000:3000
