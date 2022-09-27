@@ -1,0 +1,133 @@
+name: "Frontend - CI/CD"
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+    paths:
+      - frontend/**
+  push:
+    paths:
+      - frontend/**
+    branches:
+      - 'main'
+
+defaults:
+  run:
+    working-directory: frontend/
+
+env:
+  AWS_REGION: us-east-2
+
+jobs:
+# Tests are disabled while are not correct
+#  test:
+#    name: "Test"
+#    runs-on: ubuntu-latest
+#    strategy:
+#      matrix:
+#        node: ["16"]
+#    steps:
+#      - name: Checkout to current branch
+#        uses: actions/checkout@v3
+#
+#      - name: Setup NodeJS locally
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: ${{ matrix.node-version }}
+#          cache: "npm"
+#          cache-dependency-path: "./frontend/package-lock.json"
+#
+#      - name: Install dependencies
+#        run: make clean-install-dev
+#
+#      - name: Run tests 
+#        run: make test
+
+  lint:
+    name: "Lint"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ["16"]
+    steps:
+      - name: Checkout to current branch
+        uses: actions/checkout@v3
+
+      - name: Setup NodeJS locally
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: "./frontend/package-lock.json"
+
+      - uses: reviewdog/action-eslint@v1
+        with:
+          level: "info"
+          workdir: "frontend"
+          fail_on_error: "true"
+
+  build-image-deploy-production:    
+    runs-on: ubuntu-latest
+    needs: ["lint"]
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.lint.result == 'success'
+    env:
+      ECR_REPOSITORY: stellar-tf-prod-frontend
+      ECS_CLUSTER_NAME: stellar-tf-prod
+      ECS_SERVICE_NAME: stellar-tf-prod-frontend
+      ECS_CONTAINER_NAME: stellar-tf-prod-frontend
+      ECS_TASK_NAME: stellar-tf-prod-frontend
+      IMAGE_TAG: ${{ github.sha }}
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout to current branch
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.PRODUCTION_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PRODUCTION_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Set image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: echo "IMAGE=$(echo $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG )" >> $GITHUB_ENV
+
+      - name: Build, tag, and push image to Amazon ECR
+        uses: docker/build-push-action@v3
+        with:
+          context: "./frontend"
+          platforms: linux/amd64
+          target: prod
+          push: true
+          tags: ${{ env.IMAGE }}
+          build-args: |
+            REACT_APP_API_URL=https://api-stellar-tf.cheesecakelabs.com
+            REACT_APP_SENTRY_DSN=${{ secrets.PRODUCTION_FRONTEND_SENTRY_DSN}}
+
+      - name: Download ECS task definition
+        run: |
+          aws ecs describe-task-definition --task-definition $ECS_TASK_NAME --query taskDefinition > task-definition.json
+          cat task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ./frontend/task-definition.json
+          container-name: ${{ env.ECS_CONTAINER_NAME }}
+          image: ${{ env.IMAGE }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE_NAME }}
+          cluster: ${{ env.ECS_CLUSTER_NAME }}
+          wait-for-service-stability: true

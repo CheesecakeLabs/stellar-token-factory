@@ -32,14 +32,9 @@ The application will be available at [http://localhost:3000/](http://localhost:3
 
 ### Running with Docker
 
-1. Copy the file `src/config/.env.example` to `src/config/.env.local`.
+Follow the instructions in the project root folder.
 
-2. Run
-```bash
-make docker-up
-```
-
-The application will be available at [http://localhost:3000/](http://localhost:3000/)
+## Tests and lint
 
 Show lint erros:
 ```shell
