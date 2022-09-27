@@ -74,7 +74,7 @@ def test_create_clawback_successfully(
         client=client, network=network, **request_data
     )
 
-    load_account_mock.call_count == 1 + bool(request_data.get("target"))
+    assert load_account_mock.call_count == 1 + bool(request_data.get("target"))
 
     assert response.status_code == status.HTTP_200_OK
     response_json = response.json()

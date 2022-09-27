@@ -45,14 +45,24 @@ def test_get_issuer_info_successfully(
         return_value=get_mocked_account_object(account_id=public_key),
     )
 
+    get_accounts_mock = mocker.patch(
+        "stellar_sdk.call_builder.call_builder_sync.accounts_call_builder.AccountsCallBuilder.call",
+        return_value=constants.STELLAR_GET_ACCOUNTS_ONE_ACCOUNT_RESPONSE,
+    )
+
+    next_accounts_mock = mocker.patch(
+        "stellar_sdk.call_builder.call_builder_sync.accounts_call_builder.AccountsCallBuilder.next",
+        side_effect=[constants.STELLAR_GET_ACCOUNTS_EMPTY_RESPONSE],
+    )
+
     get_assets_mock = mocker.patch(
-        "stellar_sdk.call_builder.call_builder_sync.base_call_builder.BaseCallBuilder.call",
-        return_value=constants.STELLAR_ASSETS_RESPONSE,
+        "stellar_sdk.call_builder.call_builder_sync.assets_call_builder.AssetsCallBuilder.call",
+        side_effect=[constants.STELLAR_ASSETS_RESPONSE],
     )
 
     next_assets_mock = mocker.patch(
-        "stellar_sdk.call_builder.call_builder_sync.base_call_builder.BaseCallBuilder.next",
-        return_value=constants.STELLAR_ASSETS_EMPTY_RESPONSE,
+        "stellar_sdk.call_builder.call_builder_sync.assets_call_builder.AssetsCallBuilder.next",
+        side_effect=[constants.STELLAR_ASSETS_EMPTY_RESPONSE],
     )
 
     response = get_issuer_info_request(
@@ -80,6 +90,8 @@ def test_get_issuer_info_successfully(
     }
 
     load_account_mock.assert_called_once()
+    get_accounts_mock.assert_called_once()
+    next_accounts_mock.assert_called_once()
     get_assets_mock.assert_called_once()
     next_assets_mock.assert_called_once()
 
