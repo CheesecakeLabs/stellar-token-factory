@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import ErrorBoundary, { IErrorBoundaryProps } from '.'
 import { render, screen, fireEvent } from '../tests/utils'
+import '@testing-library/jest-dom'
 
 const BUTTON = 'button'
 const TEST_THROW_ERROR = 'Test ErrorBoundary: This error was thrown!'
@@ -11,7 +12,8 @@ const DUMMY_COMPONENT_TEXT = 'This is a dummy children component'
 const FALLBACK_COMPONENT_TESTID = 'fallback-component'
 const DEFAULT_FALLBACK_COMPONENT_TESTID = 'default-fallback'
 
-const getButton = (): HTMLElement => screen.getByRole(BUTTON, { name: 'set error' })
+const { getByRole, getByTestId, getByText, queryByText } = screen
+const getButton = (): HTMLElement => getByRole(BUTTON, { name: 'set error' })
 const fallback = (): JSX.Element => (
   <div data-testid={FALLBACK_COMPONENT_TESTID} />
 )
@@ -48,7 +50,7 @@ describe('ErrorBoundary component', () => {
   it('should render the children (dummy component) without problems if no error is present', () => {
     renderComponent()
 
-    const dummyComponent = screen.getByText(DUMMY_COMPONENT_TEXT)
+    const dummyComponent = getByText(DUMMY_COMPONENT_TEXT)
     expect(dummyComponent).toBeInTheDocument()
   })
 
@@ -60,11 +62,11 @@ describe('ErrorBoundary component', () => {
     fireEvent.click(button)
 
     // dummy component should be removed from the DOM
-    const dummyComponent = screen.queryByText(DUMMY_COMPONENT_TEXT)
+    const dummyComponent = queryByText(DUMMY_COMPONENT_TEXT)
     expect(dummyComponent).not.toBeInTheDocument()
 
     // render the fallback component
-    expect(screen.getByTestId(FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
+    expect(getByTestId(FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
   })
 
   it('should render the default fallback component with the thrown error as message', () => {
@@ -75,12 +77,12 @@ describe('ErrorBoundary component', () => {
     fireEvent.click(button)
 
     // dummy component should be removed from the DOM
-    const dummyComponent = screen.queryByText(DUMMY_COMPONENT_TEXT)
+    const dummyComponent = queryByText(DUMMY_COMPONENT_TEXT)
     expect(dummyComponent).not.toBeInTheDocument()
 
     // render the default fallback component
-    expect(screen.getByTestId(DEFAULT_FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
-    expect(screen.getByText(TEST_THROW_ERROR)).toBeInTheDocument()
+    expect(getByTestId(DEFAULT_FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
+    expect(getByText(TEST_THROW_ERROR)).toBeInTheDocument()
   })
 
   it('should render the default fallback component with the display message as message', () => {
@@ -91,12 +93,12 @@ describe('ErrorBoundary component', () => {
     fireEvent.click(button)
 
     // dummy component should be removed from the DOM
-    const dummyComponent = screen.queryByText(DUMMY_COMPONENT_TEXT)
+    const dummyComponent = queryByText(DUMMY_COMPONENT_TEXT)
     expect(dummyComponent).not.toBeInTheDocument()
 
     // render the default fallback component
-    expect(screen.getByTestId(DEFAULT_FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
-    expect(screen.getByText(TEST_DISPLAY_MESSAGE_ERROR)).toBeInTheDocument()
+    expect(getByTestId(DEFAULT_FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
+    expect(getByText(TEST_DISPLAY_MESSAGE_ERROR)).toBeInTheDocument()
   })
 
   it(`should re-render the children (dummy component) after reseting the error on default fallback
@@ -108,16 +110,16 @@ describe('ErrorBoundary component', () => {
     fireEvent.click(button)
 
     // dummy component should be removed from the DOM
-    let dummyComponent = screen.queryByText(DUMMY_COMPONENT_TEXT)
+    let dummyComponent = queryByText(DUMMY_COMPONENT_TEXT)
     expect(dummyComponent).not.toBeInTheDocument()
 
     // render the default fallback component and click the reset button
-    expect(screen.getByTestId(DEFAULT_FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
-    const resetButton = screen.getByRole(BUTTON, { name: /click here to reset!/i })
+    expect(getByTestId(DEFAULT_FALLBACK_COMPONENT_TESTID)).toBeInTheDocument()
+    const resetButton = getByRole(BUTTON, { name: /click here to reset!/i })
     fireEvent.click(resetButton)
 
     //re-render the dummy children component
-    dummyComponent = screen.queryByText(DUMMY_COMPONENT_TEXT)
+    dummyComponent = queryByText(DUMMY_COMPONENT_TEXT)
     expect(dummyComponent).toBeInTheDocument()
   })
 })

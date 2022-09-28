@@ -7,7 +7,6 @@
     "@sentry/tracing": "^7.12.1",
     "@stellar/design-system": "^0.8.1",
     "@stellar/freighter-api": "^1.2.0",
-    "@testing-library/jest-dom": "~5.16.5",
     "@testing-library/react": "~13.4.0",
     "@types/react": "~18.0.20",
     "@types/react-router-dom": "~5.3.3",
@@ -26,6 +25,7 @@
     "web-vitals": "~3.0.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
     "@types/jest": "~29.0.2",
     "@types/node": "~16.11.7",
     "@types/node-sass": "^4.11.1",
