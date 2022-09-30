@@ -41,7 +41,7 @@ jobs:
         run: make clean-install-dev
 
       - name: Run tests 
-        run: make test:coverage
+        run: make coverage-test
 
       - uses: reviewdog/action-eslint@v1
         with:
