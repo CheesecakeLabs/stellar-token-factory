@@ -49,7 +49,7 @@ test:
 	npm run test
 
 coverage-test:
-	npm run test -- --coverage
+	npm run test:coverage
 
 storybook:
 	npm run storybook
