@@ -5,7 +5,7 @@ import '@stellar/design-system/build/styles.min.css'
 import 'react-tabs/style/react-tabs.css'
 import { useLocation } from 'react-router-dom'
 import { useCallback, useEffect, useState } from 'react'
-import { CustomError, NetworkStatus } from 'components/atoms'
+import { CustomError, HeaderStatus } from 'components/atoms'
 import { TabsManagement } from 'components/organisms'
 import { ManagementHeader } from 'components/molecules'
 import { FactoryService } from 'services/factory'
@@ -50,7 +50,7 @@ const ManagementTemplate = (): JSX.Element => {
         hasDarkModeToggle
         projectTitle="Token Factory"
         projectLink=""
-        contentRight={<NetworkStatus key={'status'} />}
+        contentRight={<HeaderStatus key={'status'} />}
         contentCenter={
           <ManagementHeader
             asset_issuer={state?.asset_issuer}

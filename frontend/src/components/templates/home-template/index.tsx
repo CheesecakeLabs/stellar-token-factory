@@ -1,8 +1,8 @@
 import { Card, Layout } from '@stellar/design-system'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
-import { isConnected, getPublicKey } from '@stellar/freighter-api'
-import { CustomLoader, NetworkStatus } from 'components/atoms'
+import { isConnected, getPublicKey, getNetwork } from '@stellar/freighter-api'
+import { CustomLoader, HeaderStatus } from 'components/atoms'
 import { CustomError } from 'components/atoms/custom-error'
 import { InputKey } from 'components/molecules'
 
@@ -22,10 +22,11 @@ const HomeTemplate = (): JSX.Element => {
     async (publicKey: string) => {
       setPublicKey(publicKey)
       setError('')
-
+      
       if (publicKey.length != 56) return
-
       setIsLoading(true)
+      if (!(await isValidNetwork())) return
+
       FactoryService.getIssuerInfo(publicKey)
         .then(response => {
           if (publicKey.length == 56) {
@@ -60,12 +61,22 @@ const HomeTemplate = (): JSX.Element => {
     handlePublicKey(event.target.value)
   }
 
+  const isValidNetwork = async (): Promise<boolean> => {
+    const envNetwork = process.env.REACT_APP_NETWORK
+    const isValid = !envNetwork || envNetwork == (await getNetwork())
+    if (!isValid) {
+      setError(`The network must be ${envNetwork}`)
+      setIsLoading(false)
+    }
+    return isValid
+  }
+
   return (
     <main className={styles.main}>
       <Layout.Header
         hasDarkModeToggle
         projectTitle="Token Factory"
-        contentRight={<NetworkStatus key={'status'} />}
+        contentRight={<HeaderStatus key={'status'} />}
       />
       <Layout.Content>
         <Layout.Inset>

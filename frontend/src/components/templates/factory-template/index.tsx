@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import styles from './styles.module.scss'
 import '@stellar/design-system/build/styles.min.css'
-import { CustomError, NetworkStatus } from 'components/atoms'
+import { CustomError, HeaderStatus } from 'components/atoms'
 import { IAssetProps, IIssuerInfo } from 'services/factory/interfaces'
 import { FactoryService } from 'services/factory'
 
@@ -68,7 +68,7 @@ const FactoryTemplate = (): JSX.Element => {
         hasDarkModeToggle
         projectTitle="Token Factory"
         projectLink=""
-        contentRight={<NetworkStatus key={'network'} />}
+        contentRight={<HeaderStatus key={'network'} />}
       />
       <Layout.Content>
         <Layout.Inset>

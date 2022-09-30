@@ -1,24 +1,40 @@
-name: "React Typescript - Code Quality Check"
+name: 'React Typescript - Code Quality Check'
 
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
+  test:
+    name: 'Test'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: './react-typescript/package-lock.json'
+      - run: npm ci
+      - run: make coverage-test
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          verbose: true
   lint:
-    name: "Lint"
+    name: 'Lint'
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ["16.10"]
+        node-version: ['16.10']
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          cache-dependency-path: "./package-lock.json"
+          cache-dependency-path: './package-lock.json'
       - uses: reviewdog/action-eslint@v1
         with:
-          level: "info"
-          
+          level: 'info'
