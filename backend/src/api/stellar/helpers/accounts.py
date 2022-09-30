@@ -200,3 +200,13 @@ class StellarAccount:
             return [s.get("key") for s in signers if s["weight"] == weight]
 
         return [s.get("key") for s in signers]
+
+    def get_accounts_by_signer(self, public_key: str) -> list:
+        accounts_records = []
+        accounts_call_builder = self.server.accounts().for_signer(public_key).limit(100)
+        accounts_records += accounts_call_builder.call()["_embedded"]["records"]
+
+        while page_records := accounts_call_builder.next()["_embedded"]["records"]:
+            accounts_records += page_records
+
+        return accounts_records

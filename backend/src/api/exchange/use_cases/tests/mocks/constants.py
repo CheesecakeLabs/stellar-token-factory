@@ -660,7 +660,7 @@ STELLAR_GET_PAYMENTS_RESPONSE = {
     },
 }
 
-STELLAR_GET_ACCOUNTS_RESPONSE = {
+STELLAR_GET_ACCOUNTS_ONE_ACCOUNT_RESPONSE = {
     "_links": {
         "self": {
             "href": "https://horizon-testnet.stellar.org/accounts?asset=TKN%3AGAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6&cursor=&limit=50&order=asc"
@@ -677,39 +677,39 @@ STELLAR_GET_ACCOUNTS_RESPONSE = {
             {
                 "_links": {
                     "self": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R"
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT"
                     },
                     "transactions": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R/transactions{?cursor,limit,order}",
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/transactions{?cursor,limit,order}",
                         "templated": True,
                     },
                     "operations": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R/operations{?cursor,limit,order}",
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/operations{?cursor,limit,order}",
                         "templated": True,
                     },
                     "payments": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R/payments{?cursor,limit,order}",
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/payments{?cursor,limit,order}",
                         "templated": True,
                     },
                     "effects": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R/effects{?cursor,limit,order}",
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/effects{?cursor,limit,order}",
                         "templated": True,
                     },
                     "offers": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R/offers{?cursor,limit,order}",
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/offers{?cursor,limit,order}",
                         "templated": True,
                     },
                     "trades": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R/trades{?cursor,limit,order}",
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/trades{?cursor,limit,order}",
                         "templated": True,
                     },
                     "data": {
-                        "href": "https://horizon-testnet.stellar.org/accounts/GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R/data/{key}",
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/data/{key}",
                         "templated": True,
                     },
                 },
-                "id": "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
-                "account_id": "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
+                "id": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
+                "account_id": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
                 "sequence": "4306683966783489",
                 "sequence_ledger": 1002735,
                 "sequence_time": "1661174199",
@@ -750,14 +750,118 @@ STELLAR_GET_ACCOUNTS_RESPONSE = {
                 "signers": [
                     {
                         "weight": 1,
-                        "key": "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
+                        "key": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
                         "type": "ed25519_public_key",
                     }
                 ],
                 "data": {},
                 "num_sponsoring": 0,
                 "num_sponsored": 0,
-                "paging_token": "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
+                "paging_token": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
+            },
+        ]
+    },
+}
+
+
+STELLAR_GET_ACCOUNTS_RESPONSE = {
+    "_links": {
+        "self": {
+            "href": "https://horizon-testnet.stellar.org/accounts?asset=TKN%3AGAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6&cursor=&limit=50&order=asc"
+        },
+        "next": {
+            "href": "https://horizon-testnet.stellar.org/accounts?asset=TKN%3AGAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6&cursor=GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R&limit=50&order=asc"
+        },
+        "prev": {
+            "href": "https://horizon-testnet.stellar.org/accounts?asset=TKN%3AGAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6&cursor=GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R&limit=50&order=desc"
+        },
+    },
+    "_embedded": {
+        "records": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT"
+                    },
+                    "transactions": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/transactions{?cursor,limit,order}",
+                        "templated": True,
+                    },
+                    "operations": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/operations{?cursor,limit,order}",
+                        "templated": True,
+                    },
+                    "payments": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/payments{?cursor,limit,order}",
+                        "templated": True,
+                    },
+                    "effects": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/effects{?cursor,limit,order}",
+                        "templated": True,
+                    },
+                    "offers": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/offers{?cursor,limit,order}",
+                        "templated": True,
+                    },
+                    "trades": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/trades{?cursor,limit,order}",
+                        "templated": True,
+                    },
+                    "data": {
+                        "href": "https://horizon-testnet.stellar.org/accounts/GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT/data/{key}",
+                        "templated": True,
+                    },
+                },
+                "id": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
+                "account_id": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
+                "sequence": "4306683966783489",
+                "sequence_ledger": 1002735,
+                "sequence_time": "1661174199",
+                "subentry_count": 1,
+                "last_modified_ledger": 1002735,
+                "last_modified_time": "2022-08-22T13:16:39Z",
+                "thresholds": {
+                    "low_threshold": 0,
+                    "med_threshold": 0,
+                    "high_threshold": 0,
+                },
+                "flags": {
+                    "auth_required": False,
+                    "auth_revocable": False,
+                    "auth_immutable": False,
+                    "auth_clawback_enabled": False,
+                },
+                "balances": [
+                    {
+                        "balance": "0.0000000",
+                        "limit": "400.0000000",
+                        "buying_liabilities": "0.0000000",
+                        "selling_liabilities": "0.0000000",
+                        "last_modified_ledger": 1002735,
+                        "is_authorized": False,
+                        "is_authorized_to_maintain_liabilities": False,
+                        "asset_type": "credit_alphanum4",
+                        "asset_code": "TKN",
+                        "asset_issuer": "GAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6",
+                    },
+                    {
+                        "balance": "9999.9990000",
+                        "buying_liabilities": "0.0000000",
+                        "selling_liabilities": "0.0000000",
+                        "asset_type": "native",
+                    },
+                ],
+                "signers": [
+                    {
+                        "weight": 1,
+                        "key": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
+                        "type": "ed25519_public_key",
+                    }
+                ],
+                "data": {},
+                "num_sponsoring": 0,
+                "num_sponsored": 0,
+                "paging_token": "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
             },
             {
                 "_links": {

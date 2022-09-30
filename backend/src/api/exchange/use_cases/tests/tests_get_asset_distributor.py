@@ -84,7 +84,7 @@ def test_get_asset_distributor_fails_when_network_is_invalid(mocker: MockerFixtu
             "TESTNET",
             "TKN",
             "GAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6",
-            "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
+            "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
             [
                 constants.STELLAR_GET_PAYMENTS_EMPTY_RESPONSE,
                 constants.STELLAR_GET_ACCOUNTS_RESPONSE,
@@ -99,7 +99,7 @@ def test_get_asset_distributor_fails_when_network_is_invalid(mocker: MockerFixtu
             "PUBLIC",
             "TKN",
             "GAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6",
-            "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
+            "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
             [
                 constants.STELLAR_GET_PAYMENTS_EMPTY_RESPONSE,
                 constants.STELLAR_GET_ACCOUNTS_RESPONSE,
@@ -115,7 +115,7 @@ def test_get_asset_distributor_fails_when_network_is_invalid(mocker: MockerFixtu
             "TESTNET",
             "TKN",
             "GAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6",
-            "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
+            "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
             [
                 constants.STELLAR_GET_PAYMENTS_EMPTY_RESPONSE,
                 constants.STELLAR_GET_ACCOUNTS_EMPTY_RESPONSE,
@@ -131,7 +131,7 @@ def test_get_asset_distributor_fails_when_network_is_invalid(mocker: MockerFixtu
             "PUBLIC",
             "TKN",
             "GAP2LI4XUBXNTHAWZBFEAN4IWWMR55KMHWSSEK67I6FSYHMTP3OGV2E6",
-            "GBWX6DHQHYIZAH5T4Q2R3JHEPOQ6TJCG3VZ6MWLKQP3XBPIA24TOOV2R",
+            "GBJTVOA6OAOAMFUBBBG2S4Z54IM5YQB34SVZFUX6MP72I745YATR6WLT",
             [
                 constants.STELLAR_GET_PAYMENTS_EMPTY_RESPONSE,
                 constants.STELLAR_GET_ACCOUNTS_EMPTY_RESPONSE,

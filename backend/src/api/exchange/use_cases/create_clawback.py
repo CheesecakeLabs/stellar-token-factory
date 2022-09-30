@@ -1,12 +1,9 @@
-from os import stat
-
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 
 from api.core.helpers.business_errors import (
     INVALID_CLAIMABLE_ID,
     INVALID_ISSUER_PUBLIC_KEY,
-    INVALID_NETWORK,
     INVALID_TARGET_PUBLIC_KEY,
     ISSUER_ACCOUNT_NOT_FOUND,
     ISSUER_CANNOT_BE_THE_TARGET,
@@ -17,14 +14,11 @@ from api.core.helpers.business_errors import (
     TARGET_HAS_NO_TRUSTLINE,
     BusinessException,
 )
-from api.core.use_cases.base import BaseUseCase
-from api.stellar.helpers.accounts import StellarAccount
+from api.core.use_cases.base_stellar import BaseStellarUseCase
 from api.stellar.helpers.constants import AUTHORIZATION_CLAWBACK_ENABLED
-from api.stellar.helpers.exceptions import InvalidNetwork
-from api.stellar.helpers.transactions import StellarTransaction
 
 
-class CreateClawbackUseCase(BaseUseCase):
+class CreateClawbackUseCase(BaseStellarUseCase):
     def execute(
         self,
         network: str,
@@ -55,26 +49,14 @@ class CreateClawbackUseCase(BaseUseCase):
             )
 
         # Check if issuer public key is valid
-        try:
-            StellarTransaction.validate_public_key(public_key=issuer)
-        except:
-            raise BusinessException(
-                INVALID_ISSUER_PUBLIC_KEY, status_code=status.HTTP_400_BAD_REQUEST
-            )
+        self._validate_public_key(issuer, INVALID_ISSUER_PUBLIC_KEY)
 
         # Check if issuer account exists and starts the transaction
-        try:
-            stellar = StellarTransaction(network=network, source_public_key=issuer)
-        except InvalidNetwork:
-            raise BusinessException(
-                INVALID_NETWORK, status_code=status.HTTP_400_BAD_REQUEST
-            )
-        except:
-            raise BusinessException(
-                ISSUER_ACCOUNT_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND
-            )
+        stellar = self._get_stellar_transaction_class(
+            network, issuer, ISSUER_ACCOUNT_NOT_FOUND
+        )
 
-        stellar_acc = StellarAccount(network=network)
+        stellar_acc = self._get_stellar_account_class(network)
         # Check if issuer has the AUTHORIZATION_CLAWBACK_ENABLED flag
         if not stellar_acc.account_has_flag(
             flag=AUTHORIZATION_CLAWBACK_ENABLED, account=stellar.source_account
@@ -86,13 +68,7 @@ class CreateClawbackUseCase(BaseUseCase):
 
         if target:
             # Check if target public key is valid
-            try:
-                StellarTransaction.validate_public_key(public_key=target)
-            except:
-                raise BusinessException(
-                    INVALID_TARGET_PUBLIC_KEY,
-                    status_code=status.HTTP_404_NOT_FOUND,
-                )
+            self._validate_public_key(target, INVALID_TARGET_PUBLIC_KEY)
 
             # Check if the issuer is not the target
             if issuer == target:
@@ -101,14 +77,9 @@ class CreateClawbackUseCase(BaseUseCase):
                 )
 
             # Check if target account exists
-            try:
-                target_acc = stellar.check_if_account_exists_at_network(
-                    public_key=target
-                )
-            except:
-                raise BusinessException(
-                    TARGET_ACCOUNT_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND
-                )
+            target_acc = self._check_if_account_exists_at_network(
+                stellar, target, TARGET_ACCOUNT_NOT_FOUND
+            )
 
             # Get the target asset balance
             target_balance = stellar_acc.get_acc_balance(

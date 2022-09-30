@@ -1,5 +1,4 @@
 from django.utils.translation import gettext_lazy as _
-from rest_framework import status
 
 from api.core.helpers.business_errors import (
     DISTRIBUTOR_ACCOUNT_NOT_FOUND,
@@ -7,17 +6,13 @@ from api.core.helpers.business_errors import (
     DISTRIBUTOR_HAS_NO_TRUSTLINE_LIMIT,
     INVALID_DISTRIBUTOR_PUBLIC_KEY,
     INVALID_ISSUER_PUBLIC_KEY,
-    INVALID_NETWORK,
     ISSUER_ACCOUNT_NOT_FOUND,
     BusinessException,
 )
-from api.core.use_cases.base import BaseUseCase
-from api.stellar.helpers.accounts import StellarAccount
-from api.stellar.helpers.exceptions import InvalidNetwork
-from api.stellar.helpers.transactions import StellarTransaction
+from api.core.use_cases.base_stellar import BaseStellarUseCase
 
 
-class MintAssetUseCase(BaseUseCase):
+class MintAssetUseCase(BaseStellarUseCase):
     def execute(
         self,
         network: str,
@@ -36,51 +31,30 @@ class MintAssetUseCase(BaseUseCase):
             asset_code: Asset code
             amount: Amount to mint
         """
-        # Check if issuer public key is valid
-        try:
-            StellarTransaction.validate_public_key(public_key=issuer)
-        except:
-            raise BusinessException(
-                INVALID_ISSUER_PUBLIC_KEY, status_code=status.HTTP_400_BAD_REQUEST
-            )
-
-        # Check if distributor public key is valid
-        try:
-            StellarTransaction.validate_public_key(public_key=distributor)
-        except:
-            raise BusinessException(
-                INVALID_DISTRIBUTOR_PUBLIC_KEY, status_code=status.HTTP_404_NOT_FOUND
-            )
+        # Check if public keys are valid
+        self._validate_public_key(issuer, INVALID_ISSUER_PUBLIC_KEY)
+        self._validate_public_key(distributor, INVALID_DISTRIBUTOR_PUBLIC_KEY)
 
         # Check if issuer account exists and starts the transaction
-        try:
-            stellar = StellarTransaction(network=network, source_public_key=issuer)
-        except InvalidNetwork:
-            raise BusinessException(
-                INVALID_NETWORK, status_code=status.HTTP_400_BAD_REQUEST
-            )
-        except:
-            raise BusinessException(
-                ISSUER_ACCOUNT_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND
-            )
+        stellar = self._get_stellar_transaction_class(
+            network, issuer, ISSUER_ACCOUNT_NOT_FOUND
+        )
 
         # Check if distributor account exists
-        try:
-            distributor_acc = stellar.check_if_account_exists_at_network(
-                public_key=distributor
-            )
-        except:
-            raise BusinessException(
-                DISTRIBUTOR_ACCOUNT_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND
-            )
+        distributor_acc = self._check_if_account_exists_at_network(
+            stellar, distributor, DISTRIBUTOR_ACCOUNT_NOT_FOUND
+        )
 
         # Get the distributor asset balance
-        distributor_balance = StellarAccount(network=network).get_acc_balance(
+        stellar_acc = self._get_stellar_account_class(network)
+        distributor_balance = stellar_acc.get_acc_balance(
             account=distributor_acc, asset_code=asset_code, asset_issuer=issuer
         )
+
         # Check if distributor has the asset trustline
         if not distributor_balance:
             raise BusinessException(DISTRIBUTOR_HAS_NO_TRUSTLINE)
+
         # Check if distributor has the trustline limit to receive this amount
         if float(distributor_balance.get("limit")) < amount:
             raise BusinessException(DISTRIBUTOR_HAS_NO_TRUSTLINE_LIMIT)

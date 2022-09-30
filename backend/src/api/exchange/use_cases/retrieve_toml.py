@@ -1,19 +1,11 @@
 from django.utils.translation import gettext_lazy as _
 from rest_framework import status
 
-from api.core.helpers.business_errors import (
-    ACCOUNT_NOT_FOUND,
-    INVALID_ISSUER_PUBLIC_KEY,
-    INVALID_NETWORK,
-    TOML_NOT_FOUND,
-    BusinessException,
-)
-from api.core.use_cases.base import BaseUseCase
-from api.stellar.helpers.accounts import StellarAccount
-from api.stellar.helpers.exceptions import AccountNotFoundAtNetwork, InvalidNetwork
+from api.core.helpers.business_errors import TOML_NOT_FOUND, BusinessException
+from api.core.use_cases.base_stellar import BaseStellarUseCase
 
 
-class RetrieveTOMLUseCase(BaseUseCase):
+class RetrieveTOMLUseCase(BaseStellarUseCase):
     def execute(
         self,
         network: str,
@@ -27,27 +19,14 @@ class RetrieveTOMLUseCase(BaseUseCase):
         """
 
         # Check if public key is valid
-        try:
-            StellarAccount.validate_public_key(public_key=public_key)
-        except:
-            raise BusinessException(
-                INVALID_ISSUER_PUBLIC_KEY, status_code=status.HTTP_400_BAD_REQUEST
-            )
+        self._validate_public_key(public_key)
 
-        # Check if network is valid
-        try:
-            stellar = StellarAccount(network=network)
-        except InvalidNetwork:
-            raise BusinessException(
-                INVALID_NETWORK, status_code=status.HTTP_400_BAD_REQUEST
-            )
+        stellar = self._get_stellar_account_class(network)
+
+        account = self._check_if_account_exists_at_network(stellar, public_key)
 
         try:
-            toml_raw_data = stellar.get_account_toml(public_key=public_key)
-        except AccountNotFoundAtNetwork:
-            raise BusinessException(
-                ACCOUNT_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND
-            )
+            toml_raw_data = stellar.get_account_toml(account=account)
         except:
             raise BusinessException(
                 TOML_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND

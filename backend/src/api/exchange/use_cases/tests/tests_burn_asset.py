@@ -144,7 +144,7 @@ def test_burn_asset_fails_when_issuer_account_not_found(
         BurnAssetUseCase().execute(**data)
 
     get_network_data_mock.assert_called_with(data.get("network"))
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 @pytest.mark.parametrize(
@@ -179,7 +179,7 @@ def test_burn_asset_succesfully(mocker: MockerFixture, network: str):
 
     response: dict = BurnAssetUseCase().execute(**data)
 
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
     get_network_data_mock.assert_called_with(network)
 

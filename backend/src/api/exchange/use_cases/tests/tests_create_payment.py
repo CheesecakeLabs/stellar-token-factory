@@ -182,7 +182,7 @@ def test_create_payment_fails_when_issuer_account_not_found(
         CreatePaymentUseCase().execute(**data)
 
     get_network_data_mock.assert_called_with(data.get("network"))
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 def test_create_payment_fails_when_target_account_not_found(
@@ -216,7 +216,7 @@ def test_create_payment_fails_when_target_account_not_found(
     ):
         CreatePaymentUseCase().execute(**data)
 
-    load_account_mock.call_count == 3
+    assert load_account_mock.call_count == 3
 
 
 @pytest.mark.parametrize(
@@ -283,7 +283,7 @@ def test_create_payment_succesfully(
 
     get_network_data_mock.assert_called_with(network)
     acc_get_network_data_mock.assert_called_with(network)
-    load_account_mock.call_count == 3
+    assert load_account_mock.call_count == 3
 
     assert response.get("required_signatures") == set([data.get("distributor")])
 

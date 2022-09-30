@@ -126,7 +126,7 @@ def test_update_auth_flag_fails_when_target_account_not_found(
     ):
         UpdateAuthorizedFlagUseCase().execute(**data)
 
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 def test_update_auth_flag_fails_when_issuer_doesnt_have_auth_revocable_enabled(
@@ -156,7 +156,7 @@ def test_update_auth_flag_fails_when_issuer_doesnt_have_auth_revocable_enabled(
     ):
         UpdateAuthorizedFlagUseCase().execute(**data)
 
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 @pytest.mark.parametrize(
@@ -210,7 +210,7 @@ def test_update_auth_flag_succesfully(
 
     get_network_data_mock.assert_called_with(network)
     acc_get_network_data_mock.assert_called_with(network)
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
     assert response.get("required_signatures") == set([data.get("issuer")])
 

@@ -128,7 +128,7 @@ def test_mint_asset_fails_when_distributor_account_not_found(
     ):
         MintAssetUseCase().execute(**data)
 
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 def test_mint_asset_fails_when_distributor_account_doesnt_have_trustline(
@@ -154,7 +154,7 @@ def test_mint_asset_fails_when_distributor_account_doesnt_have_trustline(
     ):
         MintAssetUseCase().execute(**data)
 
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 def test_mint_asset_fails_when_distributor_account_doesnt_have_trustline_limit(
@@ -180,7 +180,7 @@ def test_mint_asset_fails_when_distributor_account_doesnt_have_trustline_limit(
     ):
         MintAssetUseCase().execute(**data)
 
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 @pytest.mark.parametrize(
@@ -222,7 +222,7 @@ def test_mint_asset_succesfully(mocker: MockerFixture, network: str):
 
     get_network_data_mock.assert_called_with(network)
     acc_get_network_data_mock.assert_called_with(network)
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
     assert response.get("required_signatures") == set([data.get("issuer")])
 

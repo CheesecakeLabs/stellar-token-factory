@@ -1,13 +1,9 @@
 from django.utils.translation import gettext_lazy as _
-from rest_framework import status
 
-from api.core.helpers.business_errors import INVALID_NETWORK, BusinessException
-from api.core.use_cases.base import BaseUseCase
-from api.stellar.helpers.accounts import StellarAccount
-from api.stellar.helpers.exceptions import InvalidNetwork
+from api.core.use_cases.base_stellar import BaseStellarUseCase
 
 
-class GetAssetDistributorUseCase(BaseUseCase):
+class GetAssetDistributorUseCase(BaseStellarUseCase):
     def execute(self, network: str, asset_code: str, asset_issuer: str) -> dict:
         """
         Get asset distributor's public key.
@@ -17,12 +13,7 @@ class GetAssetDistributorUseCase(BaseUseCase):
             asset_issuer: Asset issuer
         """
 
-        try:
-            stellar = StellarAccount(network=network)
-        except InvalidNetwork:
-            raise BusinessException(
-                INVALID_NETWORK, status_code=status.HTTP_400_BAD_REQUEST
-            )
+        stellar = self._get_stellar_account_class(network)
 
         # Try to find distributor by issuer payments
         first_payment = stellar.get_first_payment_of_an_account(

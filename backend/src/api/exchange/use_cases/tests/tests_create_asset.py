@@ -140,7 +140,7 @@ def test_create_asset_fails_when_issuer_account_not_found(
         CreateAssetUseCase().execute(**data)
 
     get_network_data_mock.assert_called_with(data.get("network"))
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 @pytest.mark.parametrize(
@@ -185,7 +185,7 @@ def test_create_asset_succesfully(mocker: MockerFixture, limit: float, network: 
 
     get_network_data_mock.assert_called_with(network)
 
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
     assert response.get("required_signatures") == set([data.get("distributor")])
 
