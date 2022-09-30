@@ -265,7 +265,7 @@ def test_create_clawback_fails_when_target_account_not_found(
         CreateClawbackUseCase().execute(**data)
 
     get_network_data_mock.assert_called_with(data.get("network"))
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 def test_create_clawback_fails_when_target_has_no_trustline(
@@ -298,7 +298,7 @@ def test_create_clawback_fails_when_target_has_no_trustline(
         CreateClawbackUseCase().execute(**data)
 
     get_network_data_mock.assert_called_with(data.get("network"))
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 2
 
 
 def test_create_clawback_fails_when_claimable_id_is_invalid(
@@ -407,7 +407,7 @@ def test_create_clawback_succesfully(
 
     get_network_data_mock.assert_called_with(network)
     acc_get_network_data_mock.assert_called_with(network)
-    load_account_mock.call_count == 2
+    assert load_account_mock.call_count == 1 + int(bool(target))
 
     assert response.get("required_signatures") == set([data.get("issuer")])
 

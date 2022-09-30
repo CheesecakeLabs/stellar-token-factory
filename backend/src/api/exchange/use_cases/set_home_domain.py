@@ -1,18 +1,9 @@
 from django.utils.translation import gettext_lazy as _
-from rest_framework import status
 
-from api.core.helpers.business_errors import (
-    ACCOUNT_NOT_FOUND,
-    INVALID_NETWORK,
-    INVALID_PUBLIC_KEY,
-    BusinessException,
-)
-from api.core.use_cases.base import BaseUseCase
-from api.stellar.helpers.exceptions import InvalidNetwork
-from api.stellar.helpers.transactions import StellarTransaction
+from api.core.use_cases.base_stellar import BaseStellarUseCase
 
 
-class SetHomeDomainUseCase(BaseUseCase):
+class SetHomeDomainUseCase(BaseStellarUseCase):
     def execute(self, network: str, public_key: str, home_domain: str) -> dict:
         """
         Create a set options transaction envelope to set home domain.
@@ -22,24 +13,10 @@ class SetHomeDomainUseCase(BaseUseCase):
             home_domain: Manage Data name
         """
         # Check if public key is valid
-        try:
-            StellarTransaction.validate_public_key(public_key=public_key)
-        except:
-            raise BusinessException(
-                INVALID_PUBLIC_KEY, status_code=status.HTTP_400_BAD_REQUEST
-            )
+        self._validate_public_key(public_key)
 
         # Check if account exists and starts the transaction
-        try:
-            stellar = StellarTransaction(network=network, source_public_key=public_key)
-        except InvalidNetwork:
-            raise BusinessException(
-                INVALID_NETWORK, status_code=status.HTTP_400_BAD_REQUEST
-            )
-        except:
-            raise BusinessException(
-                ACCOUNT_NOT_FOUND, status_code=status.HTTP_404_NOT_FOUND
-            )
+        stellar = self._get_stellar_transaction_class(network, public_key)
 
         # Append Set options operation
         transaction_builder = stellar.append_set_options_operation(

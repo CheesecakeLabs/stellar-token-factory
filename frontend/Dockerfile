@@ -1,6 +1,6 @@
 FROM node:16.13-bullseye-slim AS builder
 WORKDIR /usr/src/app
-COPY package.json package-lock.json ./
+COPY . .
 
 FROM builder AS dev
 RUN npm ci
@@ -14,9 +14,14 @@ FROM builder AS builder-prod
 RUN npm ci --production
 ARG REACT_APP_API_URL
 ARG REACT_APP_SENTRY_DSN
+ARG REACT_APP_USERNAME
+ARG REACT_APP_PASSWORD
+ARG REACT_APP_NETWORK
 ENV REACT_APP_API_URL=${REACT_APP_API_URL:?"ERR: REACT_APP_API_URL not set in Dockerfile"}
 ENV REACT_APP_SENTRY_DSN=${REACT_APP_SENTRY_DSN:?"ERR: REACT_APP_SENTRY_DSN not set in Dockerfile"}
-COPY . .
+ENV REACT_APP_USERNAME=${REACT_APP_USERNAME:?"ERR: REACT_APP_USERNAME not set in Dockerfile"}
+ENV REACT_APP_PASSWORD=${REACT_APP_PASSWORD:?"ERR: REACT_APP_PASSWORD not set in Dockerfile"}
+ENV REACT_APP_NETWORK=${REACT_APP_NETWORK:?"ERR: REACT_APP_NETWORK not set in Dockerfile"}
 RUN npm run build
 
 FROM node:16.13-bullseye-slim AS prod

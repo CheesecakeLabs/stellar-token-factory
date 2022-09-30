@@ -24,7 +24,7 @@ def test_retrieve_toml_fails_when_public_key_is_invalid():
     }
     with pytest.raises(
         BusinessException,
-        match="{'code': 3, 'detail': 'invalid_issuer_public_key'}",
+        match="{'code': 1, 'detail': 'invalid_public_key'}",
     ):
         RetrieveTOMLUseCase().execute(**data)
 

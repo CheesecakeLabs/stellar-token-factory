@@ -19,8 +19,8 @@ env:
   AWS_REGION: us-east-2
 
 jobs:
-  test:
-    name: 'Test'
+  test-format:
+    name: 'Test & Code Formatter'
     runs-on: ubuntu-latest
     env:
       ENV: test
@@ -43,18 +43,11 @@ jobs:
             ./backend/src/config/requirements.txt
             ./backend/src/config/requirements/test.txt
 
-      - name: Install test requirements
+      - name: Install requirements
         run: make install-test-req
 
       - name: Run tests
         run: make test
-
-  code-formatter:
-    name: 'Code Formatter'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout to current branch
-        uses: actions/checkout@v3
 
       - name: Run Code formatter
         uses: reviewdog/action-black@v2
@@ -67,7 +60,7 @@ jobs:
   build-image-deploy-production:
     runs-on: ubuntu-latest
     needs: ['test', 'code-formatter']
-    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.test.result == 'success' && needs.code-formatter.result == 'success'
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.test-format.result == 'success'
     env:
       ECR_REPOSITORY: stellar-tf-prod-backend
       ECS_CLUSTER_NAME: stellar-tf-prod
