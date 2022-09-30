@@ -19,36 +19,13 @@ env:
   AWS_REGION: us-east-2
 
 jobs:
-# Tests are disabled while are not correct
-#  test:
-#    name: "Test"
-#    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        node: ["16"]
-#    steps:
-#      - name: Checkout to current branch
-#        uses: actions/checkout@v3
-#
-#      - name: Setup NodeJS locally
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: ${{ matrix.node-version }}
-#          cache: "npm"
-#          cache-dependency-path: "./frontend/package-lock.json"
-#
-#      - name: Install dependencies
-#        run: make clean-install-dev
-#
-#      - name: Run tests 
-#        run: make test
 
-  lint:
-    name: "Lint"
+  test-lint:
+    name: "Test & Lint"
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: ["16"]
+        node: ["16.13"]
     steps:
       - name: Checkout to current branch
         uses: actions/checkout@v3
@@ -60,6 +37,12 @@ jobs:
           cache: "npm"
           cache-dependency-path: "./frontend/package-lock.json"
 
+      - name: Install dependencies
+        run: make clean-install-dev
+
+      - name: Run tests 
+        run: make test:coverage
+
       - uses: reviewdog/action-eslint@v1
         with:
           level: "info"
@@ -68,8 +51,8 @@ jobs:
 
   build-image-deploy-production:    
     runs-on: ubuntu-latest
-    needs: ["lint"]
-    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.lint.result == 'success'
+    needs: ["test-lint"]
+    if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.test-lint.result == 'success'
     env:
       ECR_REPOSITORY: stellar-tf-prod-frontend
       ECS_CLUSTER_NAME: stellar-tf-prod
@@ -110,6 +93,9 @@ jobs:
           build-args: |
             REACT_APP_API_URL=https://api-stellar-tf.cheesecakelabs.com
             REACT_APP_SENTRY_DSN=${{ secrets.PRODUCTION_FRONTEND_SENTRY_DSN}}
+            REACT_APP_USERNAME=${{ secrets.PRODUCTION_REACT_APP_USERNAME}}
+            REACT_APP_PASSWORD=${{ secrets.PRODUCTION_REACT_APP_PASSWORD}}
+            REACT_APP_NETWORK="TESTNET"
 
       - name: Download ECS task definition
         run: |
