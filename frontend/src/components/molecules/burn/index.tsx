@@ -12,7 +12,7 @@ import { getInitialBurn, burnErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 
 export interface IBurnProps {
-  treasury: string
+  distribution: string
   assetCode: string
   issuer: string
 }
@@ -21,7 +21,7 @@ const Burn: FunctionComponent<IBurnProps> = props => {
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [inputs, setInputs] = useState(getInitialBurn(props.treasury))
+  const [inputs, setInputs] = useState(getInitialBurn(props.distribution))
   const [inputsErrors, setInputsErrors] = useState(burnErrors)
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
 
@@ -80,7 +80,7 @@ const Burn: FunctionComponent<IBurnProps> = props => {
     await FactoryService.postEnvelope(xdr)
       .then(async response => {
         setResponseSubmit(response.data)
-        setInputs(getInitialBurn(props.treasury))
+        setInputs(getInitialBurn(props.distribution))
       })
       .catch(e => {
         setError(e.response?.data?.message)
@@ -92,12 +92,12 @@ const Burn: FunctionComponent<IBurnProps> = props => {
     setIsLoading(false)
   }
 
-  const validateTreasury = (): void => {
+  const validateDistribution = (): void => {
     if (validateInputError(inputs, setInputsErrors, setError)) {
       setIsLoading(false)
       return
     }
-    if (props.treasury == inputs.distributor) {
+    if (props.distribution == inputs.distributor) {
       handleSubmit()
       return
     }
@@ -123,7 +123,7 @@ const Burn: FunctionComponent<IBurnProps> = props => {
       <Input
         name="distributor"
         id="input-recipient-address"
-        label="From Treasury Address"
+        label="From Distribution Address"
         placeholder="Address will lost the tokens"
         value={inputs.distributor || ''}
         onChange={handleChange}
@@ -138,7 +138,7 @@ const Burn: FunctionComponent<IBurnProps> = props => {
         }
       />
       <div className={styles.contentSubmit}>
-        <Button isLoading={isLoading} onClick={validateTreasury}>
+        <Button isLoading={isLoading} onClick={validateDistribution}>
           Burn
         </Button>
       </div>

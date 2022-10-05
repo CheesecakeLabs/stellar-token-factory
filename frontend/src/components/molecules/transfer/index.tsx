@@ -12,7 +12,7 @@ import { getInitialTransfer, transferErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 
 export interface ITransferProps {
-  treasury: string
+  distribution: string
   assetCode: string
   issuer: string
 }
@@ -21,7 +21,7 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [inputs, setInputs] = useState(getInitialTransfer(props.treasury))
+  const [inputs, setInputs] = useState(getInitialTransfer(props.distribution))
   const [inputsErrors, setInputsErrors] = useState(transferErrors)
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
 
@@ -81,7 +81,7 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
     await FactoryService.postEnvelope(xdr)
       .then(async response => {
         setResponseSubmit(response.data)
-        setInputs(getInitialTransfer(props.treasury))
+        setInputs(getInitialTransfer(props.distribution))
       })
       .catch(e => {
         setError(e.response?.data?.message)
@@ -93,12 +93,12 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
     setIsLoading(false)
   }
 
-  const validateTreasury = (): void => {
+  const validateDistribution = (): void => {
     if (validateInputError(inputs, setInputsErrors, setError)) {
       setIsLoading(false)
       return
     }
-    if (props.treasury == inputs.distributor) {
+    if (props.distribution == inputs.distributor) {
       handleSubmit()
       return
     }
@@ -121,12 +121,12 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
           min={0}
         />
       </div>
-      <div className={styles.fieldTreasury}>
+      <div className={styles.fieldDistribution}>
         <Input
           name="distributor"
           id="input-recipient-address"
-          label="Source (Treasury Address)"
-          placeholder="Treasury Address"
+          label="Source (Distribution Address)"
+          placeholder="Distribution Address"
           value={inputs.distributor || ''}
           onChange={handleChange}
           error={inputsErrors.distributor}
@@ -158,7 +158,7 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
         }
       />
       <div className={styles.contentSubmit}>
-        <Button isLoading={isLoading} onClick={validateTreasury}>
+        <Button isLoading={isLoading} onClick={validateDistribution}>
           Transfer
         </Button>
       </div>

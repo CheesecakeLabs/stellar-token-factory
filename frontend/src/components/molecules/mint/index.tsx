@@ -12,7 +12,7 @@ import { getInitialMint, mintErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 
 export interface IMintProps {
-  treasury: string
+  distribution: string
   assetCode: string
   issuer: string
 }
@@ -21,7 +21,7 @@ const Mint: FunctionComponent<IMintProps> = props => {
   const [isModalVisible, setModalVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  const [inputs, setInputs] = useState(getInitialMint(props.treasury))
+  const [inputs, setInputs] = useState(getInitialMint(props.distribution))
   const [inputsErrors, setInputsErrors] = useState(mintErrors)
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
 
@@ -80,7 +80,7 @@ const Mint: FunctionComponent<IMintProps> = props => {
     await FactoryService.postEnvelope(xdr)
       .then(async response => {
         setResponseSubmit(response.data)
-        setInputs(getInitialMint(props.treasury))
+        setInputs(getInitialMint(props.distribution))
       })
       .catch(e => {
         setError(e.response?.data?.message)
@@ -92,12 +92,12 @@ const Mint: FunctionComponent<IMintProps> = props => {
     setIsLoading(false)
   }
 
-  const validateTreasury = (): void => {
+  const validateDistribution = (): void => {
     if (validateInputError(inputs, setInputsErrors, setError)) {
       setIsLoading(false)
       return
     }
-    if (props.treasury == inputs.distributor) {
+    if (props.distribution == inputs.distributor) {
       handleSubmit()
       return
     }
@@ -123,7 +123,7 @@ const Mint: FunctionComponent<IMintProps> = props => {
       <Input
         name="distributor"
         id="input-recipient-address"
-        label="To Treasury Address"
+        label="To Distribution Address"
         placeholder="Address will receive the new tokens"
         value={inputs.distributor || ''}
         onChange={handleChange}
@@ -138,7 +138,7 @@ const Mint: FunctionComponent<IMintProps> = props => {
         }
       />
       <div className={styles.contentSubmit}>
-        <Button isLoading={isLoading} onClick={validateTreasury}>
+        <Button isLoading={isLoading} onClick={validateDistribution}>
           Mint
         </Button>
       </div>
