@@ -13,7 +13,7 @@ import { handleSubmitErrors, validateInputError } from './form-validation'
 import { UnauthorizedMessage } from 'components/atoms/unauthorized-message'
 
 export interface IClawbackProps {
-  treasury: string
+  distribution: string
   assetCode: string
   issuer: string
   authorized: boolean

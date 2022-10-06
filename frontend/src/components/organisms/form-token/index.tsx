@@ -126,8 +126,8 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
         <Input
           name="distributor"
           id="input-distributor-account"
-          label="Treasury Account"
-          placeholder="Address treasury account"
+          label="Distribution Account"
+          placeholder="Address distribution account"
           required
           value={inputs.distributor || ''}
           onChange={handleChange}

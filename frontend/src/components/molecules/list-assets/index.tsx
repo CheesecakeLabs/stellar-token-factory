@@ -58,7 +58,10 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
                   <td className={styles.tdIssuer}>
                     {item.issuer}
                     {isReadOnly(item.issuer) && (
-                      <CustomTag message="READ ONLY" />
+                      <CustomTag
+                        message="READ ONLY"
+                        tooltip="The account used to load the list has only view permission over this asset."
+                      />
                     )}
                   </td>
                   <td className={styles.tdRight}>{item.supply}</td>

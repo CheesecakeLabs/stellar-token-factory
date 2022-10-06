@@ -13,7 +13,7 @@ import { Tabs, TabList, Tab, TabPanel } from 'react-tabs'
 import styles from './styles.module.scss'
 
 export interface ITabsManagementProps {
-  treasury: string
+  distribution: string
   issuer: string
   assetCode: string
   isLoading: boolean,
@@ -38,26 +38,42 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
               <Tab className={styles.tab}>Transfer</Tab>
               <Tab className={styles.tab}>Home Domain</Tab>
               <Tab className={styles.tab}>Generate TOML</Tab>
-              <Tab className={props.isFreeze ? styles.tab : [styles.tab, styles.tabUnauthorized]}>Freeze</Tab>
-              <Tab className={props.isClawback ? styles.tab : [styles.tab, styles.tabUnauthorized]}>Clawback</Tab>
+              <Tab
+                className={
+                  props.isFreeze
+                    ? styles.tab
+                    : [styles.tab, styles.tabUnauthorized]
+                }
+              >
+                Freeze
+              </Tab>
+              <Tab
+                className={
+                  props.isClawback
+                    ? styles.tab
+                    : [styles.tab, styles.tabUnauthorized]
+                }
+              >
+                Clawback
+              </Tab>
             </TabList>
             <TabPanel>
               <Mint
-                treasury={props.treasury}
+                distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
               />
             </TabPanel>
             <TabPanel>
               <Burn
-                treasury={props.treasury}
+                distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
               />
             </TabPanel>
             <TabPanel>
               <Transfer
-                treasury={props.treasury}
+                distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
               />
@@ -70,7 +86,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
             </TabPanel>
             <TabPanel>
               <Freeze
-                treasury={props.treasury}
+                distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 authorized={props.isFreeze}
@@ -78,7 +94,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
             </TabPanel>
             <TabPanel>
               <Clawback
-                treasury={props.treasury}
+                distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 authorized={props.isClawback}

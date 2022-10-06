@@ -11,7 +11,7 @@ import { handleSubmitErrors, validateInputError } from './form-validation'
 import { Info } from 'react-feather'
 
 export interface IFinancialDetailsProps {
-  treasury: string
+  distribution: string
   assetCode: string
   issuer: string
 }
@@ -20,7 +20,7 @@ const FinancialDetails: FunctionComponent<IFinancialDetailsProps> = props => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [inputs, setInputs] = useState(
-    getInitialFinancialDetails(props.treasury)
+    getInitialFinancialDetails(props.distribution)
   )
   const [inputsErrors, setInputsErrors] = useState(financialDetailsErrors)
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
@@ -73,7 +73,7 @@ const FinancialDetails: FunctionComponent<IFinancialDetailsProps> = props => {
     await FactoryService.postEnvelope(xdr)
       .then(async response => {
         setResponseSubmit(response.data)
-        setInputs(getInitialFinancialDetails(props.treasury))
+        setInputs(getInitialFinancialDetails(props.distribution))
       })
       .catch(e => {
         setError(e.response?.data?.message)

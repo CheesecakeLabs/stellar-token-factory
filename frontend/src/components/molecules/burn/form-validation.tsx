@@ -20,7 +20,7 @@ export const validateInputError = (
       hasError = true
       setInputsErrors(values => ({
         ...values,
-        ['distributor']: 'The treasury address must be informed',
+        ['distributor']: 'The distribution address must be informed',
       }))
     }
   } catch (e) {
