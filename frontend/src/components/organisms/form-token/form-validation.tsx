@@ -20,7 +20,7 @@ export const validateInputError = (
       hasError = true
       setInputsErrors(values => ({
         ...values,
-        ['distributor']: 'The treasury address must be informed',
+        ['distributor']: 'The distribution address must be informed',
       }))
     }
     if (!inputs.asset_code) {
@@ -64,7 +64,7 @@ export const handleSubmitErrors = (
     setError(`Issuer account: ${responseError.issuer}`)
   }
   if (responseError?.distributor) {
-    setError(`Treasury account: ${responseError.distributor}`)
+    setError(`Distribution account: ${responseError.distributor}`)
   }
   if (responseError?.asset_code) {
     setError(`Symbol: ${responseError.asset_code}`)

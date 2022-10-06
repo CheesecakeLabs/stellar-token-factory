@@ -17,13 +17,13 @@ const getIssuerInfo = async (
 
 const addAsset = async (
   issuer: string,
-  treasury: string,
+  distribution: string,
   asset_code: string,
   limit: string
 ): Promise<AxiosResponse<ITransactionResponse>> => {
   return http.post(`/api/v1/assets`, {
     issuer: issuer,
-    distributor: treasury,
+    distributor: distribution,
     asset_code: asset_code,
     limit: limit.length > 0 ? limit : null,
   })
@@ -46,13 +46,13 @@ const getAssetDistributor = async (
 
 const postMint = async (
   issuer: string,
-  treasury: string,
+  distribution: string,
   asset_code: string,
   amount: string
 ): Promise<AxiosResponse<ITransactionResponse>> => {
   return http.post(`/api/v1/assets/mint`, {
     issuer: issuer,
-    distributor: treasury,
+    distributor: distribution,
     asset_code: asset_code,
     amount: amount,
   })
@@ -60,13 +60,13 @@ const postMint = async (
 
 const postBurn = async (
   issuer: string,
-  treasury: string,
+  distribution: string,
   asset_code: string,
   amount: string
 ): Promise<AxiosResponse<ITransactionResponse>> => {
   return http.post(`/api/v1/assets/burn`, {
     issuer: issuer,
-    distributor: treasury,
+    distributor: distribution,
     asset_code: asset_code,
     amount: amount,
   })
@@ -74,14 +74,14 @@ const postBurn = async (
 
 const postTransfer = async (
   issuer: string,
-  treasury: string,
+  distribution: string,
   asset_code: string,
   amount: string,
   recipient: string
 ): Promise<AxiosResponse<ITransactionResponse>> => {
   return http.post(`/api/v1/transactions/payment`, {
     issuer: issuer,
-    distributor: treasury,
+    distributor: distribution,
     asset_code: asset_code,
     amount: amount,
     target: recipient,

@@ -33,7 +33,7 @@ const ManagementTemplate = (): JSX.Element => {
         setAssetDistributor(response.data.public_key)
       })
       .catch(() => {
-        setError('Unable to retrieve Treasury account')
+        setError('Unable to retrieve Distribution account')
       })
       .finally(() => {
         setIsLoading(false)
@@ -50,7 +50,6 @@ const ManagementTemplate = (): JSX.Element => {
         hasDarkModeToggle
         projectTitle="Token Factory"
         projectLink=""
-        contentRight={<HeaderStatus key={'status'} />}
         contentCenter={
           <ManagementHeader
             asset_issuer={state?.asset_issuer}
@@ -66,7 +65,7 @@ const ManagementTemplate = (): JSX.Element => {
             <CustomError message={error} />
           ) : (
             <TabsManagement
-              treasury={assetDistributor}
+              distribution={assetDistributor}
               issuer={state?.asset_issuer}
               assetCode={state?.asset_code}
               isLoading={isLoading}
