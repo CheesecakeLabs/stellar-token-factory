@@ -22,7 +22,7 @@ const HomeTemplate = (): JSX.Element => {
     async (publicKey: string) => {
       setPublicKey(publicKey)
       setError('')
-      
+
       if (publicKey.length != 56) return
       setIsLoading(true)
       if (!(await isValidNetwork())) return
@@ -76,6 +76,7 @@ const HomeTemplate = (): JSX.Element => {
       <Layout.Header
         hasDarkModeToggle
         projectTitle="Token Factory"
+        projectLink=""
         contentRight={<HeaderStatus key={'status'} />}
       />
       <Layout.Content>

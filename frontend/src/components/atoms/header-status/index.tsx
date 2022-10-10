@@ -9,7 +9,7 @@ const HeaderStatus: FunctionComponent = () => {
   const navigate = useNavigate()
 
   const redirectHome = useCallback(() => {
-    navigate('/')
+    navigate('/home')
   }, [navigate])
 
   const listenNetwork = useCallback(() => {
