@@ -23,10 +23,12 @@ const QuickstartTemplate = (): JSX.Element => {
           projectTitle="Token Factory"
           projectLink=""
           contentRight={
-            <div className={styles.logo}>
-              <Logo width={24} height={24} fill="#0058FF" />
-              <Cheesecake height={19} fill="var(--pal-text-primary)" />
-            </div>
+            <a href="https://cheesecakelabs.com/" target="_blank">
+              <div className={styles.logo}>
+                <Logo width={24} height={24} fill="#0058FF" />
+                <Cheesecake height={19} fill="var(--pal-text-primary)" />
+              </div>
+            </a>
           }
         />
         <Layout.Inset>
