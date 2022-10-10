@@ -27,7 +27,7 @@ const FactoryTemplate = (): JSX.Element => {
   const [issuerInfo, setIssuerInfo] = useState<IIssuerInfo>()
 
   const redirectHome = useCallback(() => {
-    navigate('/')
+    navigate('/home')
   }, [navigate])
 
   const loadTokens = useCallback(() => {
