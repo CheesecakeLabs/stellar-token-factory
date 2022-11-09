@@ -21,15 +21,15 @@
   border-radius: 5px;
   display: flex;
   cursor: pointer;
-  margin-top: 10px;
-  
+  margin: 10px 0;
+
   svg {
     margin-right: 10px;
   }
 }
 
 .header {
-  width: 100%;
+  min-width: 750px;
   display: flex;
   align-items: center;
 }
