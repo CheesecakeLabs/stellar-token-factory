@@ -22,9 +22,6 @@ const ManagementHeader: FunctionComponent<IManagementHeaderProps> = props => {
     <>
       <div className={styles.header}>
         <div className={styles.content}>
-          <div className={styles.btBack} onClick={back}>
-            <ArrowLeftCircle size={14} /> Back to list
-          </div>
           <p>
             Asset code: <b>{props.asset_code}</b>
           </p>
@@ -35,6 +32,9 @@ const ManagementHeader: FunctionComponent<IManagementHeaderProps> = props => {
             Distribution:{' '}
             <b>{props.isLoading ? 'Loading...' : props.asset_distributor}</b>
           </p>
+          <div className={styles.btBack} onClick={back}>
+            <ArrowLeftCircle size={14} /> Back to list
+          </div>
         </div>
         <HeaderStatus key={'status'} />
       </div>
