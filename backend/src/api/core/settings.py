@@ -262,3 +262,12 @@ ACCOUNT_STARTING_BALANCE = env.str("ACCOUNT_STARTING_BALANCE", default="2.01")
 STELLAR_TOML_VERSION = env.str("STELLAR_TOML_VERSION", default="2.5.0")
 DEFAULT_THRESHOLD = env.int("DEFAULT_THRESHOLD", default=21)
 DEFAULT_SIGNER_LOW_WEIGHT = env.int("DEFAULT_SIGNER_LOW_WEIGHT", default=1)
+
+# Credit Agricole Demo
+EUR_CODE = env.str("EUR_CODE", default="EUR")
+EUR_ISSUER = env.str("EUR_ISSUER", default="")
+USD_CODE = env.str("USD_CODE", default="USD")
+USD_ISSUER = env.str("USD_ISSUER", default="")
+MAIN_WALLET_PK = env.str("MAIN_WALLET_PK", default="")
+MAIN_WALLET_SK = env.str("MAIN_WALLET_SK", default="")
+PAYEES_LIST = env.list("PAYEES_LIST", default=[])
