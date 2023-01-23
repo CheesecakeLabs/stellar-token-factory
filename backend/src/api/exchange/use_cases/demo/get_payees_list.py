@@ -49,9 +49,9 @@ class GetPayeesListUseCase(BaseUseCase):
         Get payees list
         """
         payees = []
-        payees_len = len(COMPANIES_INFO)
+        companies_len = len(COMPANIES_INFO)
         for index, account in enumerate(settings.PAYEES_LIST):
-            company_index = index % payees_len
+            company_index = index % companies_len
             COMPANIES_INFO[company_index]["stellar_wallet"] = account
             payees.append(COMPANIES_INFO[company_index])
 
