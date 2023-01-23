@@ -1,3 +1,5 @@
+from typing import List
+
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
@@ -44,7 +46,7 @@ COMPANIES_INFO = [
 
 
 class GetPayeesListUseCase(BaseUseCase):
-    def execute(self) -> dict:
+    def execute(self) -> List[dict]:
         """
         Get payees list
         """
