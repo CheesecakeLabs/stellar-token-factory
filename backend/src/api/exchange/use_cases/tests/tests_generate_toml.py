@@ -1,4 +1,5 @@
 import pytest
+from django.test import override_settings
 from pytest_mock import MockerFixture
 
 from api.core.helpers.business_errors import BusinessException
@@ -31,6 +32,10 @@ def test_generate_toml_fails_when_network_is_invalid(mocker: MockerFixture):
 @pytest.mark.parametrize(
     "network,general_info,org_doc,point_of_contact_doc,currency_doc,expected_toml",
     constants.GENERATE_TOML_RESPONSE,
+)
+@override_settings(
+    PUBLIC_NETWORK_PASSPHRASE="Public Global Stellar Network ; September 2015",
+    TEST_NETWORK_PASSPHRASE="Test SDF Network ; September 2015",
 )
 def test_generate_toml_succesfully(
     mocker: MockerFixture,
