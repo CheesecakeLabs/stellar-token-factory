@@ -53,7 +53,7 @@ def test_get_main_wallet_eur_balance_successfully(
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json() == {
-        "balance": "10000000000.0000000",
+        "balance": 10000000000.0,
         "asset_code": "EUR",
         "asset_issuer": "GC3XSOYSQDYBBGBBMV7OBZJOZQL47POSV6R4WPPXQVYMIEQBDFTAK46U",
     }

@@ -14,6 +14,6 @@ class PayeeSerializer(serializers.Serializer):
 
 
 class BalanceSerializer(serializers.Serializer):
-    balance = serializers.CharField()
+    balance = serializers.FloatField()
     asset_code = serializers.CharField(max_length=STELLAR_CODE_MAX_LENGTH)
     asset_issuer = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
