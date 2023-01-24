@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  height: 14rem;
+  background-color: #2c3e50;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+
+    svg {
+      fill: #ffffff;
+    }
+
+    .containerTop {
+      display: flex;
+      justify-content: space-between;
+
+      .account {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+
+        .userText {
+          color: #ffffff;
+          font-weight: 700;
+          line-height: 1rem;
+          font-size: 1rem;
+          margin: 0 1rem 0 0.5rem;
+        }
+      }
+    }
+
+    .containerBalance {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .balanceText {
+        font-size: 1.25rem;
+        color: #ffffff;
+        font-weight: 600;
+      }
+    }
+
+    .moduleText {
+      color: #ffffff;
+      font-size: 14px;
+    }
+  }
+}
