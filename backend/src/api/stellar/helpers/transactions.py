@@ -476,6 +476,42 @@ class StellarTransaction:
             memo_text=text,
         )
 
+    def append_manage_sell_offer(
+        self,
+        amount: str,
+        sell_asset_code: str,
+        sell_issuer_public_key: str,
+        buy_issuer_public_key: str,
+        buy_asset_code: str,
+        price: float,
+        offer_id: int,
+        source_public_key: str = None,
+        transaction_builder: TransactionBuilder = None,
+    ) -> TransactionBuilder:
+        """
+        Appends a Sell Offer to a transaction, which could be pre-existing or not.
+        Params:
+            amount: Amount of asset to send.
+            sell_asset_code: Asset code of asset to sell.
+            sell_issuer_public_key: Issuer public key (sell asset)
+            buy_issuer_public_key:  Issuer public key (buy asset)
+            buy_asset_code: Asset code of asset to buy.
+            price: The asset price to buy
+            offer_id: Id of this offer (optional)
+            source_public_key: Source account, the default is defined in the class. (OPTIONAL)
+            transaction_builder: Existing TransactionBuilder for the operation to be
+                appended. (OPTIONAL)
+        """
+        transaction_builder = self._get_transaction_builder(transaction_builder)
+        return transaction_builder.append_manage_sell_offer_op(
+            selling=Asset(sell_asset_code, sell_issuer_public_key),
+            buying=Asset(buy_asset_code, buy_issuer_public_key),
+            amount=str(amount),
+            price=str(price),
+            offer_id=offer_id,
+            source=source_public_key or self.source_public_key,
+        )
+
     def generate_keypair(self) -> Keypair:
         """
         Return a randomly generated keypair.
