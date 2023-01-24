@@ -9,6 +9,7 @@ import {
 } from 'components/atoms'
 import { ArrowDown, ArrowUp } from 'components/icons'
 
+import { ModalStellarPay } from '../modal-stellar-pay'
 import styles from './styles.module.scss'
 
 interface IItemPayeeProps {
@@ -19,11 +20,20 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
   props: IItemPayeeProps
 ) => {
   const [isExpanded, setExpanded] = useState(false)
+  const [isOpenStellarPay, setModalStellarPay] = useState(false)
 
   return (
     <>
-      <tr onClick={(): void => setExpanded(!isExpanded)}>
-        <td className={styles.tdDetails}>
+      <ModalStellarPay
+        isOpen={isOpenStellarPay}
+        setOpenModal={setModalStellarPay}
+        payee={props.payee}
+      />
+      <tr>
+        <td
+          className={styles.tdDetails}
+          onClick={(): void => setExpanded(!isExpanded)}
+        >
           {isExpanded ? (
             <ArrowUp width={12} height={12} className={styles.arrow} />
           ) : (
@@ -34,8 +44,16 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
         <td>{props.payee.phone}</td>
         <td className={styles.alignEnd}>
           <Row>
-            <Button variant={ButtonVariant.secondary} label={'Wire Transfer'} />
-            <Button variant={ButtonVariant.primary} label={'Stellar Pay'} />
+            <Button
+              variant={ButtonVariant.secondary}
+              label={'Wire Transfer'}
+              onClick={(): void => setModalStellarPay(true)}
+            />
+            <Button
+              variant={ButtonVariant.primary}
+              label={'Stellar Pay'}
+              onClick={(): void => setModalStellarPay(true)}
+            />
           </Row>
         </td>
       </tr>
