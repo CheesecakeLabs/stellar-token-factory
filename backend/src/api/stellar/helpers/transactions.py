@@ -476,6 +476,41 @@ class StellarTransaction:
             memo_text=text,
         )
 
+    def append_path_payment_strict_receive_operation(
+        self,
+        destination_public_key: str,
+        send_max: float,
+        dest_amount: float,
+        send_asset_code: str,
+        send_asset_issuer: str,
+        receive_asset_code: str,
+        receive_asset_issuer: str,
+        source_public_key: str = None,
+        transaction_builder: TransactionBuilder = None,
+    ) -> TransactionBuilder:
+        """
+        Appends a Path Payment Strict Send to a transaction
+        Params:
+            source_public_key: Public Key from the source.
+            destination_public_key: Public Key from the destination.
+            send_amount: Amount of asset to send.
+            min_receive: Amount of asset to receive.
+            send_asset_code: Asset code of asset to send.
+            send_asset_issuer: Issuer public key (send asset)
+            receive_asset_issuer:  Issuer public key (receive asset)
+            receive_asset_code: Asset code of asset to receive.
+        """
+        transaction_builder = self._get_transaction_builder(transaction_builder)
+        return transaction_builder.append_path_payment_strict_receive_op(
+            destination=destination_public_key,
+            source=source_public_key or self.source_public_key,
+            send_asset=Asset(send_asset_code, send_asset_issuer),
+            dest_asset=Asset(receive_asset_code, receive_asset_issuer),
+            dest_amount=str(dest_amount),
+            send_max=str(send_max),
+            path=[],
+        )
+
     def generate_keypair(self) -> Keypair:
         """
         Return a randomly generated keypair.
