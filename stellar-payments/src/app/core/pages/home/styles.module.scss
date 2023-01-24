@@ -1,0 +1,83 @@
+.header {
+  background-color: #282c34;
+  height: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #51535e;
+  color: white;
+
+  .logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .containerInfo {
+    display: flex;
+    height: 10rem;
+    background-color: #282c34;
+
+    .headerText {
+      width: 100%;
+      max-width: 1300px;
+      color: #ffffff;
+      margin: 2rem auto 0;
+      font-weight: 700;
+      font-size: 2rem;
+    }
+  }
+
+  .containerList {
+    max-width: 1300px;
+    width: 100%;
+    background-color: #ffffff;
+    height: 40rem;
+    margin: -3rem auto 0;
+    border-radius: 0.25rem;
+    border: 1px solid rgb(234, 235, 239);
+    color: rgb(48, 53, 73);
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table td,
+    table tbody th {
+      border-bottom: 1px solid #eaebef;
+      padding: 0.5rem;
+      height: 3.5rem;
+      -webkit-box-align: center;
+      align-items: center;
+      cursor: pointer;
+      padding: 0 1.5rem;
+      font-weight: 600;
+      line-height: 1.5rem;
+      font-size: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      flex-direction: row;
+    }
+
+    table thead th {
+      border-bottom: 1px solid #eaebef;
+      height: 2rem;
+      padding: 1rem 1.5rem 0.15rem;
+      text-align: left;
+      font-weight: 500;
+      line-height: 1rem;
+      font-size: 0.75rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: rgb(98, 103, 123);
+    }
+  }
+}
