@@ -1,10 +1,17 @@
-import { ReactNode } from 'react'
+import { MouseEventHandler, ReactNode } from 'react';
 
-import classNames from 'classnames'
 
-import { LoadingIcon } from 'components/icons'
 
-import styles from './styles.module.scss'
+import classNames from 'classnames';
+
+
+
+import { LoadingIcon } from 'components/icons';
+
+
+
+import styles from './styles.module.scss';
+
 
 export enum ButtonVariant {
   primary = 'primary',
@@ -17,7 +24,7 @@ export enum ButtonVariant {
 export interface IButtonProps {
   variant: ButtonVariant
   label: string
-  onClick?: () => void
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined
   icon?: ReactNode
   isDisabled?: boolean
   isExpanded?: boolean

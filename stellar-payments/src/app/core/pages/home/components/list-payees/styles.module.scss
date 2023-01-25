@@ -25,4 +25,10 @@
     white-space: nowrap;
     color: #62677b;
   }
+
+  @media only screen and (max-width: 768px) {
+    .thPhone {
+      display: none;
+    }
+  }
 }

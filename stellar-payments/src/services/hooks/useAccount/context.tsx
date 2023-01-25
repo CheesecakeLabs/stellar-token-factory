@@ -12,7 +12,7 @@ export const AccountContext = createContext(
 
 export const AccountProvider: React.FC = ({ children }) => {
   const [balance, setBalance] = useState<Hooks.UseAccountTypes.IBalance>()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const getBalance = useCallback(async (): Promise<
     Hooks.UseAccountTypes.IBalance | undefined

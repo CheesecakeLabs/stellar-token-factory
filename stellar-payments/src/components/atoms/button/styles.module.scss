@@ -73,6 +73,11 @@
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+
+  svg {
+    fill: #ffffff;
+    stroke: #ffffff;
+  }
 }
 
 .login:disabled {

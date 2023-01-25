@@ -25,7 +25,7 @@ export const ListPayees: React.FC = () => {
               <tr>
                 <th></th>
                 <th>Company name</th>
-                <th>Phone</th>
+                <th className={styles.thPhone}>Phone</th>
                 <th></th>
               </tr>
             </thead>
