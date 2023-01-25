@@ -1,3 +1,7 @@
+import { useEffect } from 'react'
+
+import { useAccount } from 'services/hooks/useAccount'
+
 import { Typography, TypographyVariant } from 'components/atoms'
 import { Account, Balance } from 'components/molecules'
 
@@ -5,6 +9,12 @@ import { ReactComponent as StellarLogo } from '../../../../../core/resources/ste
 import styles from './styles.module.scss'
 
 export const Header: React.FC = () => {
+  const { getBalance, loading, balance } = useAccount()
+
+  useEffect(() => {
+    getBalance()
+  }, [getBalance])
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -18,7 +28,7 @@ export const Header: React.FC = () => {
             text={'Payments > Payees'}
             className={styles.moduleText}
           />
-          <Balance />
+          <Balance balance={balance} loading={loading} />
         </div>
       </div>
     </div>

@@ -1,4 +1,8 @@
+import { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+
+import { message } from 'antd'
+import { useAccount } from 'services/hooks/useAccount'
 
 import {
   Button,
@@ -13,11 +17,30 @@ import styles from './styles.module.scss'
 
 export const LoginModal: React.FC = () => {
   const history = useHistory()
+  const { signIn, loading } = useAccount()
+  const [inputs, setInputs] = useState<Hooks.UseAccountTypes.ISignIn>({
+    email: '',
+    password: '',
+  })
 
   const handleChange = (event: {
     target: { name: string; value: string }
   }): void => {
+    const name = event.target.name
     const value = event.target.value
+    setInputs(values => ({ ...values, [name]: value }))
+  }
+
+  const login = async (): Promise<void> => {
+    await signIn({
+      email: inputs.email,
+      password: inputs.password,
+    }).then(isSuccess => {
+      if (isSuccess) {
+        return history.push('/')
+      }
+      message.error('Unauthenticated user!')
+    })
   }
 
   return (
@@ -44,7 +67,8 @@ export const LoginModal: React.FC = () => {
       <Button
         variant={ButtonVariant.login}
         label={'Login'}
-        onClick={(): void => history.push('/home')}
+        onClick={login}
+        isLoading={loading}
       />
     </div>
   )

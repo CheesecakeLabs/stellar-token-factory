@@ -32,7 +32,7 @@ const Button = (props: IButtonProps): JSX.Element => {
         styles[props.variant],
         props.removeSideMargin ? styles.removeSideMargin : undefined
       )}
-      disabled={props.isDisabled || props.isLoading}
+      disabled={props.isDisabled}
     >
       <>
         <div className={styles.row}>
