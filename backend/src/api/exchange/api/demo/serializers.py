@@ -12,10 +12,11 @@ class PayeeSerializer(serializers.Serializer):
     stellar_wallet = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
 
 
-class EnvelopeXDRSerializer(serializers.Serializer):
+class PathPaymentStrictReceiveResponseSerializer(serializers.Serializer):
     envelope_xdr = serializers.CharField()
+    final_cost = serializers.FloatField()
 
 
-class CreatePathPaymentStrictReceiveSerializer(serializers.Serializer):
+class PathPaymentStrictReceiveRequestSerializer(serializers.Serializer):
     destination_public_key = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
     receive_amount = serializers.FloatField()

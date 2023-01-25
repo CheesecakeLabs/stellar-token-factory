@@ -65,6 +65,4 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
         # Converts envelope to XDR
         envelope_xdr = stellar.envelope_to_xdr(transaction_envelope)
 
-        return {
-            "envelope_xdr": envelope_xdr,
-        }
+        return {"envelope_xdr": envelope_xdr, "final_cost": send_max}

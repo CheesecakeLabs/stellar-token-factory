@@ -11,8 +11,8 @@ from api.exchange.use_cases.demo import (
 
 from . import docs
 from .serializers import (
-    CreatePathPaymentStrictReceiveSerializer,
-    EnvelopeXDRSerializer,
+    PathPaymentStrictReceiveRequestSerializer,
+    PathPaymentStrictReceiveResponseSerializer,
     PayeeSerializer,
 )
 
@@ -27,16 +27,16 @@ def get_payees_list(request: Request) -> Response:
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@extend_schema(**docs.get_payees_list)
+@extend_schema(**docs.create_path_payment_strict_receive_envelope)
 @api_view(("POST",))
 def create_path_payment_strict_receive_envelope(request: Request) -> Response:
-    serializer = CreatePathPaymentStrictReceiveSerializer(data=request.data)
+    serializer = PathPaymentStrictReceiveRequestSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
     response = CreatePathPaymentStrictReceiveUseCase().execute(
         network="TESTNET", **serializer.validated_data
     )
 
-    serializer = EnvelopeXDRSerializer(response)
+    serializer = PathPaymentStrictReceiveResponseSerializer(response)
 
     return Response(serializer.data, status=status.HTTP_200_OK)
