@@ -1,5 +1,7 @@
 import { createContext, useCallback, useState } from 'react'
 
+import { recordUsers } from 'services/utils/users'
+
 import { Authentication, AuthStatus } from 'app/core/auth'
 import { AuthService } from 'app/core/auth/auth-service'
 import { http } from 'interfaces/http'
@@ -33,18 +35,14 @@ export const AccountProvider: React.FC = ({ children }) => {
     setLoading(true)
 
     try {
-      let user = null
+      const user = recordUsers(params.email)
 
-      if (params.email == 'admin' && params.password == 'admin') {
-        user = {
-          email: 'admin',
-          name: 'User 1',
-        } as Hooks.UseAccountTypes.IUser
-
+      if (user) {
         Authentication.setAuthenticated(AuthStatus.Authenticated)
         AuthService.setCurrentUser(user)
       }
-      return user != null
+
+      return user != undefined
     } catch (error) {
       return false
     } finally {

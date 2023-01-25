@@ -69,6 +69,7 @@ export const LoginModal: React.FC = () => {
         label={'Login'}
         onClick={login}
         isLoading={loading}
+        isDisabled={!inputs.email || !inputs.password}
       />
     </div>
   )

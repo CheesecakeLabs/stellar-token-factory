@@ -1,4 +1,4 @@
-import { toCurrency } from 'services/utils/utils'
+import { toEur } from 'services/utils/utils'
 
 import { Typography, TypographyVariant } from 'components/atoms'
 import { BalanceIcon } from 'components/icons'
@@ -16,9 +16,7 @@ export const Balance: React.FC<IBalanceProps> = ({ balance, loading }) => {
       <BalanceIcon width={24} height={24} />
       <Typography
         variant={TypographyVariant.p}
-        text={
-          loading || !balance ? 'Loading...' : `${toCurrency(balance.balance)}`
-        }
+        text={loading || !balance ? 'Loading...' : `${toEur(balance.balance)}`}
         className={styles.balanceText}
       />
     </div>

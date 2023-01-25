@@ -1,3 +1,5 @@
+import { toEur, toUsd } from 'services/utils/utils'
+
 import {
   Row,
   RowContent,
@@ -7,46 +9,61 @@ import {
 
 import styles from './styles.module.scss'
 
-export const EstimatedCost: React.FC = () => {
+interface IEstimatedCost {
+  amount: number
+  payment: Hooks.UsePaymentTypes.IPayment | undefined
+}
+
+export const EstimatedCost: React.FC<IEstimatedCost> = ({
+  amount,
+  payment,
+}) => {
   return (
     <div className={styles.container}>
-      <Row justifyContent={RowContent.spaceBetween}>
-        <Typography
-          variant={TypographyVariant.label}
-          text={'Payment amount'}
-          className={styles.label}
-        />
-        <Typography
-          variant={TypographyVariant.p}
-          text={'$ 1,000.00'}
-          className={styles.value}
-        />
-      </Row>
-      <Row justifyContent={RowContent.spaceBetween}>
-        <Typography
-          variant={TypographyVariant.label}
-          text={'Fees'}
-          className={styles.label}
-        />
-        <Typography
-          variant={TypographyVariant.p}
-          text={'$ 2.47'}
-          className={styles.value}
-        />
-      </Row>
-      <div className={styles.divider}/>
-      <Row justifyContent={RowContent.spaceBetween}>
-        <Typography
-          variant={TypographyVariant.label}
-          text={'Total'}
-          className={styles.label}
-        />
-        <Typography
-          variant={TypographyVariant.p}
-          text={'$ 997.53'}
-          className={styles.value}
-        />
-      </Row>
+      <Typography
+        variant={TypographyVariant.label}
+        text={`Estimated transaction costs`}
+        className={styles.title}
+      />
+      <div className={styles.containerCosts}>
+        <Row justifyContent={RowContent.spaceBetween}>
+          <Typography
+            variant={TypographyVariant.label}
+            text={'Payment amount'}
+            className={styles.label}
+          />
+          <Typography
+            variant={TypographyVariant.p}
+            text={toUsd(amount)}
+            className={styles.value}
+          />
+        </Row>
+        <Row justifyContent={RowContent.spaceBetween}>
+          <Typography
+            variant={TypographyVariant.label}
+            text={'Fees'}
+            className={styles.label}
+          />
+          <Typography
+            variant={TypographyVariant.p}
+            text={'$ 0.00'}
+            className={styles.value}
+          />
+        </Row>
+        <div className={styles.divider} />
+        <Row justifyContent={RowContent.spaceBetween}>
+          <Typography
+            variant={TypographyVariant.label}
+            text={'Final cost'}
+            className={styles.label}
+          />
+          <Typography
+            variant={TypographyVariant.p}
+            text={toEur(payment?.final_cost ?? 0)}
+            className={styles.value}
+          />
+        </Row>
+      </div>
     </div>
   )
 }

@@ -2,6 +2,8 @@ import { ReactNode } from 'react'
 
 import classNames from 'classnames'
 
+import { LoadingIcon } from 'components/icons'
+
 import styles from './styles.module.scss'
 
 export enum ButtonVariant {
@@ -9,6 +11,7 @@ export enum ButtonVariant {
   secondary = 'secondary',
   tertiary = 'tertiary',
   login = 'login',
+  icon = 'icon',
 }
 
 export interface IButtonProps {
@@ -34,13 +37,19 @@ const Button = (props: IButtonProps): JSX.Element => {
       )}
       disabled={props.isDisabled}
     >
-      <>
-        <div className={styles.row}>
-          {props.icon && props.icon}
-          {props.label}
-        </div>
-        {props.message && <div className={styles.message}>{props.message}</div>}
-      </>
+      {props.isLoading ? (
+        <LoadingIcon width={14} height={14} />
+      ) : (
+        <>
+          <div className={styles.row}>
+            {props.icon && props.icon}
+            {props.label}
+          </div>
+          {props.message && (
+            <div className={styles.message}>{props.message}</div>
+          )}
+        </>
+      )}
     </button>
   )
 }
