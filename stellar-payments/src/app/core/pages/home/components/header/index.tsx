@@ -1,9 +1,7 @@
 import { Typography, TypographyVariant } from 'components/atoms'
+import { Account, Balance } from 'components/molecules'
 
-import { ReactComponent as StellarLogo } from '../../../app/core/resources/stellar.svg'
-
-import { Account } from '../account'
-import { Balance } from '../balance'
+import { ReactComponent as StellarLogo } from '../../../../../core/resources/stellar.svg'
 import styles from './styles.module.scss'
 
 export const Header: React.FC = () => {

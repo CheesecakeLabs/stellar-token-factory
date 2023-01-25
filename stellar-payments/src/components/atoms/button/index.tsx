@@ -8,6 +8,7 @@ export enum ButtonVariant {
   primary = 'primary',
   secondary = 'secondary',
   tertiary = 'tertiary',
+  login = 'login',
 }
 
 export interface IButtonProps {

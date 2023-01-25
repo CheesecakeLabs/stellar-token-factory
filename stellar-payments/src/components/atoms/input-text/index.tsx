@@ -1,48 +1,38 @@
-import React from 'react'
-
 import classNames from 'classnames'
-
-import { IInputProps } from 'components/types/input'
 
 import styles from './styles.module.scss'
 
-export interface IInputTextProps extends IInputProps {
-  htmlType?: string
+export enum InputTextVariant {
+  primary = 'primary',
+  secondary = 'secondary',
 }
 
-const InputText = React.forwardRef<HTMLInputElement, IInputTextProps>(
-  (
-    {
-      name,
-      onChange,
-      onBlur,
-      htmlType = 'text',
-      disabled = false,
-      className,
-      id,
-      ...restProps
-    },
-    ref
-  ): JSX.Element => (
-    <div
-      className={classNames(
-        styles.inputContainer,
-        { [styles.disabled]: disabled },
-        styles[status]
-      )}
-    >
+export interface IInputProps {
+  variant: InputTextVariant
+  name: string
+  handleChange: (event: { target: { name: string; value: string } }) => void
+  value?: string
+  type?: string
+  padding?: string
+  maxLength?: number
+  placeHolder?: string
+}
+
+const InputText = (props: IInputProps): JSX.Element => {
+  return (
+    <div className={classNames(styles.inputContainer, styles[props.variant])}>
       <input
-        id={id ?? name}
-        className={classNames(styles.input, className)}
-        onChange={onChange}
-        onBlur={onBlur}
-        type={htmlType}
-        name={name}
-        {...restProps}
-        ref={ref}
+        name={props.name}
+        type={props.type}
+        onChange={props.handleChange}
+        autoComplete="off"
+        value={props.value}
+        style={props.padding ? { padding: props.padding } : undefined}
+        maxLength={props.maxLength}
+        placeholder={props.placeHolder}
       />
     </div>
   )
-)
+}
 
 export { InputText }
