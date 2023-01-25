@@ -489,12 +489,12 @@ class StellarTransaction:
         transaction_builder: TransactionBuilder = None,
     ) -> TransactionBuilder:
         """
-        Appends a Path Payment Strict Send to a transaction
+        Appends a Path Payment Strict Receive to a transaction
         Params:
             source_public_key: Public Key from the source.
             destination_public_key: Public Key from the destination.
-            send_amount: Amount of asset to send.
-            min_receive: Amount of asset to receive.
+            dest_amount: Amount of asset to that destination will receive.
+            send_max: Max amount of asset to send.
             send_asset_code: Asset code of asset to send.
             send_asset_issuer: Issuer public key (send asset)
             receive_asset_issuer:  Issuer public key (receive asset)
