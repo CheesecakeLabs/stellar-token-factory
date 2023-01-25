@@ -29,7 +29,7 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
         # Mocked values
         send_asset = {"code": settings.EUR_CODE, "issuer": settings.EUR_ISSUER}
         receive_asset = {"code": settings.USD_CODE, "issuer": settings.USD_ISSUER}
-        send_max = settings.SEND_MAX_EUR * receive_amount
+        send_max = round(settings.SEND_MAX_EUR * receive_amount, 7)
 
         # Check if public key is valid
         self._validate_public_key(destination_public_key, INVALID_TARGET_PUBLIC_KEY)
