@@ -1,6 +1,7 @@
 from rest_framework import status
 
 from .serializers import (
+    BalanceSerializer,
     PathPaymentStrictReceiveRequestSerializer,
     PathPaymentStrictReceiveResponseSerializer,
     PayeeSerializer,
@@ -23,5 +24,12 @@ create_path_payment_strict_receive_envelope = {
         status.HTTP_200_OK: PathPaymentStrictReceiveResponseSerializer(),
     },
     "summary": "Create path payment strict receive envelope (EUR -> USD).",
+}
+
+get_main_wallet_eur_balance = {
+    "responses": {
+        status.HTTP_200_OK: BalanceSerializer(),
+    },
+    "summary": "Get main wallet EUR balance",
     "tags": [demo_tag],
 }

@@ -2,6 +2,7 @@ from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 STELLAR_KEY_MAX_LENGTH = 56
+STELLAR_CODE_MAX_LENGTH = 12
 
 
 class PayeeSerializer(serializers.Serializer):
@@ -20,3 +21,9 @@ class PathPaymentStrictReceiveResponseSerializer(serializers.Serializer):
 class PathPaymentStrictReceiveRequestSerializer(serializers.Serializer):
     destination_public_key = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
     receive_amount = serializers.FloatField()
+
+
+class BalanceSerializer(serializers.Serializer):
+    balance = serializers.FloatField()
+    asset_code = serializers.CharField(max_length=STELLAR_CODE_MAX_LENGTH)
+    asset_issuer = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
