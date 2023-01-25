@@ -17,14 +17,13 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
         receive_amount: float,
     ) -> dict:
         """
-        Create a payment transaction envelope.
+        Create a path payment strict receive transaction envelope.
+        The asset values and send max are mocked based on env vars.
         Params:
             network: Current network (TESTNET or PUBLIC)
-            issuer: Issuer public key (the account must exist on the network)
-            distibutor: Distributor public key (the account must exist on the network)
-            target: Target public key (the account must exist on the network)
+            destination_public_key: Destination public key (the account must exist on the network)
             asset_code: Asset code
-            amount: Amount of asset to send
+            receive_amount: Amount of asset that destionation will receive
         """
         # Mocked values
         send_asset = {"code": settings.EUR_CODE, "issuer": settings.EUR_ISSUER}
