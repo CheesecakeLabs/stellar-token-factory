@@ -64,7 +64,7 @@ class Command(BaseCommand):
         # for index in range(2):
         #     self.create_offer(sell_token_code=USD, buy_token_code=EUR)
         for index in range(2):
-            self.create_offer(sell_token_code=EUR, buy_token_code=USD, amount=300000)
+            self.create_offer(sell_token_code=USD, buy_token_code=EUR, amount=300000)
 
     def create_acc_with_friendbot(self):
         keypair = Keypair.random()
