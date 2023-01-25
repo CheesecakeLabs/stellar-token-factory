@@ -8,7 +8,7 @@ class GetAssetDistributorUseCase(BaseStellarUseCase):
         """
         Get asset distributor's public key.
         Params:
-        network: Current network (TESTNET or PUBLIC)
+            network: Current network (TESTNET or PUBLIC)
             asset_code: Asset code
             asset_issuer: Asset issuer
         """

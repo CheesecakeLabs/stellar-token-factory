@@ -43,7 +43,7 @@ class BaseStellarUseCase(BaseUseCase):
                 source_public_key_error, status_code=status.HTTP_404_NOT_FOUND
             )
 
-    def _get_stellar_account_class(self, network: str) -> None:
+    def _get_stellar_account_class(self, network: str) -> StellarAccount:
         try:
             return StellarAccount(network=network)
         except InvalidNetwork:
@@ -56,7 +56,7 @@ class BaseStellarUseCase(BaseUseCase):
         stellar_class: Union[StellarTransaction, StellarAccount],
         public_key: str,
         error: int = ACCOUNT_NOT_FOUND,
-    ) -> None:
+    ) -> StellarAccount:
         try:
             return stellar_class.check_if_account_exists_at_network(
                 public_key=public_key
