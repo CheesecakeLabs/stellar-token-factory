@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useState } from 'react'
 
-import { message, Steps } from 'antd'
+import { ConfigProvider, message, Steps } from 'antd'
 import { MessageType } from 'antd/es/message/interface'
 
 import { Button, ButtonVariant, Modal } from 'components/atoms'
-import { Amount } from 'components/molecules'
+import { Amount, EstimatedCost, StatusTransaction } from 'components/molecules'
 
 import styles from './styles.module.scss'
 
@@ -23,14 +23,17 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = (
     {
       title: 'Amount',
       content: <Amount />,
+      label: 'Next',
     },
     {
       title: 'Estimated Cost',
-      content: 'Second-content',
+      content: <EstimatedCost />,
+      label: 'Send transaction',
     },
     {
       title: 'Finished',
-      content: 'Last-content',
+      content: <StatusTransaction />,
+      label: 'Next',
     },
   ]
 
@@ -49,37 +52,51 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = (
       isOpen={props.isOpen}
       handleClose={(): void => props.setOpenModal(false)}
     >
-      <Steps
-        current={current}
-        items={items}
-        className={styles.steps}
-        size={'small'}
-      />
-      <div>{steps[current].content}</div>
-      <div className={styles.containerControllers}>
-        {current > 0 ? (
-          <Button
-            variant={ButtonVariant.tertiary}
-            onClick={(): void => prev()}
-            label="Previous"
-          />
-        ) : (
-          <div />
-        )}
-        {current < steps.length - 1 && (
-          <Button
-            variant={ButtonVariant.tertiary}
-            onClick={(): void => next()}
-            label="Next"
-          />
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            variant={ButtonVariant.tertiary}
-            onClick={(): MessageType => message.success('Processing complete!')}
-            label="Done"
-          />
-        )}
+      <div className={styles.container}>
+        <div>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: '#16a085',
+              },
+            }}
+          >
+            <Steps
+              current={current}
+              items={items}
+              className={styles.steps}
+              size={'small'}
+            />
+          </ConfigProvider>
+          <div className={styles.content}>{steps[current].content}</div>
+        </div>
+        <div className={styles.containerControllers}>
+          {current > 0 ? (
+            <Button
+              variant={ButtonVariant.tertiary}
+              onClick={(): void => prev()}
+              label="Previous"
+            />
+          ) : (
+            <div />
+          )}
+          {current < steps.length - 1 && (
+            <Button
+              variant={ButtonVariant.tertiary}
+              onClick={(): void => next()}
+              label={steps[current].label}
+            />
+          )}
+          {current === steps.length - 1 && (
+            <Button
+              variant={ButtonVariant.tertiary}
+              onClick={(): MessageType =>
+                message.success('Processing complete!')
+              }
+              label="Done"
+            />
+          )}
+        </div>
       </div>
     </Modal>
   )

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@hookform/resolvers": "~2.8.0",
     "@sentry/react": "^6.17.9",
     "@sentry/tracing": "^6.17.9",
