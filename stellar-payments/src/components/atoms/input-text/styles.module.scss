@@ -1,0 +1,57 @@
+.inputContainer {
+  position: relative;
+  display: flex;
+  background-color: none;
+  align-items: center;
+  width: 100%;
+}
+
+.inputContainer input {
+  padding: 0.75rem 1rem;
+  outline: none;
+  box-shadow: none;
+  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  background: none;
+  border-width: 0;
+  border-style: solid;
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.inputContainer input::placeholder {
+  color: #3e5670;
+}
+
+.primary {
+  background-color: #ecf2f7;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.primary input {
+  text-align: end;
+}
+
+.secondary {
+  background-color: #ecf2f7;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+}
+
+.prefix {
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 18px;
+  padding-left: 0.75rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

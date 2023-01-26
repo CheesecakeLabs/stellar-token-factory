@@ -1,4 +1,4 @@
-import { Card, Layout } from '@stellar/design-system'
+import { Button, Card, Layout } from '@stellar/design-system'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { isConnected, getPublicKey, getNetwork } from '@stellar/freighter-api'
@@ -11,6 +11,7 @@ import '@stellar/design-system/build/styles.min.css'
 import 'react-tabs/style/react-tabs.css'
 import { FactoryService } from 'services/factory'
 import { messageError } from 'services/factory/constants'
+import { Download } from 'react-feather'
 
 const HomeTemplate = (): JSX.Element => {
   const navigate = useNavigate()
@@ -71,11 +72,18 @@ const HomeTemplate = (): JSX.Element => {
     return isValid
   }
 
+  const openExtension = (): void => {
+    window.open(
+      'https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk',
+      '_blank'
+    )
+  }
+
   return (
     <main className={styles.main}>
       <Layout.Header
         hasDarkModeToggle
-        projectTitle="Token Factory"
+        projectTitle="Stellar Asset Sandbox"
         projectLink=""
         contentRight={<HeaderStatus key={'status'} />}
       />
@@ -95,9 +103,14 @@ const HomeTemplate = (): JSX.Element => {
                 )}
               </div>
             ) : (
-              <p className={styles.message}>
-                You are not connected to Freighter!
-              </p>
+              <div className={styles.warning}>
+                <p className={styles.message}>
+                  You are not connected to Freighter!
+                </p>
+                <Button onClick={openExtension}>
+                  Get Freighter extension <Download />
+                </Button>
+              </div>
             )}
             {error ? <CustomError message={error} /> : <div />}
           </Card>

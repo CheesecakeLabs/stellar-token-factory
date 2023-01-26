@@ -7,3 +7,16 @@
 .message {
   text-align: center;
 }
+
+.warning{
+  display: flex;
+  flex-direction: column;
+
+  svg{
+    margin-left: 1rem;
+  }
+
+  button{
+    width: auto;
+  }
+}
