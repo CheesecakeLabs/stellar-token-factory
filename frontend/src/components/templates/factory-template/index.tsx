@@ -66,7 +66,7 @@ const FactoryTemplate = (): JSX.Element => {
     <main className={styles.main}>
       <Layout.Header
         hasDarkModeToggle
-        projectTitle="Token Factory"
+        projectTitle="Stellar Asset Sandbox"
         projectLink=""
         contentRight={<HeaderStatus key={'network'} />}
       />

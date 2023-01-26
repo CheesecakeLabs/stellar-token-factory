@@ -15,7 +15,7 @@ const InputKey: FunctionComponent<IInputKeyProps> = inputKeyProps => {
     <div>
       <Input
         id="input-public-key"
-        placeholder="Your key"
+        placeholder="Click the key to connect your Freighter wallet"
         onChange={inputKeyProps.handleChange}
         value={inputKeyProps.publicKey}
         autoComplete="off"

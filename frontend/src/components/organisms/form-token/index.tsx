@@ -118,7 +118,7 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
           rightElement={
             <IconButton
               altText="Get Public Key"
-              icon={<Key key="key-issuer"/>}
+              icon={<Key key="key-issuer" />}
               onClick={(): Promise<void> => getKey('issuer')}
             />
           }
@@ -136,7 +136,7 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
           rightElement={
             <IconButton
               altText="Get Public Key"
-              icon={<Key key="key-distributor"/>}
+              icon={<Key key="key-distributor" />}
               onClick={(): Promise<void> => getKey('distributor')}
             />
           }
@@ -146,8 +146,8 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
             <Input
               name="asset_code"
               id="input-token-symbol"
-              label="Token's Symbol"
-              placeholder="Token Symbol"
+              label="Name Your Token"
+              placeholder="Token Code"
               required
               value={inputs.asset_code || ''}
               error={inputsErrors.asset_code}
@@ -163,7 +163,7 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
               label={
                 <label>
                   <Tooltip content="This field is optional, not filling it implies the maximum network limit.">
-                    Limit <Info size={14} className={styles.iconLimit} />
+                    Add a Limit <Info size={14} className={styles.iconLimit} />
                   </Tooltip>
                 </label>
               }
