@@ -1,4 +1,4 @@
-import React from 'react'
+import { AppProvider } from 'services/hooks'
 
 import { CoreRouter } from 'app/core/routes'
 
@@ -6,7 +6,9 @@ import ErrorBoundary from './error-boundary'
 
 const App = (): JSX.Element => (
   <ErrorBoundary displayMessage="Ooooppss... An unexpected error occured">
-    <CoreRouter />
+    <AppProvider>
+      <CoreRouter />
+    </AppProvider>
   </ErrorBoundary>
 )
 

@@ -1,98 +1,62 @@
-import React from 'react'
+import { MouseEventHandler, ReactNode } from 'react';
 
-import classNames from 'classnames'
 
-import styles from './styles.module.scss'
 
-export enum ButtonType {
+import classNames from 'classnames';
+
+
+
+import { LoadingIcon } from 'components/icons';
+
+
+
+import styles from './styles.module.scss';
+
+
+export enum ButtonVariant {
   primary = 'primary',
   secondary = 'secondary',
   tertiary = 'tertiary',
-  ghost = 'ghost',
-  destructive = 'destructive',
-}
-
-export enum ButtonSize {
-  small = 'small',
-  medium = 'medium',
-  large = 'large',
-}
-
-export enum ButtonIconPosition {
-  left = 'left',
-  right = 'right',
+  login = 'login',
+  icon = 'icon',
 }
 
 export interface IButtonProps {
-  /**
-   * The type of the button
-   */
-  type?: ButtonType
-  /**
-   * The size of the button
-   */
-  size?: ButtonSize
-  /**
-   * The content of the button
-   */
-  label?: string
-  /**
-   * Optional click handler
-   */
-  onClick?: () => void
-  /**
-   * Is the button disabled?
-   */
-  disabled?: boolean
-  /**
-   * Is the button loading?
-   */
-  loading?: boolean
-  /**
-   * A image component to display inside of the button
-   */
-  icon?: React.ReactElement | React.ReactNode
-  /**
-   * The icon position inside the button (left|right)
-   */
-  iconPosition?: ButtonIconPosition
-  /**
-   * Classname to add custom css
-   */
-  className?: string
+  variant: ButtonVariant
+  label: string
+  onClick?: MouseEventHandler<HTMLButtonElement> | undefined
+  icon?: ReactNode
+  isDisabled?: boolean
+  isExpanded?: boolean
+  message?: string
+  isLoading?: boolean
+  removeSideMargin?: boolean
 }
 
-const Button = ({
-  label,
-  onClick,
-  size = ButtonSize.medium,
-  type = ButtonType.primary,
-  iconPosition = ButtonIconPosition.left,
-  disabled = false,
-  loading = false,
-  icon,
-  className,
-}: IButtonProps): JSX.Element => {
-  const currentIcon = loading ? (
-    <span className={styles.loadingWrapper}></span>
-  ) : (
-    <span className={styles.iconWrapper}>{icon}</span>
-  )
-
+const Button = (props: IButtonProps): JSX.Element => {
   return (
     <button
-      disabled={disabled}
+      onClick={props.onClick}
       className={classNames(
         styles.button,
-        styles[type],
-        styles[size],
-        styles[iconPosition],
-        className
+        styles[props.variant],
+        props.removeSideMargin ? styles.removeSideMargin : undefined
       )}
-      onClick={onClick}
+      disabled={props.isDisabled}
     >
-      {icon && currentIcon}
-      <span>{label}</span>
+      {props.isLoading ? (
+        <LoadingIcon width={14} height={14} />
+      ) : (
+        <>
+          <div className={styles.row}>
+            {props.icon && props.icon}
+            {props.label}
+          </div>
+          {props.message && (
+            <div className={styles.message}>{props.message}</div>
+          )}
+        </>
+      )}
     </button>
   )
 }

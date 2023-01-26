@@ -1,80 +1,57 @@
 .inputContainer {
+  position: relative;
   display: flex;
-  vertical-align: center;
+  background-color: none;
   align-items: center;
-  border: 1px solid var(--color-grayish-light);
-  border-radius: var(--border-radius-input);
-  height: 28px;
   width: 100%;
-  transition: border 0.3s ease;
-  margin: 4px 0;
-  background-color: var(--color-neutral-light);
-
-  &:hover {
-    border-color: var(--color-grayish);
-  }
-
-  &:focus,
-  &:focus-within {
-    border-color: var(--color-secondary);
-  }
 }
 
-.disabled {
-  pointer-events: none;
-  cursor: not-allowed;
-  background-color: var(--color-neutral-dark);
-}
-
-.icon {
-  padding-left: 12px;
-  cursor: pointer;
-
-  & > img,
-  svg {
-    padding-top: 2px;
-    width: 15px;
-    height: 15px;
-  }
-}
-
-.input {
-  font-size: var(--font-size-normal);
-  color: var(--color-blackish-light);
-  padding: 2px 12px;
+.inputContainer input {
+  padding: 0.75rem 1rem;
   outline: none;
-  border: none;
+  box-shadow: none;
+  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  background: none;
+  border-width: 0;
+  border-style: solid;
+  color: #2c3e50;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
   width: 100%;
-  letter-spacing: var(--letter-space-xs);
-  line-height: var(--line-height-lg);
-
-  &:disabled {
-    background-color: var(--color-neutral-dark);
-  }
-
-  &::placeholder {
-    /* Chrome, Firefox, Opera, Safari 10.1+ */
-    color: var(--color-grayish);
-  }
-
-  &::-ms-input-placeholder {
-    /* Internet Explorer 10-11, Edge */
-    color: var(--color-grayish);
-  }
 }
 
-.default {
-  border-color: var(--color-grayish-light);
+.inputContainer input::placeholder {
+  color: #3e5670;
 }
 
-.error {
-  border-color: var(--color-danger);
+.primary {
+  background-color: #ecf2f7;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+  width: 100%;
 }
 
-.success {
-  border-color: var(--color-success);
+.primary input {
+  text-align: end;
 }
 
-.focus {
-  border-color: var(--color-secondary);
+.secondary {
+  background-color: #ecf2f7;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+}
+
+.prefix {
+  font-weight: 700;
+  color: #2c3e50;
+  font-size: 18px;
+  padding-left: 0.75rem;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
