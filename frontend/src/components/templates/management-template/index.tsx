@@ -48,7 +48,7 @@ const ManagementTemplate = (): JSX.Element => {
     <main className={styles.main}>
       <Layout.Header
         hasDarkModeToggle
-        projectTitle="Token Factory"
+        projectTitle="Stellar Asset Sandbox"
         projectLink=""
         contentCenter={
           <ManagementHeader

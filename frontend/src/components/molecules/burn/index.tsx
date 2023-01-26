@@ -111,7 +111,7 @@ const Burn: FunctionComponent<IBurnProps> = props => {
           name="amount"
           id="input-amount"
           label="Amount"
-          placeholder="Token amount you want to burn"
+          placeholder="Asset amount you want to burn"
           type="number"
           value={inputs.amount || ''}
           onChange={handleChange}

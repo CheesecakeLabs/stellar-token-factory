@@ -111,7 +111,7 @@ const Mint: FunctionComponent<IMintProps> = props => {
           name="amount"
           id="input-amount"
           label="Amount"
-          placeholder="New token amount you want to mint"
+          placeholder="New asset amount you want to mint"
           type="number"
           value={inputs.amount || ''}
           onChange={handleChange}

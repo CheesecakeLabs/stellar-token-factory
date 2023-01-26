@@ -1,179 +1,98 @@
 .button {
-  border: 0;
-  font-size: var(--font-size-normal);
-  line-height: var(--line-height-sm);
-  font-weight: var(--font-weight-600);
+  background: #ffffff;
+  justify-content: space-between;
   cursor: pointer;
-  display: inline-flex;
+  font-size: 16px;
+  display: flex;
   align-items: center;
-  text-transform: uppercase;
-  color: var(--color-neutral-light);
-  text-align: center;
-
-  &:disabled {
-    cursor: not-allowed;
-  }
-
-  .iconWrapper svg path {
-    fill: var(--color-neutral-light);
-  }
+  padding: 1rem;
 }
 
 .primary {
-  background-color: var(--color-primary);
+  height: 2.5rem;
+  border: 1px solid #ffffff;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #2c3e50;
+  font-size: 14px;
 
-  &:hover {
-    background-color: var(--color-primary-dark);
-  }
-
-  &:active {
-    background-color: var(--color-primary-light);
-  }
-
-  &:disabled {
-    background-color: var(--color-grayish-light);
+  svg {
+    fill: #ffffff;
+    stroke: #ffffff;
   }
 }
 
 .secondary {
-  background-color: var(--color-secondary);
-  color: var(--color-neutral-light);
-
-  &:hover {
-    background-color: var(--color-secondary-dark);
-  }
-
-  &:active {
-    background-color: var(--color-secondary-light);
-  }
-
-  &:disabled {
-    background-color: var(--color-grayish-light);
-  }
+  height: 2.5rem;
+  border: 1px solid #eaebef;
+  border-radius: 0.35rem;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .tertiary {
-  background-color: var(--color-whitelist-light);
-  border: var(--border-primary);
-  color: var(--color-primary);
+  height: 3rem;
+  width: 100%;
+  background-color: #2c3e50;
+  color: #ffffff;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  font-size: 14px;
+  border: 0px;
+  justify-content: center;
 
-  .iconWrapper svg path {
-    fill: var(--color-primary);
-  }
-
-  &:hover {
-    border: var(--border-primary-dark);
-    color: var(--color-primary-dark);
-
-    .iconWrapper svg path {
-      fill: var(--color-primary-dark);
-    }
-  }
-
-  &:active {
-    border: var(--border-primary-light);
-    color: var(--color-primary-light);
-
-    .iconWrapper svg path {
-      fill: var(--color-primary-light);
-    }
-  }
-
-  &:disabled {
-    border: var(--border-grayish-light);
-    color: var(--color-grayish-light);
-
-    .iconWrapper svg path {
-      fill: var(--color-grayish-light);
-    }
-  }
-}
-
-.ghost {
-  color: var(--color-primary);
-  background-color: transparent;
-
-  .iconWrapper svg path {
-    fill: var(--color-primary);
-  }
-
-  &:hover {
-    color: var(--color-primary-dark);
-
-    .iconWrapper svg path {
-      fill: var(--color-primary-dark);
-    }
-  }
-
-  &:active {
-    color: var(--color-primary-light);
-
-    .iconWrapper svg path {
-      fill: var(--color-primary-light);
-    }
-  }
-
-  &:disabled {
-    color: var(--color-grayish-light);
-
-    .iconWrapper svg path {
-      fill: var(--color-grayish-light);
-    }
-  }
-}
-
-.destructive {
-  background-color: var(--color-danger);
-  color: var(--color-neutral-light);
-
-  &:hover {
-    background-color: var(--color-danger-dark);
-  }
-
-  &:active {
-    background-color: var(--color-danger-light);
-  }
-
-  &:disabled {
-    background-color: var(--color-grayish-light);
-  }
-}
-
-.small {
-  padding: 4px 16px;
-}
-
-.medium {
-  padding: 8px 16px;
-}
-
-.large {
-  padding: 16px;
-}
-
-.left {
-  flex-direction: row;
-}
-
-.right {
-  flex-direction: row-reverse;
-
-  .loadingWrapper,
-  .iconWrapper {
-    padding-left: 18px;
-    padding-right: 2px;
-  }
-}
-
-.loadingWrapper,
-.iconWrapper {
-  display: flex;
-  padding-left: 2px;
-  padding-right: 18px;
-
-  & > img,
   svg {
-    width: 15px;
-    height: 15px;
+    fill: #ffffff;
+    stroke: #ffffff;
   }
+}
+
+.icon {
+  height: 3rem;
+  background-color: #ffffff;
+  color: #ffffff;
+  border-radius: 0.25rem;
+  border: 1px solid #c1c1c1;
+  justify-content: center;
+  margin-right: 0.25rem;
+
+  svg {
+    fill: #2c3e50;
+  }
+}
+
+.login {
+  height: 3rem;
+  border: 1px solid #ffffff;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #2c3e50;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+
+  svg {
+    fill: #ffffff;
+    stroke: #ffffff;
+  }
+}
+
+.login:disabled {
+  background-color: rgba(43, 61, 79, 0.2);
+}
+
+.label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-grayish);
+  margin-left: 1rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
 }

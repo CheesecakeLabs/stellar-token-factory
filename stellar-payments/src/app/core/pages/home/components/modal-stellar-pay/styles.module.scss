@@ -1,0 +1,19 @@
+.container {
+  min-height: 14rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  .steps {
+    margin-bottom: 3rem;
+  }
+
+  .containerControllers {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 1rem;
+    bottom: 0;
+  }
+}
