@@ -23,6 +23,7 @@ ISSUER_MUST_HAVE_AUTH_CLAWBACK_FLAG = 18
 INVALID_NETWORK = 19
 TOML_NOT_FOUND = 20
 INVALID_SIGNER_KEY = 21
+USER_NOT_FOUND = 22
 
 
 class BusinessException(APIException, ValidationError):
@@ -52,6 +53,7 @@ class BusinessException(APIException, ValidationError):
         INVALID_NETWORK: "invalid_network",
         TOML_NOT_FOUND: "toml_not_found",
         INVALID_SIGNER_KEY: "invalid_signer_key",
+        USER_NOT_FOUND: "user_not_found",
     }
 
     def __init__(self, error_code: int, status_code: int = None):

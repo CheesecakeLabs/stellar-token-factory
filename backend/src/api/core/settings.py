@@ -272,3 +272,8 @@ MAIN_WALLET_PK = env.str("MAIN_WALLET_PK", default="")
 MAIN_WALLET_SK = env.str("MAIN_WALLET_SK", default="")
 PAYEES_LIST = env.list("PAYEES_LIST", default=[])
 SEND_MAX_EUR = env.float("SEND_MAX_EUR", default=0.92)
+USERS = {
+    env.str("USER_1_ID", default="user1"): (env.str("USER_1_SK", default=""), 2),
+    env.str("USER_2_ID", default="user2"): (env.str("USER_2_SK", default=""), 1),
+    env.str("USER_3_ID", default="user3"): (env.str("USER_3_SK", default=""), 1),
+}

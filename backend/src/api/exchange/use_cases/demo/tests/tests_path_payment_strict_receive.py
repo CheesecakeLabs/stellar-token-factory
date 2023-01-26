@@ -24,11 +24,26 @@ EUR_ISSUER = Keypair()
 USD_ISSUER = Keypair()
 
 
+def test_create_path_payment_fails_when_user_not_found():
+    data = {
+        "network": "TESTNET",
+        "destination_public_key": Keypair().public_key,
+        "receive_amount": 10.0,
+        "user_id": "user4",
+    }
+    with pytest.raises(
+        BusinessException,
+        match="{'code': 22, 'detail': 'user_not_found'}",
+    ):
+        CreatePathPaymentStrictReceiveUseCase().execute(**data)
+
+
 def test_create_path_payment_fails_when_dest_public_key_is_invalid():
     data = {
         "network": "TESTNET",
         "destination_public_key": "invalid-key",
         "receive_amount": 10.0,
+        "user_id": "user1",
     }
     with pytest.raises(
         BusinessException,
@@ -42,6 +57,7 @@ def test_create_path_payment_fails_when_network_is_invalid(mocker: MockerFixture
         "network": "invalid",
         "destination_public_key": Keypair().public_key,
         "receive_amount": 10.0,
+        "user_id": "user1",
     }
 
     get_network_data_mock = mocker.patch(
@@ -66,6 +82,7 @@ def test_create_path_payment_fails_when_main_wallet_account_not_found(
         "network": "TESTNET",
         "destination_public_key": Keypair().public_key,
         "receive_amount": 10.0,
+        "user_id": "user1",
     }
 
     load_account_mock = mocker.patch(
@@ -101,6 +118,7 @@ def test_create_path_payment_fails_when_destination_account_not_found(
         "network": "TESTNET",
         "destination_public_key": Keypair().public_key,
         "receive_amount": 10.0,
+        "user_id": "user1",
     }
 
     load_account_mock = mocker.patch(
@@ -139,13 +157,13 @@ def test_create_path_payment_fails_when_destination_account_not_found(
     USD_ISSUER=USD_ISSUER.public_key,
     SEND_MAX_EUR=0.92,
 )
-def test_create_path_payment_succesfully(
-    mocker: MockerFixture,
-):
+@pytest.mark.parametrize("user_id", ("user1", "user2", "user3"))
+def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
     data = {
         "network": "TESTNET",
         "destination_public_key": Keypair().public_key,
         "receive_amount": 10,
+        "user_id": user_id,
     }
 
     load_account_mock = mocker.patch(
@@ -171,6 +189,15 @@ def test_create_path_payment_succesfully(
     assert load_account_mock.call_count == 2
 
     assert response.get("final_cost") == 9.20
+
+    match user_id:
+        case "user1":
+            assert response.get("required_signatures") == []
+        case "user2":
+            assert response.get("required_signatures") == ["user3"]
+        case "user3":
+            assert response.get("required_signatures") == ["user2"]
+
 
     envelope = StellarTransaction().xdr_to_transaction_envelope(
         response["envelope_xdr"]

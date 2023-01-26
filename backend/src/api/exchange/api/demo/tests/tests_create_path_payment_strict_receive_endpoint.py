@@ -50,6 +50,7 @@ def test_create_path_payment_successfully(
     request_data = {
         "destination_public_key": Keypair().public_key,
         "receive_amount": 500,
+        "user_id": "user2",
     }
 
     load_account_mock = mocker.patch(
@@ -76,6 +77,9 @@ def test_create_path_payment_successfully(
 
     assert response_json.get("envelope_xdr")
     assert type(response_json.get("envelope_xdr")) == str
+
+    assert response_json.get("required_signatures")
+    assert type(response_json.get("required_signatures")) == list
 
 
 @pytest.mark.parametrize("request_data,error", CREATE_PATH_PAYMENT_FAIL_RESPONSES)
