@@ -1,3 +1,4 @@
 from .get_main_wallet_balance import GetMainWalletBalance
 from .get_payees_list import GetPayeesListUseCase
 from .path_payment_strict_receive import CreatePathPaymentStrictReceiveUseCase
+from .submit_envelope import SubmitEnvelopeUseCase
