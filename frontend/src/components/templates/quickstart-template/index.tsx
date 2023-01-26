@@ -54,7 +54,16 @@ const QuickstartTemplate = (): JSX.Element => {
                       <div className={styles.containerStep}>
                         <div className={styles.step}>1</div>
                       </div>
-                      <div>Install the Freighter Wallet browser extension.</div>
+                      <div>
+                        Install the{' '}
+                        <a
+                          href="https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk?hl=en"
+                          target="_blank"
+                        >
+                          Freighter Wallet
+                        </a>{' '}
+                        browser extension.
+                      </div>
                     </td>
                     <td>
                       <div className={styles.containerStep}>
