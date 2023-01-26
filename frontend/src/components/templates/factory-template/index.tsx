@@ -37,7 +37,7 @@ const FactoryTemplate = (): JSX.Element => {
         setIssuerInfo(response.data)
       })
       .catch(() => {
-        setError('Could not update token listing at this time')
+        setError('Could not update asset listing at this time')
       })
       .finally(() => {
         setIsLoading(false)

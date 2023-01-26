@@ -103,7 +103,7 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
 
   return (
     <Card variant={Card.variant.highlight}>
-      <Heading6>Token forging operation</Heading6>
+      <Heading6>Asset forging operation</Heading6>
       <div className={styles.contentForm}>
         <Input
           name="issuer"
@@ -146,8 +146,8 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
             <Input
               name="asset_code"
               id="input-token-symbol"
-              label="Name Your Token"
-              placeholder="Token Code"
+              label="Name Your Asset"
+              placeholder="Asset Code"
               required
               value={inputs.asset_code || ''}
               error={inputsErrors.asset_code}

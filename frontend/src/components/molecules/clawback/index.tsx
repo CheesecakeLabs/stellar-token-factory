@@ -143,7 +143,7 @@ const Clawback: FunctionComponent<IClawbackProps> = props => {
                   name="amount"
                   id="input-amount"
                   label="Amount"
-                  placeholder="Token amount you want to clawback"
+                  placeholder="Asset amount you want to clawback"
                   type="number"
                   value={inputs.amount || ''}
                   onChange={handleChange}
@@ -165,7 +165,7 @@ const Clawback: FunctionComponent<IClawbackProps> = props => {
                   rightElement={
                     <IconButton
                       altText="Get Public Key"
-                      icon={<Key key='target-clawback'/>}
+                      icon={<Key key="target-clawback" />}
                       onClick={(): Promise<void> => getKey('target')}
                     />
                   }

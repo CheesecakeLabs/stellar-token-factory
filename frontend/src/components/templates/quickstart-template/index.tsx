@@ -38,7 +38,7 @@ const QuickstartTemplate = (): JSX.Element => {
               <p>
                 The Stellar Asset Sandbox is a sandbox supported by the Stellar
                 Development Foundation and Cheesecake Labs for businesses to
-                experiment with token issuance on the Stellar testnet network.
+                experiment with asset issuance on the Stellar testnet network.
               </p>
               <br />
               <br />
@@ -60,7 +60,7 @@ const QuickstartTemplate = (): JSX.Element => {
                       <div className={styles.containerStep}>
                         <div className={styles.step}>2</div>
                       </div>
-                      <div>Set Freighter to Testnet.</div>
+                      <div>Set Freighter from Mainnet to Testnet.</div>
                     </td>
                     <td>
                       <div className={styles.containerStep}>
