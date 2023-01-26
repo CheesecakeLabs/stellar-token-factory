@@ -33,3 +33,9 @@ class BalanceSerializer(serializers.Serializer):
     balance = serializers.FloatField()
     asset_code = serializers.CharField(max_length=STELLAR_CODE_MAX_LENGTH)
     asset_issuer = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
+
+
+class SubmitEnvelopeRequestSerializer(serializers.Serializer):
+    envelope_xdr = serializers.CharField(max_length=10000)
+    sign = serializers.BooleanField(default=False)
+    user_id = serializers.CharField()

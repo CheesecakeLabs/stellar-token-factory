@@ -1,10 +1,13 @@
 from rest_framework import status
 
+from api.exchange.api.v1.serializers import SubmitEnvelopeSuccessResponseSerializer
+
 from .serializers import (
     BalanceSerializer,
     PathPaymentStrictReceiveRequestSerializer,
     PathPaymentStrictReceiveResponseSerializer,
     PayeeSerializer,
+    SubmitEnvelopeRequestSerializer,
 )
 
 demo_tag = "Demo"
@@ -32,5 +35,14 @@ get_main_wallet_eur_balance = {
         status.HTTP_200_OK: BalanceSerializer(),
     },
     "summary": "Get main wallet EUR balance",
+    "tags": [demo_tag],
+}
+
+submit_envelope = {
+    "request": SubmitEnvelopeRequestSerializer,
+    "responses": {
+        status.HTTP_200_OK: SubmitEnvelopeSuccessResponseSerializer,
+    },
+    "summary": "Submit a envelope to Stellar Network with option to sign the envelope.",
     "tags": [demo_tag],
 }
