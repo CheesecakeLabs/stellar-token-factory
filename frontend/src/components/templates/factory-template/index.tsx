@@ -37,7 +37,7 @@ const FactoryTemplate = (): JSX.Element => {
         setIssuerInfo(response.data)
       })
       .catch(() => {
-        setError('Could not update token listing at this time')
+        setError('Could not update asset listing at this time')
       })
       .finally(() => {
         setIsLoading(false)
@@ -66,7 +66,7 @@ const FactoryTemplate = (): JSX.Element => {
     <main className={styles.main}>
       <Layout.Header
         hasDarkModeToggle
-        projectTitle="Token Factory"
+        projectTitle="Stellar Asset Sandbox"
         projectLink=""
         contentRight={<HeaderStatus key={'network'} />}
       />

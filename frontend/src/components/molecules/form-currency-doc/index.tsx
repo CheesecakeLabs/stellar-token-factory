@@ -73,7 +73,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
             id="input-issuer"
             label={
               <label>
-                <Tooltip content="Token issuer Stellar public key">
+                <Tooltip content="Asset issuer Stellar public key">
                   Issuer <Info size={14} className={styles.iconTooltip} />
                 </Tooltip>
               </label>
@@ -90,7 +90,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
               id="input-name"
               label={
                 <label>
-                  <Tooltip content="A short name for the token">
+                  <Tooltip content="A short name for the asset">
                     Name <Info size={14} className={styles.iconTooltip} />
                   </Tooltip>
                 </label>
@@ -106,7 +106,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
               id="input-code"
               label={
                 <label>
-                  <Tooltip content="Token code">
+                  <Tooltip content="Asset code">
                     Code <Info size={14} className={styles.iconTooltip} />
                   </Tooltip>
                 </label>
@@ -122,7 +122,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
               id="input-anchor-asset"
               label={
                 <label>
-                  <Tooltip content="If anchored token, code / symbol for asset that token is anchored to">
+                  <Tooltip content="If anchored asset, code / symbol for asset that asset is anchored to">
                     Anchor asset{' '}
                     <Info size={14} className={styles.iconTooltip} />
                   </Tooltip>
@@ -139,7 +139,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
             id="input-desc"
             label={
               <label>
-                <Tooltip content="Description of token and what it represents">
+                <Tooltip content="Description of asset and what it represents">
                   Description <Info size={14} className={styles.iconTooltip} />
                 </Tooltip>
               </label>
@@ -155,7 +155,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
               id="status"
               label={
                 <label>
-                  <Tooltip content="Status of token. One of live, dead, test, or private.">
+                  <Tooltip content="Status of asset. One of live, dead, test, or private.">
                     Status <Info size={14} className={styles.iconTooltip} />
                   </Tooltip>
                 </label>
@@ -228,7 +228,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
               id="input-code"
               label={
                 <label>
-                  <Tooltip content="URL to a PNG image on a transparent background representing token.">
+                  <Tooltip content="URL to a PNG image on a transparent background representing asset.">
                     URL Image <Info size={14} className={styles.iconTooltip} />
                   </Tooltip>
                 </label>
@@ -246,7 +246,7 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
             autoComplete="off"
             label={
               <label>
-                <Tooltip content="If anchored token, these are instructions to redeem the underlying asset from tokens.">
+                <Tooltip content="If anchored asset, these are instructions to redeem the underlying asset from tokens.">
                   Redemption Instructions{' '}
                   <Info size={14} className={styles.iconTooltip} />
                 </Tooltip>
