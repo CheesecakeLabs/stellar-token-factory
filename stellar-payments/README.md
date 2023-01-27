@@ -1,81 +1,65 @@
-# react-typescript
-
-This project was bootstrapped with [Create React App](https://create-react-app.dev/) using the [Typescript template](https://github.com/facebook/create-react-app/tree/master/packages/cra-template-typescript).
-
-
 ## Project Architecture
 
 You can check the project architecture [here](./src/docs/ARCHITECTURE.md)
 
 ## Requirements
 
-- [NodeJS 14+](https://nodejs.org/en/)
-- [NPM 6.14+](https://www.npmjs.com/)
+- [`NodeJS 16+`](https://nodejs.org/en/)
+- [`NPM 6.14+`](https://www.npmjs.com/)
+* [`Homebrew`](https://brew.sh/ "Installation")
+* [`Make`](https://formulae.brew.sh/formula/make)
+* [`Docker Desktop`](https://www.docker.com/products/docker-desktop/)
 
 > We suggest use of [NVM](https://github.com/nvm-sh/nvm/blob/master/README.md) to manage your node versions.
 
 ## Getting Started 
 
-### Env vars config
+### Running Locally
 
-The environment variables are in `src/config`. You can use the `.env.example` as a base to create your `.env.local`
-config file
+1. Copy the file `src/config/.env.example` to `src/config/.env.local`.
 
-### Install dependencies
-
+2. Install dependencies
 ```shell
-npm install
+$ make install-dev
 ```
 
-### Running in development environment
+3. Run
 ```shell
-npm run start:dev
+make start-dev
 ```
 
-The project will be running at [http://localhost:3000/](http://localhost:3000/)
+The application will be available at [http://localhost:3000/](http://localhost:3000/)
 
-### Running tests
+### Running with Docker
 
-- We use the [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) to develop our tests.
-- You can use the [MSW](https://mswjs.io/) to mock your request to do integration tests in your pages.
-    - An example is available at `src/tests/request_mocks`
+Follow the instructions in the project root folder.
 
-````shell
-npm run test
-````
+## Tests and lint
 
-### Creating a production build
+Show lint erros:
+```shell
+make lint
+```
+
+Format code with prettier and fix the code style:
+```shell
+make format-code
+```
+
+## Creating a production build
 
 The following command will generate an optimized production build. The statics files will be generated at `build/` folder.
 
 ````shell
-npm run build
+make build
 ````
-
-You can read more about how to serve the statics [here](https://create-react-app.dev/docs/deployment/)
-
-
-## Storybook
-
-This boilerplate already has the storybook configured with some addons.
-
-- The storybook's configs are in the `.storybook` directory.
-
-### How to run it
-
-- To run the storybook at development version, you can use the command:
-    - `npm run storybook`
-    - The command above must open your browser at [http://localhost:6006]
-
-- How to build it for production:
-  - `npm run build-storybook`
-  - A directory with name `storybook-static` will be generated with all storybook statics.
 
 ## Scripts
 
 In the project directory, you can run all of [react-scripts](https://create-react-app.dev/docs/available-scripts) commands.
 
+## Artifacts
 
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+The project has a `Dockerfile` that can be used to build Docker images. It has two targets:
+* `dev`: used in local environment for development.
+* `prod`: used in staging and production environments. When you choose this target, you need to send the `build args` required by the `Dockerfile` to build the image.

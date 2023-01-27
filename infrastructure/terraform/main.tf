@@ -72,6 +72,7 @@ module "iam" {
   ecr_arns = [
     module.backend_service.ecr_arn,
     module.frontend_service.ecr_arn,
+    module.frontend_payment_service.ecr_arn,
   ]
   app_bucket = {
     public  = module.files.app_bucket_public
@@ -80,11 +81,12 @@ module "iam" {
   cloudwatch_arns = {
     backend  = module.backend_service.cloudwatch_logs.arn
     frontend = module.frontend_service.cloudwatch_logs.arn
+    frontend_payment = module.frontend_payment_service.cloudwatch_logs.arn
   }
   cluster_arn = module.cluster.cluster.arn
   task_definitions_arns = {
     backend  = values(module.backend_service.task_definitions).*.arn,
-    frontend = values(module.frontend_service.task_definitions).*.arn,
+    frontend_payment = values(module.frontend_payment_service.task_definitions).*.arn,
   }
   services_config = var.services_config
   kms_alias       = module.security.kms_alias_arn
@@ -196,6 +198,31 @@ module "frontend_service" {
     service_discovery_dns_namespace = try(aws_service_discovery_private_dns_namespace.discovery[0].id, null)
     protected_envs                  = var.services_config.frontend.protected_envs
     env_vars                        = var.services_config.frontend.env_vars
+  })
+  default_tags = local.default_tags
+}
+
+module "frontend_payment_service" {
+  source              = "./modules/services/base"
+  region              = var.region
+  environment         = terraform.workspace
+  project_name        = var.project_name
+  name_prefix         = local.name_prefix
+  alias_name          = "frontend-payment"
+  vpc_id              = module.network.vpc_id
+  subnet_ids          = module.network.private_subnets
+  security_group_id   = module.security.private_security_group_id
+  cluster             = module.cluster.cluster
+  task_role           = module.iam.ecs_task_roles.frontend_payment
+  task_execution_role = module.iam.ecs_task_execution_roles["frontend_payment"].arn
+  lb_listeners        = module.load_balancer.listeners
+  memory_reservation  = 256
+  kms_alias_arn       = module.security.kms_alias_arn
+  service_config = merge(var.services_config.frontend_payment, {
+    domains                         = var.domains.services.frontend_payment
+    service_discovery_dns_namespace = try(aws_service_discovery_private_dns_namespace.discovery[0].id, null)
+    protected_envs                  = var.services_config.frontend_payment.protected_envs
+    env_vars                        = var.services_config.frontend_payment.env_vars
   })
   default_tags = local.default_tags
 }
