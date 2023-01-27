@@ -70,6 +70,10 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
   }
 
   const confirmPayment = async (): Promise<void> => {
+    if (formPayment == TypePayment.wire) {
+      next()
+      return
+    }
     if (!payment) return
 
     const data = {

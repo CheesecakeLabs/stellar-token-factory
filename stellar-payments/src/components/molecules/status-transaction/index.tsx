@@ -55,7 +55,7 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
         }
         className={styles.descriptionMessage}
       />
-      {!isMultiSignatures && (
+      {!isMultiSignatures && formPayment == TypePayment.stellar && (
         <Button
           variant={ButtonVariant.primary}
           label={'Open in Stellar Expert'}
