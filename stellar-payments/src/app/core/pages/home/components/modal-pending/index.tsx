@@ -24,17 +24,22 @@ interface IModalStellarPayProps {
   isOpen: boolean
   setOpenModal: Dispatch<SetStateAction<boolean>>
   pendingPayments: Hooks.UsePaymentTypes.IPendingSigner[] | undefined
+  getData(): void
 }
 
 export const ModalPending: React.FC<IModalStellarPayProps> = ({
   isOpen,
   setOpenModal,
   pendingPayments,
+  getData,
 }) => {
-  const { loading, makeSubmit, submit, removePendingSigners } = usePayment()
+  const { loading, makeSubmit, submit, removePendingSigners, setSubmit } =
+    usePayment()
 
   const closeModal = (): void => {
     setOpenModal(false)
+    setSubmit(undefined)
+    getData()
   }
 
   const confirmPayment = async (): Promise<void> => {

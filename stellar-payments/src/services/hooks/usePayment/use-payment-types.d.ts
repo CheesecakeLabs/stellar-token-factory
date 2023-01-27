@@ -45,6 +45,7 @@ declare namespace Hooks {
       getPendingSigners(user: string): IPendingSigner[]
       pendingSigners: IPendingSigner[] | undefined
       removePendingSigners(params: IPendingSigner): boolean
+      setSubmit: Dispatch<SetStateAction<ISubmit | undefined>>
     }
   }
 }

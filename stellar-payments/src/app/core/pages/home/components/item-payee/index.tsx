@@ -20,11 +20,13 @@ import styles from './styles.module.scss'
 interface IItemPayeeProps {
   payee: Hooks.UsePayeesTypes.IPayee
   pendingSigners: Hooks.UsePaymentTypes.IPendingSigner[] | undefined
+  getData(): void
 }
 
 export const ItemPayee: React.FC<IItemPayeeProps> = ({
   payee,
   pendingSigners,
+  getData,
 }) => {
   const [isExpanded, setExpanded] = useState(false)
   const [isOpenStellarPay, setModalStellarPay] = useState(false)
@@ -66,8 +68,8 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({
 
   useEffect(() => {
     getPendingPayments()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <>
@@ -80,6 +82,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({
         isOpen={isOpenPending}
         setOpenModal={setModalPending}
         pendingPayments={pendingPayments}
+        getData={getData}
       />
       <tr onClick={(): void => setExpanded(!isExpanded)}>
         <td className={styles.tdDetails}>

@@ -97,7 +97,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
       sign: 1,
       user_id: payment.required_signatures[0],
       date: Date.now(),
-      payee: payee.name
+      payee: payee.name,
     }
 
     if (addUserToPendingSigners(data)) {
@@ -108,7 +108,8 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
 
   const noRequestSignature = (): boolean => {
     return (
-      !payment?.required_signatures ||
+      !payment ||
+      payment.required_signatures.length == 0 ||
       formPayment == TypePayment.wire ||
       formPayment == undefined
     )

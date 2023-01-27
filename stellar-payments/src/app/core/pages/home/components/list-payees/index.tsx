@@ -17,9 +17,13 @@ interface IListPayeesProps {
 export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
   const { getPendingSigners, pendingSigners } = usePayment()
 
-  useEffect(() => {
+  const getData = (): void => {
     getPendingSigners(AuthService.currentUser().email)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }
+
+  useEffect(() => {
+    getData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -41,7 +45,11 @@ export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
               {payees &&
                 payees.map(item => {
                   return (
-                    <ItemPayee payee={item} pendingSigners={pendingSigners} />
+                    <ItemPayee
+                      payee={item}
+                      pendingSigners={pendingSigners}
+                      getData={getData}
+                    />
                   )
                 })}
             </tbody>
