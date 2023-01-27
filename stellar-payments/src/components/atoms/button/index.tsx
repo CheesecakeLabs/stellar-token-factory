@@ -19,6 +19,7 @@ export enum ButtonVariant {
   tertiary = 'tertiary',
   login = 'login',
   icon = 'icon',
+  warning = 'warning',
 }
 
 export interface IButtonProps {

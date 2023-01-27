@@ -84,6 +84,21 @@
   background-color: rgba(43, 61, 79, 0.2);
 }
 
+.warning {
+  height: 2.5rem;
+  border: 1px solid #ffffff;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #f39c12;
+  font-size: 14px;
+
+  svg {
+    fill: #ffffff;
+    stroke: #ffffff;
+  }
+}
+
 .label {
   font-weight: 400;
   font-size: 16px;

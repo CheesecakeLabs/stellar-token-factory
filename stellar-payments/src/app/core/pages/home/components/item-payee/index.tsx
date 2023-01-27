@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+
+import { DollarOutlined, WarningOutlined } from '@ant-design/icons'
 
 import {
   Button,
@@ -9,18 +11,29 @@ import {
 } from 'components/atoms'
 import { ArrowDown, ArrowUp } from 'components/icons'
 
+import { AuthService } from 'app/core/auth/auth-service'
+
+import { ModalPending } from '../modal-pending'
 import { ModalStellarPay } from '../modal-stellar-pay'
 import styles from './styles.module.scss'
 
 interface IItemPayeeProps {
   payee: Hooks.UsePayeesTypes.IPayee
+  pendingSigners: Hooks.UsePaymentTypes.IPendingSigner[] | undefined
+  getData(): void
 }
 
-export const ItemPayee: React.FC<IItemPayeeProps> = (
-  props: IItemPayeeProps
-) => {
+export const ItemPayee: React.FC<IItemPayeeProps> = ({
+  payee,
+  pendingSigners,
+  getData,
+}) => {
   const [isExpanded, setExpanded] = useState(false)
   const [isOpenStellarPay, setModalStellarPay] = useState(false)
+  const [isOpenPending, setModalPending] = useState(false)
+  const [pendingPayments, setPendingPayments] = useState<
+    Hooks.UsePaymentTypes.IPendingSigner[]
+  >([])
 
   const openModalStellar = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -29,12 +42,47 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
     setModalStellarPay(true)
   }
 
+  const openModalPending = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
+    event.stopPropagation()
+    setModalPending(true)
+  }
+
+  const getPendingPayments =
+    useCallback((): Hooks.UsePaymentTypes.IPendingSigner[] => {
+      const filtered = !pendingSigners
+        ? []
+        : pendingSigners.filter(
+            item =>
+              item.payee == payee.name &&
+              item.user_id == AuthService.currentUser().email
+          )
+      setPendingPayments(filtered)
+      return filtered
+    }, [payee.name, pendingSigners])
+
+  const isPending = (): boolean => {
+    return pendingPayments.length > 0
+  }
+
+  useEffect(() => {
+    getPendingPayments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   return (
     <>
       <ModalStellarPay
         isOpen={isOpenStellarPay}
         setOpenModal={setModalStellarPay}
-        payee={props.payee}
+        payee={payee}
+      />
+      <ModalPending
+        isOpen={isOpenPending}
+        setOpenModal={setModalPending}
+        pendingPayments={pendingPayments}
+        getData={getData}
       />
       <tr onClick={(): void => setExpanded(!isExpanded)}>
         <td className={styles.tdDetails}>
@@ -44,15 +92,17 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
             <ArrowDown width={12} height={12} className={styles.arrow} />
           )}
         </td>
-        <td>{props.payee.name}</td>
-        <td className={styles.tdPhone}>{props.payee.phone}</td>
+        <td>{payee.name}</td>
+        <td className={styles.tdPhone}>{payee.phone}</td>
         <td className={styles.alignEnd}>
           <Row>
-            <Button variant={ButtonVariant.secondary} label={'Wire Transfer'} />
             <Button
-              variant={ButtonVariant.primary}
-              label={'Stellar Pay'}
-              onClick={openModalStellar}
+              variant={
+                isPending() ? ButtonVariant.warning : ButtonVariant.primary
+              }
+              label={isPending() ? 'Pending payment' : 'Create payment order'}
+              icon={isPending() ? <WarningOutlined /> : <DollarOutlined />}
+              onClick={isPending() ? openModalPending : openModalStellar}
             />
           </Row>
         </td>
@@ -68,7 +118,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
               />
               <Typography
                 variant={TypographyVariant.p}
-                text={props.payee.address}
+                text={payee.address}
                 className={styles.value}
               />
               <div className={styles.detailPhone}>
@@ -79,7 +129,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
                 />
                 <Typography
                   variant={TypographyVariant.p}
-                  text={props.payee.phone}
+                  text={payee.phone}
                   className={styles.value}
                 />
               </div>
@@ -90,7 +140,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
               />
               <Typography
                 variant={TypographyVariant.p}
-                text={props.payee.bank_account}
+                text={payee.bank_account}
                 className={styles.value}
               />
               <Typography
@@ -100,7 +150,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
               />
               <Typography
                 variant={TypographyVariant.p}
-                text={props.payee.stellar_wallet}
+                text={payee.stellar_wallet}
                 className={styles.value}
               />
             </div>

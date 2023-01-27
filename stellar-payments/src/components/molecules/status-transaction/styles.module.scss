@@ -4,8 +4,16 @@
   align-items: center;
 
   .statusMessage {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: 600;
     margin-top: 0.75rem;
+    color: #303549;
+  }
+
+  .descriptionMessage {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 1rem 0 2rem;
+    color: #303549;
   }
 }

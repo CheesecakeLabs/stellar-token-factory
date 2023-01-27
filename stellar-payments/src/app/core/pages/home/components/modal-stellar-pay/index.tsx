@@ -2,12 +2,14 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 
 import { LeftOutlined } from '@ant-design/icons'
 import { ConfigProvider, message, Steps } from 'antd'
-import { MessageType } from 'antd/es/message/interface'
 import { usePayment } from 'services/hooks/usePayment'
 import { formatValueToNumber } from 'services/utils/utils'
 
 import { Button, ButtonVariant, Modal } from 'components/atoms'
-import { Amount, EstimatedCost, StatusTransaction } from 'components/molecules'
+import { TypePayment } from 'components/enums'
+import { Amount, Payment, StatusTransaction } from 'components/molecules'
+
+import { AuthService } from 'app/core/auth/auth-service'
 
 import styles from './styles.module.scss'
 
@@ -24,7 +26,15 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
 }) => {
   const [current, setCurrent] = useState(0)
   const [amount, setAmount] = useState<string>()
-  const { createPayment, loading, payment } = usePayment()
+  const [formPayment, setFormPayment] = useState<TypePayment>()
+  const {
+    createPayment,
+    loading,
+    payment,
+    makeSubmit,
+    submit,
+    addUserToPendingSigners,
+  } = usePayment()
 
   const next = (): void => {
     setCurrent(current + 1)
@@ -38,10 +48,18 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     setAmount(value)
   }
 
+  const closeModal = (): void => {
+    setCurrent(0)
+    setAmount(undefined)
+    setFormPayment(undefined)
+    setOpenModal(false)
+  }
+
   const sendAmount = async (): Promise<void> => {
     const data = {
       destination_public_key: payee.stellar_wallet,
       receive_amount: formatValueToNumber(amount),
+      user_id: AuthService.currentUser().email,
     }
     await createPayment(data).then(payment => {
       if (payment != null) {
@@ -51,9 +69,59 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     })
   }
 
+  const confirmPayment = async (): Promise<void> => {
+    if (formPayment == TypePayment.wire) {
+      next()
+      return
+    }
+    if (!payment) return
+
+    const data = {
+      envelope_xdr: payment.envelope_xdr,
+      sign: payment.required_signatures.length ?? 0,
+      user_id: AuthService.currentUser().email,
+    }
+
+    await makeSubmit(data).then(result => {
+      if (result != null) {
+        return next()
+      }
+      message.error('An error occurred. Please try again...')
+    })
+  }
+
+  const addToPendingSigner = async (): Promise<void> => {
+    if (!payment) return
+
+    const data = {
+      envelope_xdr: payment.envelope_xdr,
+      final_cost: payment.final_cost,
+      eur_price: payment.eur_price,
+      amount: formatValueToNumber(amount),
+      sign: 1,
+      user_id: payment.required_signatures[0],
+      date: Date.now(),
+      payee: payee.name,
+    }
+
+    if (addUserToPendingSigners(data)) {
+      return next()
+    }
+    message.error('An error occurred. Please try again...')
+  }
+
+  const noRequestSignature = (): boolean => {
+    return (
+      !payment ||
+      payment.required_signatures.length == 0 ||
+      formPayment == TypePayment.wire ||
+      formPayment == undefined
+    )
+  }
+
   const steps = [
     {
-      title: 'Amount',
+      title: 'Order',
       content: (
         <Amount amount={amount} onChangeText={handleChange} payee={payee} />
       ),
@@ -62,23 +130,38 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
       isDisabled: !amount,
     },
     {
-      title: 'Costs',
+      title: 'Payment Quote',
       content: (
-        <EstimatedCost amount={formatValueToNumber(amount)} payment={payment} />
+        <Payment
+          amount={formatValueToNumber(amount)}
+          payment={payment}
+          formPayment={formPayment}
+          setFormPayment={setFormPayment}
+        />
       ),
-      label: 'Confirm payment',
+      label: noRequestSignature() ? 'Confirm payment' : 'Approve payment',
+      action: noRequestSignature() ? confirmPayment : addToPendingSigner,
     },
     {
-      title: 'Finished',
-      content: <StatusTransaction />,
+      title: 'Confirmation',
+      content: (
+        <StatusTransaction
+          amount={formatValueToNumber(amount)}
+          submit={submit}
+          formPayment={formPayment}
+          payee={payee}
+          isMultiSignatures={!noRequestSignature()}
+        />
+      ),
       label: 'Next',
+      action: closeModal,
     },
   ]
 
   const items = steps.map(item => ({ key: item.title, title: item.title }))
 
   return (
-    <Modal isOpen={isOpen} handleClose={(): void => setOpenModal(false)}>
+    <Modal isOpen={isOpen} handleClose={closeModal} title="Payment">
       <div className={styles.container}>
         <div>
           <ConfigProvider
@@ -98,7 +181,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
           <div className={styles.content}>{steps[current].content}</div>
         </div>
         <div className={styles.containerControllers}>
-          {current > 0 ? (
+          {current > 0 && current < steps.length - 1 ? (
             <Button
               variant={ButtonVariant.icon}
               onClick={(): void => prev()}
@@ -115,15 +198,6 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
               label={steps[current].label}
               isLoading={loading}
               isDisabled={steps[current].isDisabled}
-            />
-          )}
-          {current === steps.length - 1 && (
-            <Button
-              variant={ButtonVariant.tertiary}
-              onClick={(): MessageType =>
-                message.success('Processing complete!')
-              }
-              label="Done"
             />
           )}
         </div>
