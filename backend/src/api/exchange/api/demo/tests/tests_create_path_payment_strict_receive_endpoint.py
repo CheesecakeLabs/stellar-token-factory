@@ -2,15 +2,14 @@ import json
 from collections import namedtuple
 
 import pytest
+from api.exchange.use_cases.tests.mocks.utils import get_mocked_account_object
+from api.stellar.helpers.dtos import Keypair
 from django.test import override_settings
 from django.test.client import Client
 from django.urls import reverse
 from pytest_mock import MockerFixture
 from rest_framework import status
 from rest_framework.response import Response
-
-from api.exchange.use_cases.tests.mocks.utils import get_mocked_account_object
-from api.stellar.helpers.dtos import Keypair
 
 ResponseMock = namedtuple("ResponseMock", "text,status_code,json")
 from .mocks.constants import CREATE_PATH_PAYMENT_FAIL_RESPONSES
@@ -41,7 +40,6 @@ def post_create_path_payment_request(client: Client, **kwargs) -> Response:
     USD_CODE=USD_CODE,
     EUR_ISSUER=EUR_ISSUER.public_key,
     USD_ISSUER=USD_ISSUER.public_key,
-    SEND_MAX_EUR=0.92,
 )
 def test_create_path_payment_successfully(
     mocker: MockerFixture, client: Client
@@ -80,6 +78,9 @@ def test_create_path_payment_successfully(
 
     assert response_json.get("required_signatures")
     assert type(response_json.get("required_signatures")) == list
+
+    assert response_json.get("usd_price")
+    assert type(response_json.get("usd_price")) == float
 
 
 @pytest.mark.parametrize("request_data,error", CREATE_PATH_PAYMENT_FAIL_RESPONSES)
