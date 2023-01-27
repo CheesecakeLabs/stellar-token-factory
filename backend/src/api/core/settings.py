@@ -269,7 +269,6 @@ EUR_ISSUER = env.str("EUR_ISSUER", default="")
 USD_CODE = env.str("USD_CODE", default="USD")
 USD_ISSUER = env.str("USD_ISSUER", default="")
 MAIN_WALLET_PK = env.str("MAIN_WALLET_PK", default="")
-MAIN_WALLET_SK = env.str("MAIN_WALLET_SK", default="")
 PAYEES_LIST = env.list("PAYEES_LIST", default=[])
 SEND_MAX_EUR = env.float("SEND_MAX_EUR", default=0.92)
 USERS = {

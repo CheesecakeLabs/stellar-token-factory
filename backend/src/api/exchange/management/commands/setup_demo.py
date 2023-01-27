@@ -135,13 +135,19 @@ class Command(BaseCommand):
             low_threshold=1, med_threshold=2, high_threshold=4, master_weight=4
         )
         transaction_builder = stellar.append_add_account_signer_operation(
-            signer_public_key=user_1_kp.public_key, weight=2
+            signer_public_key=user_1_kp.public_key,
+            weight=2,
+            transaction_builder=transaction_builder,
         )
         transaction_builder = stellar.append_add_account_signer_operation(
-            signer_public_key=user_2_kp.public_key, weight=1
+            signer_public_key=user_2_kp.public_key,
+            weight=1,
+            transaction_builder=transaction_builder,
         )
         transaction_builder = stellar.append_add_account_signer_operation(
-            signer_public_key=user_3_kp.public_key, weight=1
+            signer_public_key=user_3_kp.public_key,
+            weight=1,
+            transaction_builder=transaction_builder,
         )
         transaction_envelope = stellar.build_transaction(transaction_builder)
         transaction_envelope = stellar.sign_transaction(
