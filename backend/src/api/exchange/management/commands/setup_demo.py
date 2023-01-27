@@ -183,7 +183,7 @@ class Command(BaseCommand):
             sell_issuer_public_key=sell_issuer.public_key,
             buy_asset_code=buy_token_code,
             buy_issuer_public_key=buy_issuer.public_key,
-            price=0.90,
+            price=0.90909091,
             offer_id=0,
         )
         transaction_envelope = stellar.build_transaction(transaction_builder)
