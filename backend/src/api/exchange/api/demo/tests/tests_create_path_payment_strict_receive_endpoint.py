@@ -40,7 +40,6 @@ def post_create_path_payment_request(client: Client, **kwargs) -> Response:
     USD_CODE=USD_CODE,
     EUR_ISSUER=EUR_ISSUER.public_key,
     USD_ISSUER=USD_ISSUER.public_key,
-    SEND_MAX_EUR=0.92,
 )
 def test_create_path_payment_successfully(
     mocker: MockerFixture, client: Client

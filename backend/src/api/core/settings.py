@@ -271,7 +271,7 @@ USD_ISSUER = env.str("USD_ISSUER", default="")
 MAIN_WALLET_PK = env.str("MAIN_WALLET_PK", default="")
 MAIN_WALLET_SK = env.str("MAIN_WALLET_SK", default="")
 PAYEES_LIST = env.list("PAYEES_LIST", default=[])
-EUR_PRICE = env.float("EUR_PRICE", default=0.90)
+EUR_PRICE = env.float("EUR_PRICE", default=0.90909091)
 USD_PRICE = env.float("USD_PRICE", default=1.10)
 USERS = {
     env.str("USER_1_ID", default="user1"): (env.str("USER_1_SK", default=""), 2),
