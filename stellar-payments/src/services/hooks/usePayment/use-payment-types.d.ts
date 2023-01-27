@@ -3,17 +3,46 @@ declare namespace Hooks {
     interface IPaymentParams {
       destination_public_key: string
       receive_amount: number
+      user_id: string
     }
 
     interface IPayment {
       envelope_xdr: string
       final_cost: number
+      required_signatures: string[]
+      eur_price: number
+    }
+
+    interface ISubmitParams {
+      envelope_xdr: string
+      sign: number
+      user_id: string
+    }
+
+    interface ISubmit {
+      transaction_hash: string
+      transaction_link: string
+    }
+
+    interface IPendingSigner {
+      envelope_xdr: string
+      final_cost: number
+      eur_price: number
+      amount: number
+      sign: number
+      user_id: string
+      date: number
     }
 
     interface IPaymentContext {
       createPayment(params: IPaymentParams): Promise<IPayment | undefined>
       loading: boolean
       payment: IPayment | undefined
+      submit: ISubmit | undefined
+      makeSubmit(params: ISubmitParams): Promise<ISubmit | undefined>
+      addUserToPendingSigners(params: IPendingSigner): boolean
+      getPendingSigners(user: string): IPendingSigner[]
+      pendingSigners: IPendingSigner[] | undefined
     }
   }
 }

@@ -2,7 +2,7 @@ import { LOCAL_STORAGE_PREFIX } from 'services/utils/constants'
 
 import { AuthService } from './auth-service'
 
-const AUTHENTICATED = `${LOCAL_STORAGE_PREFIX}authenticated`
+const AUTHENTICATED = `${LOCAL_STORAGE_PREFIX}/authenticated`
 
 export enum AuthStatus {
   Authenticated,

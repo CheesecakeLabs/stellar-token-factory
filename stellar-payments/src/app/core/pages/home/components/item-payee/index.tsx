@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import { DollarOutlined } from '@ant-design/icons'
+
 import {
   Button,
   ButtonVariant,
@@ -48,10 +50,10 @@ export const ItemPayee: React.FC<IItemPayeeProps> = (
         <td className={styles.tdPhone}>{props.payee.phone}</td>
         <td className={styles.alignEnd}>
           <Row>
-            <Button variant={ButtonVariant.secondary} label={'Wire Transfer'} />
             <Button
               variant={ButtonVariant.primary}
-              label={'Stellar Pay'}
+              label={'Create payment order'}
+              icon={<DollarOutlined />}
               onClick={openModalStellar}
             />
           </Row>
