@@ -1,8 +1,13 @@
-import { createContext, useCallback, useState } from 'react'
+import { createContext, useCallback, useState } from 'react';
 
-import { LOCAL_STORAGE_PREFIX } from 'services/utils/constants'
 
-import { http } from 'interfaces/http'
+
+import { LOCAL_STORAGE_PREFIX } from 'services/utils/constants';
+
+
+
+import { http } from 'interfaces/http';
+
 
 export const PaymentContext = createContext(
   {} as Hooks.UsePaymentTypes.IPaymentContext
@@ -71,6 +76,21 @@ export const PaymentProvider: React.FC = ({ children }) => {
     }
   }
 
+  const removePendingSigners = (
+    data: Hooks.UsePaymentTypes.IPendingSigner
+  ): boolean => {
+    try {
+      const list = localStorage.getItem(PENDING_SIGNERS)
+      const result = list ? JSON.parse(list) : []
+      const filteredList = result.filter((item : Hooks.UsePaymentTypes.IPendingSigner) => item !== data)
+
+      localStorage.setItem(PENDING_SIGNERS, JSON.stringify(filteredList))
+      return true
+    } catch (error) {
+      return false
+    }
+  }
+
   const getPendingSigners = (
     user: string
   ): Hooks.UsePaymentTypes.IPendingSigner[] => {
@@ -94,6 +114,7 @@ export const PaymentProvider: React.FC = ({ children }) => {
         addUserToPendingSigners,
         getPendingSigners,
         pendingSigners,
+        removePendingSigners
       }}
     >
       {children}

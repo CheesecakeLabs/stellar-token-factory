@@ -2,29 +2,75 @@
   display: flex;
   flex-direction: column;
 
-  .containerCosts {
+  .containerFormPayment {
     display: flex;
-    flex-direction: column;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
+    border: 1px solid #e1e1e1;
     padding: 1rem;
+    margin-top: 1rem;
     border-radius: 0.5rem;
+    justify-content: baseline;
+    cursor: pointer;
+    margin-bottom: 1rem;
 
-    .label {
-      font-size: 12px;
-      margin: 0 0 0.75rem;
+    .containerTitle {
+      display: flex;
+      margin-bottom: 0.5rem;
+      align-items: center;
+
+      .title {
+        font-size: 14px;
+        margin: 0;
+        color: #303549;
+        font-weight: 600;
+      }
+
+      svg {
+        margin-right: 0.5rem;
+      }
     }
 
-    .value {
-      font-size: 14px;
-      margin: 0 0 0.75rem;
-      color: #303549;
-      font-weight: 600;
-    }
-
-    .divider {
+    .formPayment {
+      display: flex;
+      flex-direction: column;
       width: 100%;
-      margin: 0.5rem 0;
-      border-bottom: 1px solid #e1e1e1;
+      margin-left: 0.5rem;
+
+      .label {
+        font-size: 12px;
+        margin: 0 0 0.5rem;
+      }
+
+      .value {
+        font-size: 13px;
+        margin: 0 0 0.5rem;
+        color: #303549;
+        font-weight: 600;
+      }
+
+      .divider {
+        width: 100%;
+        margin: 0.5rem 0;
+        border-bottom: 1px solid #e1e1e1;
+      }
+
+      .requestSignature {
+        margin-top: 0.75rem;
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+
+        svg {
+          fill: #4e5575;
+        }
+
+        .message {
+          font-size: 13px;
+          color: #303549;
+          font-weight: 600;
+          margin: 0;
+        }
+      }
     }
   }
 

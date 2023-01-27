@@ -1,4 +1,8 @@
-import { CheckCircleFilled, FieldTimeOutlined, LinkOutlined } from '@ant-design/icons'
+import {
+  CheckCircleFilled,
+  FieldTimeOutlined,
+  LinkOutlined,
+} from '@ant-design/icons'
 import { toUsd } from 'services/utils/utils'
 
 import {
@@ -51,14 +55,16 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
         }
         className={styles.descriptionMessage}
       />
-      <Button
-        variant={ButtonVariant.primary}
-        label={'Open in Stellar Expert'}
-        onClick={(): Window | null =>
-          window.open(submit?.transaction_link, '_blank')
-        }
-        icon={<LinkOutlined />}
-      />
+      {!isMultiSignatures && (
+        <Button
+          variant={ButtonVariant.primary}
+          label={'Open in Stellar Expert'}
+          onClick={(): Window | null =>
+            window.open(submit?.transaction_link, '_blank')
+          }
+          icon={<LinkOutlined />}
+        />
+      )}
     </div>
   )
 }

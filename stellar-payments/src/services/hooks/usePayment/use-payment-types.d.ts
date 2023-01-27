@@ -32,6 +32,7 @@ declare namespace Hooks {
       sign: number
       user_id: string
       date: number
+      payee: string
     }
 
     interface IPaymentContext {
@@ -43,6 +44,7 @@ declare namespace Hooks {
       addUserToPendingSigners(params: IPendingSigner): boolean
       getPendingSigners(user: string): IPendingSigner[]
       pendingSigners: IPendingSigner[] | undefined
+      removePendingSigners(params: IPendingSigner): boolean
     }
   }
 }

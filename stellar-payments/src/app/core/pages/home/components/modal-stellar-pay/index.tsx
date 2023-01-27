@@ -97,6 +97,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
       sign: 1,
       user_id: payment.required_signatures[0],
       date: Date.now(),
+      payee: payee.name
     }
 
     if (addUserToPendingSigners(data)) {

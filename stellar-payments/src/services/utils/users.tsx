@@ -7,4 +7,5 @@ export const recordUsers = (
 const mockUsers = [
   { email: 'chanel', name: 'Chanel' },
   { email: 'lucas.silva@ckl.io', name: 'Lucas Magnus' },
+  { email: 'user3', name: 'User 3' },
 ]
