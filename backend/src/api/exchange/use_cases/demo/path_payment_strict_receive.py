@@ -1,7 +1,3 @@
-from django.conf import settings
-from django.utils.translation import gettext_lazy as _
-from rest_framework import status
-
 from api.core.helpers.business_errors import (
     ACCOUNT_NOT_FOUND,
     INVALID_TARGET_PUBLIC_KEY,
@@ -10,6 +6,9 @@ from api.core.helpers.business_errors import (
     BusinessException,
 )
 from api.core.use_cases.base_stellar import BaseStellarUseCase
+from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+from rest_framework import status
 
 
 class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
@@ -32,7 +31,7 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
         # Mocked values
         send_asset = {"code": settings.EUR_CODE, "issuer": settings.EUR_ISSUER}
         receive_asset = {"code": settings.USD_CODE, "issuer": settings.USD_ISSUER}
-        send_max = round(settings.SEND_MAX_EUR * receive_amount, 7)
+        send_max = round(settings.EUR_PRICE * receive_amount, 7)
 
         # Get user signature
         try:
@@ -87,4 +86,5 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
             "envelope_xdr": envelope_xdr,
             "final_cost": send_max,
             "required_signatures": required_signatures,
+            "usd_price": settings.USD_PRICE,
         }

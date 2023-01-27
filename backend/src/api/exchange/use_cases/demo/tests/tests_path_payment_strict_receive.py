@@ -155,7 +155,8 @@ def test_create_path_payment_fails_when_destination_account_not_found(
     USD_CODE=USD_CODE,
     EUR_ISSUER=EUR_ISSUER.public_key,
     USD_ISSUER=USD_ISSUER.public_key,
-    SEND_MAX_EUR=0.92,
+    EUR_PRICE=0.90,
+    USD_PRICE=1.1,
 )
 @pytest.mark.parametrize("user_id", ("user1", "user2", "user3"))
 def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
@@ -188,7 +189,8 @@ def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
     get_network_data_mock.assert_called_with("TESTNET")
     assert load_account_mock.call_count == 2
 
-    assert response.get("final_cost") == 9.20
+    assert response.get("final_cost") == 9
+    assert response.get("usd_price") == 1.1
 
     match user_id:
         case "user1":
@@ -216,7 +218,7 @@ def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
         == data["destination_public_key"]
     )
     assert envelope.transaction.operations[0].dest_amount == str(data["receive_amount"])
-    assert envelope.transaction.operations[0].send_max == str(9.20)
+    assert envelope.transaction.operations[0].send_max == str(9)
     assert envelope.transaction.operations[0].path == []
     assert envelope.transaction.operations[0].dest_asset.code == USD_CODE
     assert envelope.transaction.operations[0].dest_asset.issuer == USD_ISSUER.public_key

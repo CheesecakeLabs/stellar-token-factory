@@ -27,6 +27,7 @@ class PathPaymentStrictReceiveResponseSerializer(serializers.Serializer):
         required=False,
         allow_null=True,
     )
+    usd_price = serializers.FloatField()
 
 
 class BalanceSerializer(serializers.Serializer):
