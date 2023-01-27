@@ -112,7 +112,7 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
           name="amount"
           id="input-amount"
           label="Amount"
-          placeholder="Token amount you want to transfer"
+          placeholder="Asset amount you want to transfer"
           type="number"
           value={inputs.amount || ''}
           onChange={handleChange}

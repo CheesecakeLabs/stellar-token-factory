@@ -2,6 +2,10 @@ import logging
 from functools import reduce
 from typing import Any, List, Union
 
+from api.stellar.handlers.error_handler import StellarErrorHandler
+from api.stellar.helpers.dtos import Account, Keypair
+from api.stellar.helpers.exceptions import AccountNotFoundAtNetwork, InvalidPublicKey
+from api.stellar.helpers.utils import get_network_data
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from stellar_sdk import Asset, Claimant, FeeBumpTransaction, FeeBumpTransactionEnvelope
@@ -12,11 +16,6 @@ from stellar_sdk.exceptions import (
     Ed25519PublicKeyInvalidError,
     NotFoundError,
 )
-
-from api.stellar.handlers.error_handler import StellarErrorHandler
-from api.stellar.helpers.dtos import Account, Keypair
-from api.stellar.helpers.exceptions import AccountNotFoundAtNetwork, InvalidPublicKey
-from api.stellar.helpers.utils import get_network_data
 
 from .parsers import trustline_flags_parser
 
@@ -474,6 +473,41 @@ class StellarTransaction:
         transaction_builder = self._get_transaction_builder(transaction_builder)
         return transaction_builder.add_text_memo(
             memo_text=text,
+        )
+
+    def append_path_payment_strict_receive_operation(
+        self,
+        destination_public_key: str,
+        send_max: float,
+        dest_amount: float,
+        send_asset_code: str,
+        send_asset_issuer: str,
+        receive_asset_code: str,
+        receive_asset_issuer: str,
+        source_public_key: str = None,
+        transaction_builder: TransactionBuilder = None,
+    ) -> TransactionBuilder:
+        """
+        Appends a Path Payment Strict Receive to a transaction
+        Params:
+            source_public_key: Public Key from the source.
+            destination_public_key: Public Key from the destination.
+            dest_amount: Amount of asset to that destination will receive.
+            send_max: Max amount of asset to send.
+            send_asset_code: Asset code of asset to send.
+            send_asset_issuer: Issuer public key (send asset)
+            receive_asset_issuer:  Issuer public key (receive asset)
+            receive_asset_code: Asset code of asset to receive.
+        """
+        transaction_builder = self._get_transaction_builder(transaction_builder)
+        return transaction_builder.append_path_payment_strict_receive_op(
+            destination=destination_public_key,
+            source=source_public_key or self.source_public_key,
+            send_asset=Asset(send_asset_code, send_asset_issuer),
+            dest_asset=Asset(receive_asset_code, receive_asset_issuer),
+            dest_amount=str(dest_amount),
+            send_max=str(send_max),
+            path=[],
         )
 
     def append_manage_sell_offer(

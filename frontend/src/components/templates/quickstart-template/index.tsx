@@ -20,7 +20,7 @@ const QuickstartTemplate = (): JSX.Element => {
       <Layout.Content>
         <Layout.Header
           hasDarkModeToggle
-          projectTitle="Token Factory"
+          projectTitle="Stellar Asset Sandbox"
           projectLink=""
           contentRight={
             <a href="https://cheesecakelabs.com/" target="_blank">
@@ -34,43 +34,66 @@ const QuickstartTemplate = (): JSX.Element => {
         <Layout.Inset>
           <Card variant={Card.variant.highlight}>
             <div className={styles.content}>
-              <h3>Welcome to the Token Factory</h3>
+              <h4>Welcome to the Stellar Asset Issuance Sandbox</h4>
               <p>
-                The Token Factory is a sandbox supported by the Stellar
-                Development Foundation and Cheesecake Labs for the public to
-                experiment with token issuance on the Stellar testnet network.
-              </p>
-              <p>
-                To use the sandbox, users will need to have a Freighter wallet,
-                available{' '}
-                <a href="https://www.freighter.app/" target="_blank">
-                  here
-                </a>
-                . Users will need to create two accounts in Freighter–one for
-                the issuer account and a second for the distribution account in
-                the Token Factory. Please set Freighter to testnet (and not
-                mainnet).
-              </p>
-              <p>
-                We encourage you to play around with the Token Factory and learn
-                more about Stellar’s asset issuer control functions and the ease
-                with which tokens can be issued. For more information on
-                Stellar, please see our developer{' '}
-                <a href="https://developers.stellar.org/docs" target="_blank">
-                  website
-                </a>
-                .
-              </p>{' '}
-              <p>
-                To speak with technical staff or potential business
-                opportunities, please reach out to{' '}
-                <a href="mailto:partnerships@stellar.org">
-                  partnerships@stellar.org
-                </a>
-                .
+                The Stellar Asset Sandbox is a sandbox supported by the Stellar
+                Development Foundation and Cheesecake Labs for businesses to
+                experiment with asset issuance on the Stellar testnet network.
               </p>
               <br />
-              <Button onClick={goToHome}>Access Token Factory</Button>
+              <br />
+              <h4>Requirements</h4>
+              <p>
+                Before trying the Stellar Asset Sandbox complete the steps below
+                then click get started.
+              </p>
+              <p>
+                <table>
+                  <tr>
+                    <td>
+                      <div className={styles.containerStep}>
+                        <div className={styles.step}>1</div>
+                      </div>
+                      <div>
+                        Install the{' '}
+                        <a
+                          href="https://chrome.google.com/webstore/detail/freighter/bcacfldlkkdogcmkkibnjlakofdplcbk?hl=en"
+                          target="_blank"
+                        >
+                          Freighter Wallet
+                        </a>{' '}
+                        browser extension.
+                      </div>
+                    </td>
+                    <td>
+                      <div className={styles.containerStep}>
+                        <div className={styles.step}>2</div>
+                      </div>
+                      <div>Set Freighter from Mainnet to Testnet.</div>
+                    </td>
+                    <td>
+                      <div className={styles.containerStep}>
+                        <div className={styles.step}>3</div>
+                      </div>
+                      <div>
+                        Create 3 Stellar Addresses in Freighter representing
+                        your issuing, distribution and recipient accounts.
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </p>
+              <div className={styles.getStarted}>
+                <Button onClick={goToHome}>Get Started</Button>
+              </div>
+              <p>
+                Questions? To learn more about Asset Issuance on Stellar visit
+                stellar.org/asset-issuance or contact our partnerships team at
+                <a href="mailto:partnerships@stellar.org">
+                  {` partnerships@stellar.org`}
+                </a>
+                .
+              </p>
             </div>
           </Card>
         </Layout.Inset>

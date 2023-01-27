@@ -15,6 +15,25 @@
     color: var(--pal-text-primary);
     word-break: break-all !important;
   }
+
+  table {
+    table-layout: fixed;
+
+    td {
+      text-align: center;
+      vertical-align: text-top;
+      align-items: center;
+    }
+  }
+
+  .getStarted {
+    margin: 2.5rem 0 2rem;
+
+    button {
+      width: 300px;
+      height: 60px;
+    }
+  }
 }
 
 .content {
@@ -22,6 +41,27 @@
   align-items: center;
   display: flex;
   flex-direction: column;
+
+  .containerStep {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    margin-top: 1rem;
+
+    .step {
+      background-color: #5543e6;
+      width: 40px;
+      height: 40px;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+      font-size: 16px;
+      color: #ffffff;
+    }
+  }
 }
 
 .logo {
