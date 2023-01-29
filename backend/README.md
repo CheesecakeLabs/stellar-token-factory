@@ -61,14 +61,19 @@ Test the application:
 make test
 ```
 
-Show lint erros:
+Show lint errors:
 ```bash
 make lint
 ```
 
-Try to fix lint erros:
+Show code format errors:
 ```bash
-make lint-fix
+make code-formatter-check
+```
+
+Try to fix code format errors:
+```bash
+make code-formatter-fix
 ```
 
 ## Install Black code formatter to your editor

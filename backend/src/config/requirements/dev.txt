@@ -1,6 +1,7 @@
 black==22.8.0
 isort==5.9.3
 pre-commit==2.14.0
+pylint==2.15.10
 
 # Debugging
 django-debug-toolbar==3.2.4
