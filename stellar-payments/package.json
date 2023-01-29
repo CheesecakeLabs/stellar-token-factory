@@ -60,15 +60,15 @@
     "sinon": "~11.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --max_old_space_size=8128 start",
     "start:dev": "env-cmd -f ./src/config/.env.local npm start",
-    "start:staging": "env-cmd -f ./src/config/.env.staging npm start",
+    "start:dev-docker": "npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "npm run test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "lint:staged": "lint-staged",
-    "lint": "eslint --ext .ts,.tsx src/",
+    "lint": "eslint src/",
     "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
   },
   "lint-staged": {

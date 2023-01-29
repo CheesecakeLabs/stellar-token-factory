@@ -10,6 +10,7 @@ Cheesecake Stellar Token Factory is composed by:
 
 - [Frontend](./frontend): React web application
 - [Backend](./backend): Python with Django
+- [Stellar Payments](./stellar-payments): Stellar Payments React web application 
 
 # Topics
 
@@ -52,6 +53,7 @@ $ make docker-run
 This will download, build the applications and configure all the infrastructure needed to run them, which will respond in the following routes:
 
 - Frontend: [`http://localhost:3000`](http://localhost:3000)
+- Stellar Payments: [`http://localhost:4000`](http://localhost:4000)
 - Backend: [`http://localhost:8000`](http://localhost:8000)
 
 **3.** To stop the applications:
