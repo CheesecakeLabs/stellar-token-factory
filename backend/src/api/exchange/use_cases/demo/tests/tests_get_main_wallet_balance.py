@@ -124,12 +124,18 @@ def test_get_issuer_info_fails_when_account_not_found(
     )
 
 
-def test_get_issuer_info_fails_when_network_is_invalid():
+@override_settings(
+    MAIN_WALLET_PK="GDIRWLYTROHTR42SZ2KYU4D6S2DGZIPALUWA4RBQIJLQZT3TLV7ADUTJ"
+)
+def test_get_issuer_info_fails_when_network_is_invalid(
+    mocker: MockerFixture,
+):
     data = {
         "network": "invalid",
         "asset_code": "EUR",
         "asset_issuer": Keypair().public_key,
     }
+
     with pytest.raises(
         BusinessException,
         match="{'code': 19, 'detail': 'invalid_network'}",
