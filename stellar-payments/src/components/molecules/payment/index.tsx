@@ -179,7 +179,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={`${toCurrency(payment?.usd_price - 0.01)} USD/EUR`}
+                    text={`${toCurrency(payment?.usd_price)} USD/EUR`}
                     className={styles.value}
                   />
                 </Row>
