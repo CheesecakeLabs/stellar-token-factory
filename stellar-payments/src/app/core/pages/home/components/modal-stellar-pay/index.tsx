@@ -34,6 +34,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     makeSubmit,
     submit,
     addUserToPendingSigners,
+    setSubmit,
   } = usePayment()
 
   const next = (): void => {
@@ -52,6 +53,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     setCurrent(0)
     setAmount(undefined)
     setFormPayment(undefined)
+    setSubmit(undefined)
     setOpenModal(false)
   }
 
@@ -96,7 +98,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     const data = {
       envelope_xdr: payment.envelope_xdr,
       final_cost: payment.final_cost,
-      eur_price: payment.eur_price,
+      usd_price: payment.usd_price,
       amount: formatValueToNumber(amount),
       sign: 1,
       user_id: payment.required_signatures[0],

@@ -33,9 +33,9 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
   return (
     <div className={styles.container}>
       {isMultiSignatures ? (
-        <FieldTimeOutlined style={{ fontSize: '2rem', color: '#303549' }} />
+        <FieldTimeOutlined style={{ fontSize: '4rem', color: '#303549' }} />
       ) : (
-        <CheckCircleFilled style={{ fontSize: '2rem', color: '#16a085' }} />
+        <CheckCircleFilled style={{ fontSize: '4rem', color: '#16a085' }} />
       )}
       <Typography
         variant={TypographyVariant.label}
@@ -46,7 +46,7 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
         variant={TypographyVariant.label}
         text={
           isMultiSignatures
-            ? 'Waiting for signatures (1/2)'
+            ? 'Waiting for approvals (1/2)'
             : `You made a payment of ${toUsd(amount)} to ${payee.name} using ${
                 formPayment == TypePayment.stellar
                   ? 'Stellar Pay'
@@ -56,14 +56,16 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
         className={styles.descriptionMessage}
       />
       {!isMultiSignatures && formPayment == TypePayment.stellar && (
-        <Button
-          variant={ButtonVariant.primary}
-          label={'Open in Stellar Expert'}
-          onClick={(): Window | null =>
-            window.open(submit?.transaction_link, '_blank')
-          }
-          icon={<LinkOutlined />}
-        />
+        <div className={styles.openLink}>
+          <Button
+            variant={ButtonVariant.primary}
+            label={'Open in Stellar Expert'}
+            onClick={(): Window | null =>
+              window.open(submit?.transaction_link, '_blank')
+            }
+            icon={<LinkOutlined />}
+          />
+        </div>
       )}
     </div>
   )

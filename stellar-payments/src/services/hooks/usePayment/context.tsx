@@ -89,14 +89,15 @@ export const PaymentProvider: React.FC = ({ children }) => {
   }
 
   const getPendingSigners = (
-    user: string
+    user: string,
+    payee: string
   ): Hooks.UsePaymentTypes.IPendingSigner[] => {
     const list = localStorage.getItem(PENDING_SIGNERS)
     const result = list ? JSON.parse(list) : []
     const filtered = result.filter(
-      (item: Hooks.UsePaymentTypes.IPendingSigner) => item.user_id == user
+      (item: Hooks.UsePaymentTypes.IPendingSigner) =>
+        item.user_id == user && item.payee == payee
     )
-    setPendingSigners(filtered)
     return filtered
   }
 
@@ -112,7 +113,8 @@ export const PaymentProvider: React.FC = ({ children }) => {
         getPendingSigners,
         pendingSigners,
         removePendingSigners,
-        setSubmit
+        setSubmit,
+        setPendingSigners,
       }}
     >
       {children}

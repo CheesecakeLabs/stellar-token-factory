@@ -24,45 +24,59 @@ interface IModalStellarPayProps {
   isOpen: boolean
   setOpenModal: Dispatch<SetStateAction<boolean>>
   pendingPayments: Hooks.UsePaymentTypes.IPendingSigner[] | undefined
-  getData(): void
 }
 
 export const ModalPending: React.FC<IModalStellarPayProps> = ({
   isOpen,
   setOpenModal,
   pendingPayments,
-  getData,
 }) => {
-  const { loading, makeSubmit, submit, removePendingSigners, setSubmit } =
-    usePayment()
+  const { loading, makeSubmit, submit, removePendingSigners } = usePayment()
 
   const closeModal = (): void => {
     setOpenModal(false)
-    setSubmit(undefined)
-    getData()
+    if (submit) window.location.reload()
   }
 
   const confirmPayment = async (): Promise<void> => {
     if (!pendingPayments || !pendingPayments[0]) return
 
-    const data = {
-      envelope_xdr: pendingPayments[0].envelope_xdr,
-      sign: pendingPayments[0].sign,
-      user_id: AuthService.currentUser().email,
-    }
+    try {
+      const data = {
+        envelope_xdr: pendingPayments[0].envelope_xdr,
+        sign: pendingPayments[0].sign,
+        user_id: AuthService.currentUser().email,
+      }
 
-    await makeSubmit(data).then(result => {
-      if (result) {
+      await makeSubmit(data).then(() => {
         removePendingSigners(pendingPayments[0])
         return
-      }
+      })
+    } catch (error) {
       message.error('An error occurred. Please try again...')
-    })
+    }
   }
 
   return (
     <Modal isOpen={isOpen} handleClose={closeModal} title="Pending payment">
-      {!submit ? (
+      {submit ? (
+        pendingPayments &&
+        pendingPayments[0] && (
+          <StatusTransaction
+            amount={pendingPayments[0].amount}
+            submit={submit}
+            formPayment={TypePayment.stellar}
+            payee={{
+              name: pendingPayments[0].payee,
+              address: '',
+              phone: '',
+              bank_account: '',
+              stellar_wallet: '',
+            }}
+            isMultiSignatures={false}
+          />
+        )
+      ) : (
         <>
           {pendingPayments && pendingPayments[0] && (
             <div className={styles.container}>
@@ -86,7 +100,7 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
                   envelope_xdr: pendingPayments[0].envelope_xdr,
                   final_cost: pendingPayments[0].final_cost,
                   required_signatures: [],
-                  eur_price: pendingPayments[0].eur_price,
+                  usd_price: pendingPayments[0].usd_price,
                 }}
               />
               <Button
@@ -98,23 +112,6 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
             </div>
           )}
         </>
-      ) : (
-        pendingPayments &&
-        pendingPayments[0] && (
-          <StatusTransaction
-            amount={pendingPayments[0].amount}
-            submit={submit}
-            formPayment={TypePayment.stellar}
-            payee={{
-              name: pendingPayments[0].payee,
-              address: '',
-              phone: '',
-              bank_account: '',
-              stellar_wallet: '',
-            }}
-            isMultiSignatures={false}
-          />
-        )
       )}
     </Modal>
   )

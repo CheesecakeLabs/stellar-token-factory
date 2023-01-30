@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { DollarOutlined, WarningOutlined } from '@ant-design/icons'
 
@@ -11,29 +11,18 @@ import {
 } from 'components/atoms'
 import { ArrowDown, ArrowUp } from 'components/icons'
 
-import { AuthService } from 'app/core/auth/auth-service'
-
 import { ModalPending } from '../modal-pending'
 import { ModalStellarPay } from '../modal-stellar-pay'
 import styles from './styles.module.scss'
 
 interface IItemPayeeProps {
   payee: Hooks.UsePayeesTypes.IPayee
-  pendingSigners: Hooks.UsePaymentTypes.IPendingSigner[] | undefined
-  getData(): void
 }
 
-export const ItemPayee: React.FC<IItemPayeeProps> = ({
-  payee,
-  pendingSigners,
-  getData,
-}) => {
+export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
   const [isExpanded, setExpanded] = useState(false)
   const [isOpenStellarPay, setModalStellarPay] = useState(false)
   const [isOpenPending, setModalPending] = useState(false)
-  const [pendingPayments, setPendingPayments] = useState<
-    Hooks.UsePaymentTypes.IPendingSigner[]
-  >([])
 
   const openModalStellar = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -49,27 +38,10 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({
     setModalPending(true)
   }
 
-  const getPendingPayments =
-    useCallback((): Hooks.UsePaymentTypes.IPendingSigner[] => {
-      const filtered = !pendingSigners
-        ? []
-        : pendingSigners.filter(
-            item =>
-              item.payee == payee.name &&
-              item.user_id == AuthService.currentUser().email
-          )
-      setPendingPayments(filtered)
-      return filtered
-    }, [payee.name, pendingSigners])
-
   const isPending = (): boolean => {
-    return pendingPayments.length > 0
+    if (!payee || !payee.payments) return false
+    return payee.payments.length > 0
   }
-
-  useEffect(() => {
-    getPendingPayments()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   return (
     <>
@@ -81,8 +53,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({
       <ModalPending
         isOpen={isOpenPending}
         setOpenModal={setModalPending}
-        pendingPayments={pendingPayments}
-        getData={getData}
+        pendingPayments={payee.payments}
       />
       <tr onClick={(): void => setExpanded(!isExpanded)}>
         <td className={styles.tdDetails}>
