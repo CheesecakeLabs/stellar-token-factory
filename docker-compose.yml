@@ -1,7 +1,8 @@
 version: "3"
 
 volumes:
-  node-modules:
+  node-modules-frontend:
+  node-modules-stellar-payments:
 
 services:
   ## Backend ##
@@ -42,6 +43,7 @@ services:
       HORIZON_TEST_API_SERVER: ${HORIZON_TEST_API_SERVER:-https://horizon-testnet.stellar.org}
       PUBLIC_NETWORK_PASSPHRASE: ${PUBLIC_NETWORK_PASSPHRASE:-Test SDF Network ; September 2015}
       TEST_NETWORK_PASSPHRASE: ${TEST_NETWORK_PASSPHRASE:-Test SDF Network ; September 2015}
+
   ## Frontend ##
   frontend:
     profiles: ['all', 'frontend']
@@ -50,19 +52,38 @@ services:
       context: ./frontend
       target: dev-docker
       args:
-        REACT_APP_API_URL: ${REACT_APP_API_URL:-http://host.docker.internal:8000}
-        REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
-        REACT_APP_USERNAME: ${REACT_APP_USERNAME:-stellaradmin}
-        REACT_APP_PASSWORD: ${REACT_APP_PASSWORD:-tokenfactory12345}
-        REACT_APP_NETWORK: ${REACT_APP_NETWORK:-TESTNET}
+        REACT_APP_API_URL: ${FRONTEND_REACT_APP_API_URL:-http://host.docker.internal:8000}
+        REACT_APP_SENTRY_DSN: ${FRONTEND_REACT_APP_SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
+        REACT_APP_USERNAME: ${FRONTEND_REACT_APP_USERNAME:-stellaradmin}
+        REACT_APP_PASSWORD: ${FRONTEND_REACT_APP_PASSWORD:-tokenfactory12345}
+        REACT_APP_NETWORK: ${FRONTEND_REACT_APP_NETWORK:-TESTNET}
     environment:
-      REACT_APP_API_URL: ${REACT_APP_API_URL:-http://host.docker.internal:8000}
-      REACT_APP_SENTRY_DSN: ${REACT_APP_SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
-      REACT_APP_USERNAME: ${REACT_APP_USERNAME:-stellaradmin}
-      REACT_APP_PASSWORD: ${REACT_APP_PASSWORD:-tokenfactory12345}
-      REACT_APP_NETWORK: ${REACT_APP_NETWORK:-TESTNET}
+      REACT_APP_API_URL: ${FRONTEND_REACT_APP_API_URL:-http://host.docker.internal:8000}
+      REACT_APP_SENTRY_DSN: ${FRONTEND_REACT_APP_SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
+      REACT_APP_USERNAME: ${FRONTEND_REACT_APP_USERNAME:-stellaradmin}
+      REACT_APP_PASSWORD: ${FRONTEND_REACT_APP_PASSWORD:-tokenfactory12345}
+      REACT_APP_NETWORK: ${FRONTEND_REACT_APP_NETWORK:-TESTNET}
     volumes:
       - ./frontend/:/usr/src/app
-      - node-modules:/usr/src/app/node_modules
+      - node-modules-frontend:/usr/src/app/node_modules
     ports:
       - 3000:3000
+
+  ## Stellar Payment ##
+  stellar-payments:
+    profiles: ['all', 'stellar-payments']
+    container_name: stellar-payments
+    build:
+      context: ./stellar-payments
+      target: dev-docker
+      args:
+        REACT_APP_API_URL: ${STELLAR_PAYMENTS_REACT_APP_API_URL:-http://host.docker.internal:8000}
+        REACT_APP_SENTRY_DSN: ${STELLAR_PAYMENTS_REACT_APP_SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
+    environment:
+      REACT_APP_API_URL: ${STELLAR_PAYMENTS_REACT_APP_API_URL:-http://host.docker.internal:8000}
+      REACT_APP_SENTRY_DSN: ${STELLAR_PAYMENTS_REACT_APP_SENTRY_DSN:-https://examplePublicKey@o0.ingest.sentry.io/0}
+    volumes:
+      - ./stellar-payments/:/usr/src/app
+      - node-modules-stellar-payments:/usr/src/app/node_modules
+    ports:
+      - 4000:3000

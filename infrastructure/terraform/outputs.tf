@@ -6,6 +6,7 @@ output "ecr_urls" {
   value = {
     backend  = module.backend_service.ecr_url
     frontend = module.frontend_service.ecr_url
+    frontend_payment = module.frontend_payment_service.ecr_url
   }
 }
 output "lb_dns" {
