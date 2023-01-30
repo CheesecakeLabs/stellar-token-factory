@@ -34,12 +34,11 @@ SETTINGS_DATA = {
         "user1": (Keypair().secret, 2),
         "user2": (Keypair().secret, 1),
         "user3": (Keypair().secret, 1),
-    }
+    },
 }
 
-@override_settings(
-    **SETTINGS_DATA
-)
+
+@override_settings(**SETTINGS_DATA)
 def test_create_path_payment_fails_when_user_not_found():
     data = {
         "network": "TESTNET",
@@ -53,9 +52,8 @@ def test_create_path_payment_fails_when_user_not_found():
     ):
         CreatePathPaymentStrictReceiveUseCase().execute(**data)
 
-@override_settings(
-    **SETTINGS_DATA
-)
+
+@override_settings(**SETTINGS_DATA)
 def test_create_path_payment_fails_when_dest_public_key_is_invalid():
     data = {
         "network": "TESTNET",
@@ -69,9 +67,8 @@ def test_create_path_payment_fails_when_dest_public_key_is_invalid():
     ):
         CreatePathPaymentStrictReceiveUseCase().execute(**data)
 
-@override_settings(
-    **SETTINGS_DATA
-)
+
+@override_settings(**SETTINGS_DATA)
 def test_create_path_payment_fails_when_network_is_invalid(mocker: MockerFixture):
     data = {
         "network": "invalid",
@@ -94,9 +91,7 @@ def test_create_path_payment_fails_when_network_is_invalid(mocker: MockerFixture
     get_network_data_mock.assert_called_with(data.get("network"))
 
 
-@override_settings(
-    **SETTINGS_DATA
-)
+@override_settings(**SETTINGS_DATA)
 def test_create_path_payment_fails_when_main_wallet_account_not_found(
     mocker: MockerFixture,
 ):
@@ -132,9 +127,7 @@ def test_create_path_payment_fails_when_main_wallet_account_not_found(
     load_account_mock.assert_called_with(MAIN_WALLET.public_key)
 
 
-@override_settings(
-    **SETTINGS_DATA
-)
+@override_settings(**SETTINGS_DATA)
 def test_create_path_payment_fails_when_destination_account_not_found(
     mocker: MockerFixture,
 ):
@@ -173,9 +166,7 @@ def test_create_path_payment_fails_when_destination_account_not_found(
     assert load_account_mock.call_count == 2
 
 
-@override_settings(
-    **SETTINGS_DATA
-)
+@override_settings(**SETTINGS_DATA)
 @pytest.mark.parametrize("user_id", ("user1", "user2", "user3"))
 def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
     data = {
@@ -217,7 +208,6 @@ def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
             assert response.get("required_signatures") == ["user3"]
         case "user3":
             assert response.get("required_signatures") == ["user2"]
-
 
     envelope = StellarTransaction().xdr_to_transaction_envelope(
         response["envelope_xdr"]
