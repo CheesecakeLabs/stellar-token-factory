@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 
 import { InfoCircleFilled } from '@ant-design/icons'
 import { Radio, RadioChangeEvent } from 'antd'
-import { toEur, toUsd } from 'services/utils/utils'
+import { toCurrency, toEur, toUsd } from 'services/utils/utils'
 
 import {
   Row,
@@ -79,7 +79,9 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={`${toEur(payment ? payment?.final_cost * 0.02 : 0)}`}
+                    text={`${toEur(
+                      payment ? payment?.final_cost * 0.00044 : 0
+                    )}`}
                     className={styles.value}
                   />
                 </Row>
@@ -103,7 +105,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={'1.09 USD/EUR'}
+                    text={`1.09 USD/EUR`}
                     className={styles.value}
                   />
                 </Row>
@@ -118,7 +120,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                     variant={TypographyVariant.p}
                     text={toEur(
                       payment
-                        ? payment?.final_cost + payment?.final_cost * 0.02
+                        ? payment?.final_cost + payment?.final_cost * 0.00044
                         : 0
                     )}
                     className={styles.value}
@@ -177,7 +179,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={'1.10 USD/EUR'}
+                    text={`${toCurrency(payment?.usd_price - 0.01)} USD/EUR`}
                     className={styles.value}
                   />
                 </Row>
@@ -200,7 +202,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                     <Typography
                       variant={TypographyVariant.label}
                       text={`0/2 approvals required`}
-                      className={styles.message}
+                      className={styles.signatures}
                     />
                   </div>
                 )}

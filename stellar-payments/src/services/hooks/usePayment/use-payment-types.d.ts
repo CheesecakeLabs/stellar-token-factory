@@ -10,7 +10,7 @@ declare namespace Hooks {
       envelope_xdr: string
       final_cost: number
       required_signatures: string[]
-      eur_price: number
+      usd_price: number
     }
 
     interface ISubmitParams {
@@ -27,7 +27,7 @@ declare namespace Hooks {
     interface IPendingSigner {
       envelope_xdr: string
       final_cost: number
-      eur_price: number
+      usd_price: number
       amount: number
       sign: number
       user_id: string
@@ -42,10 +42,11 @@ declare namespace Hooks {
       submit: ISubmit | undefined
       makeSubmit(params: ISubmitParams): Promise<ISubmit | undefined>
       addUserToPendingSigners(params: IPendingSigner): boolean
-      getPendingSigners(user: string): IPendingSigner[]
+      getPendingSigners(user: string, payee: string): IPendingSigner[]
       pendingSigners: IPendingSigner[] | undefined
       removePendingSigners(params: IPendingSigner): boolean
       setSubmit: Dispatch<SetStateAction<ISubmit | undefined>>
+      setPendingSigners: Dispatch<SetStateAction<IPendingSigner[] | undefined>>
     }
   }
 }

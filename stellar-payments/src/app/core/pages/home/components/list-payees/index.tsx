@@ -1,10 +1,6 @@
-import React, { useEffect } from 'react'
-
-import { usePayment } from 'services/hooks/usePayment'
+import React from 'react'
 
 import { Loading } from 'components/atoms'
-
-import { AuthService } from 'app/core/auth/auth-service'
 
 import { ItemPayee } from '../item-payee'
 import styles from './styles.module.scss'
@@ -15,17 +11,6 @@ interface IListPayeesProps {
 }
 
 export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
-  const { getPendingSigners, pendingSigners } = usePayment()
-
-  const getData = (): void => {
-    getPendingSigners(AuthService.currentUser().email)
-  }
-
-  useEffect(() => {
-    getData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div className={styles.container}>
       <table>
@@ -45,11 +30,7 @@ export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
               {payees &&
                 payees.map(item => {
                   return (
-                    <ItemPayee
-                      payee={item}
-                      pendingSigners={pendingSigners}
-                      getData={getData}
-                    />
+                    <ItemPayee payee={item} />
                   )
                 })}
             </tbody>
