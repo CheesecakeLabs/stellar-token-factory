@@ -6,7 +6,6 @@ from pytest_mock import MockerFixture
 from rest_framework import status
 from stellar_sdk.exceptions import NotFoundError
 from stellar_sdk.operation.path_payment_strict_receive import PathPaymentStrictReceive
-
 from api.core.helpers.business_errors import BusinessException
 from api.exchange.use_cases.demo import CreatePathPaymentStrictReceiveUseCase
 from api.exchange.use_cases.tests.mocks import constants
@@ -23,7 +22,24 @@ MAIN_WALLET = Keypair()
 EUR_ISSUER = Keypair()
 USD_ISSUER = Keypair()
 
+SETTINGS_DATA = {
+    "MAIN_WALLET_PK": MAIN_WALLET.public_key,
+    "EUR_CODE": EUR_CODE,
+    "USD_CODE": USD_CODE,
+    "EUR_ISSUER": EUR_ISSUER.public_key,
+    "USD_ISSUER": USD_ISSUER.public_key,
+    "EUR_PRICE": 0.90909091,
+    "USD_PRICE": 1.1,
+    "USERS": {
+        "user1": (Keypair().secret, 2),
+        "user2": (Keypair().secret, 1),
+        "user3": (Keypair().secret, 1),
+    }
+}
 
+@override_settings(
+    **SETTINGS_DATA
+)
 def test_create_path_payment_fails_when_user_not_found():
     data = {
         "network": "TESTNET",
@@ -37,7 +53,9 @@ def test_create_path_payment_fails_when_user_not_found():
     ):
         CreatePathPaymentStrictReceiveUseCase().execute(**data)
 
-
+@override_settings(
+    **SETTINGS_DATA
+)
 def test_create_path_payment_fails_when_dest_public_key_is_invalid():
     data = {
         "network": "TESTNET",
@@ -51,7 +69,9 @@ def test_create_path_payment_fails_when_dest_public_key_is_invalid():
     ):
         CreatePathPaymentStrictReceiveUseCase().execute(**data)
 
-
+@override_settings(
+    **SETTINGS_DATA
+)
 def test_create_path_payment_fails_when_network_is_invalid(mocker: MockerFixture):
     data = {
         "network": "invalid",
@@ -74,7 +94,9 @@ def test_create_path_payment_fails_when_network_is_invalid(mocker: MockerFixture
     get_network_data_mock.assert_called_with(data.get("network"))
 
 
-@override_settings(MAIN_WALLET_PK=MAIN_WALLET.public_key)
+@override_settings(
+    **SETTINGS_DATA
+)
 def test_create_path_payment_fails_when_main_wallet_account_not_found(
     mocker: MockerFixture,
 ):
@@ -110,7 +132,9 @@ def test_create_path_payment_fails_when_main_wallet_account_not_found(
     load_account_mock.assert_called_with(MAIN_WALLET.public_key)
 
 
-@override_settings(MAIN_WALLET_PK=MAIN_WALLET.public_key)
+@override_settings(
+    **SETTINGS_DATA
+)
 def test_create_path_payment_fails_when_destination_account_not_found(
     mocker: MockerFixture,
 ):
@@ -150,13 +174,7 @@ def test_create_path_payment_fails_when_destination_account_not_found(
 
 
 @override_settings(
-    MAIN_WALLET_PK=MAIN_WALLET.public_key,
-    EUR_CODE=EUR_CODE,
-    USD_CODE=USD_CODE,
-    EUR_ISSUER=EUR_ISSUER.public_key,
-    USD_ISSUER=USD_ISSUER.public_key,
-    EUR_PRICE=0.90909091,
-    USD_PRICE=1.1,
+    **SETTINGS_DATA
 )
 @pytest.mark.parametrize("user_id", ("user1", "user2", "user3"))
 def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):

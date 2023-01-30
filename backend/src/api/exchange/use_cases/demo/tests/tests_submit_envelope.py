@@ -2,6 +2,7 @@ from collections import namedtuple
 
 import pytest
 from django.conf import settings
+from django.test import override_settings
 from pytest_mock import MockerFixture
 from rest_framework import status
 from stellar_sdk.exceptions import BadRequestError
@@ -10,12 +11,13 @@ from api.core.helpers.business_errors import BusinessException
 from api.exchange.use_cases.demo import SubmitEnvelopeUseCase
 from api.exchange.use_cases.tests.mocks import constants
 from api.stellar.handlers.error_handler import StellarErrorHandler
+from api.stellar.helpers.dtos import Keypair
 from api.stellar.helpers.utils import get_network_data
 
 ResponseMock = namedtuple("ResponseMock", "text,status_code,json")
 
 
-def test_submit_envelope_fails_when_envelope_is_invalid():
+def test_submit_envelope_fails_when_user_not_found():
     data = {
         "network": "TESTNET",
         "envelope_xdr": constants.ENVELOPE_XDR,
@@ -29,8 +31,12 @@ def test_submit_envelope_fails_when_envelope_is_invalid():
         SubmitEnvelopeUseCase().execute(**data)
 
 
-def test_submit_envelope_fails_when_user_not_found():
-    data = {"network": "TESTNET", "envelope_xdr": "invalid-envelope"}
+def test_submit_envelope_fails_when_evenelope_is_invalid():
+    data = {
+        "network": "TESTNET",
+        "envelope_xdr": "invalid-envelope",
+        "user_id": "user2",
+    }
     with pytest.raises(
         BusinessException,
         match="{'code': 7, 'detail': 'invalid_envelope_xdr'}",
@@ -59,12 +65,19 @@ def test_submit_envelope_fails_when_network_is_invalid(mocker: MockerFixture):
     "sign,",
     (True, False),
 )
+@override_settings(
+    USERS={
+        "user1": (Keypair().secret, 2),
+        "user2": (Keypair().secret, 1),
+        "user3": (Keypair().secret, 1),
+    }
+)
 def test_submit_envelope_succesfully(mocker: MockerFixture, sign: bool):
     data = {
         "network": "TESTNET",
         "envelope_xdr": constants.ENVELOPE_XDR,
         "sign": sign,
-        "user_id": "user3",
+        "user_id": "user2",
     }
 
     get_network_data_mock = mocker.patch(
