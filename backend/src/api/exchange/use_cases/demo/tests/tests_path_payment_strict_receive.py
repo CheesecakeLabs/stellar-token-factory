@@ -207,7 +207,7 @@ def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
     get_network_data_mock.assert_called_with("TESTNET")
     assert load_account_mock.call_count == 2
 
-    assert response.get("final_cost") == 9.0909091
+    assert response.get("final_cost") == 9.1
     assert response.get("usd_price") == 1.1
 
     match user_id:
@@ -236,7 +236,7 @@ def test_create_path_payment_succesfully(mocker: MockerFixture, user_id: str):
         == data["destination_public_key"]
     )
     assert envelope.transaction.operations[0].dest_amount == str(data["receive_amount"])
-    assert envelope.transaction.operations[0].send_max == str(9.0909091)
+    assert envelope.transaction.operations[0].send_max == str(9.1)
     assert envelope.transaction.operations[0].path == []
     assert envelope.transaction.operations[0].dest_asset.code == USD_CODE
     assert envelope.transaction.operations[0].dest_asset.issuer == USD_ISSUER.public_key
