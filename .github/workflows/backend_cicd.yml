@@ -28,14 +28,14 @@ jobs:
       matrix:
         python-version: ['3.10']
     outputs:
-      environment: ${{ steps.set-environment.outputs.environment }}
+      environment: ${{ steps.set-outputs.outputs.environment }}
       resource_base_name: ${{ steps.set-outputs.outputs.resource_base_name }}
     steps:
       - name: Checkout to current branch
         uses: actions/checkout@v3
 
       - name: Set environment
-        id: set-environment
+        id: set-outputs
         run: |
           if [[ "${{ github.ref }}" = "refs/heads/main" ]]; then
             echo "environment=Production" >> $GITHUB_OUTPUT
