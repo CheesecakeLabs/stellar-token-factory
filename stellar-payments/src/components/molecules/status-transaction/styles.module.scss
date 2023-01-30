@@ -4,8 +4,22 @@
   align-items: center;
 
   .statusMessage {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    color: #303549;
+  }
+
+  .descriptionMessage {
     font-size: 14px;
     font-weight: 600;
-    margin-top: 0.75rem;
+    margin-top: 1rem;
+    max-width: 24rem;
+    color: #303549;
+    text-align: center;
+  }
+
+  .openLink{
+    margin-top: 1rem;
   }
 }

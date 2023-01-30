@@ -1,5 +1,5 @@
 DEFAULT_PY_VERSION=3.10
-CC=python
+CC=python3.10
 DEFAULT_HOST=localhost:8000
 MANAGE_PATH=src/manage.py
 REQUIREMENTS_PATH=src/config/requirements.txt
@@ -59,7 +59,10 @@ coverage-test:
 	pytest --cov=./ --cov-report=xml
 
 lint:
+	pylint --exit-zero -r y ./src
+
+code-formatter-check:
 	black --check ./src
 
-lint-fix:
+code-formatter-fix:
 	black ./src

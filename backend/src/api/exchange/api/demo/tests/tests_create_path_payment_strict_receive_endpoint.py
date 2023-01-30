@@ -41,7 +41,11 @@ def post_create_path_payment_request(client: Client, **kwargs) -> Response:
     USD_CODE=USD_CODE,
     EUR_ISSUER=EUR_ISSUER.public_key,
     USD_ISSUER=USD_ISSUER.public_key,
-    SEND_MAX_EUR=0.92,
+    USERS={
+        "user1": (Keypair().secret, 2),
+        "user2": (Keypair().secret, 1),
+        "user3": (Keypair().secret, 1),
+    },
 )
 def test_create_path_payment_successfully(
     mocker: MockerFixture, client: Client
@@ -50,6 +54,7 @@ def test_create_path_payment_successfully(
     request_data = {
         "destination_public_key": Keypair().public_key,
         "receive_amount": 500,
+        "user_id": "user2",
     }
 
     load_account_mock = mocker.patch(
@@ -77,7 +82,20 @@ def test_create_path_payment_successfully(
     assert response_json.get("envelope_xdr")
     assert type(response_json.get("envelope_xdr")) == str
 
+    assert response_json.get("required_signatures")
+    assert type(response_json.get("required_signatures")) == list
 
+    assert response_json.get("usd_price")
+    assert type(response_json.get("usd_price")) == float
+
+
+@override_settings(
+    MAIN_WALLET_PK=MAIN_WALLET.public_key,
+    EUR_CODE=EUR_CODE,
+    USD_CODE=USD_CODE,
+    EUR_ISSUER=EUR_ISSUER.public_key,
+    USD_ISSUER=USD_ISSUER.public_key,
+)
 @pytest.mark.parametrize("request_data,error", CREATE_PATH_PAYMENT_FAIL_RESPONSES)
 def test_create_payment_fails_when_request_data_is_wrong(
     client: Client, request_data: dict, error: dict

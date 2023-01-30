@@ -7,6 +7,7 @@ declare namespace Hooks {
       phone: string
       bank_account: string
       stellar_wallet: string
+      payments?: Hooks.UsePaymentTypes.IPendingSigner[] | undefined
     }
 
     interface IPayeesContext {

@@ -26,7 +26,9 @@
     "sass": "~1.34.1",
     "typescript": "~4.3.2",
     "web-vitals": "~2.0.1",
-    "yup": "~0.32.9"
+    "yup": "~0.32.9",
+    "eslint-plugin-jest": "^24.7.0",
+    "eslint-plugin-jest-dom": "^4.0.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "~5.13.0",
@@ -47,8 +49,6 @@
     "@typescript-eslint/parser": "^5.14.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
     "eslint-import-resolver-typescript": "~2.4.0",
-    "eslint-plugin-jest": "^24.7.0",
-    "eslint-plugin-jest-dom": "^4.0.1",
     "eslint-plugin-prettier": "~3.4.0",
     "eslint-plugin-react": "~7.24.0",
     "eslint-plugin-react-hooks": "~4.2.0",
@@ -60,15 +60,15 @@
     "sinon": "~11.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts --max_old_space_size=8128 start",
     "start:dev": "env-cmd -f ./src/config/.env.local npm start",
-    "start:staging": "env-cmd -f ./src/config/.env.staging npm start",
+    "start:dev-docker": "npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:coverage": "npm run test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "lint:staged": "lint-staged",
-    "lint": "eslint --ext .ts,.tsx src/",
+    "lint": "eslint src/",
     "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
   },
   "lint-staged": {

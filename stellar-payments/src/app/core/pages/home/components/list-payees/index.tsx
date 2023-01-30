@@ -1,19 +1,16 @@
-import React, { useEffect } from 'react'
-
-import { usePayees } from 'services/hooks/usePayees'
+import React from 'react'
 
 import { Loading } from 'components/atoms'
 
 import { ItemPayee } from '../item-payee'
 import styles from './styles.module.scss'
 
-export const ListPayees: React.FC = () => {
-  const { getPayees, loading, payees } = usePayees()
+interface IListPayeesProps {
+  loading: boolean
+  payees: Hooks.UsePayeesTypes.IPayee[] | undefined
+}
 
-  useEffect(() => {
-    getPayees()
-  }, [getPayees])
-
+export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
   return (
     <div className={styles.container}>
       <table>
@@ -32,7 +29,9 @@ export const ListPayees: React.FC = () => {
             <tbody>
               {payees &&
                 payees.map(item => {
-                  return <ItemPayee payee={item} />
+                  return (
+                    <ItemPayee payee={item} />
+                  )
                 })}
             </tbody>
           </>

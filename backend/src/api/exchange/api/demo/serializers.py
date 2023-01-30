@@ -13,17 +13,30 @@ class PayeeSerializer(serializers.Serializer):
     stellar_wallet = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
 
 
-class PathPaymentStrictReceiveResponseSerializer(serializers.Serializer):
-    envelope_xdr = serializers.CharField()
-    final_cost = serializers.FloatField()
-
-
 class PathPaymentStrictReceiveRequestSerializer(serializers.Serializer):
     destination_public_key = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
     receive_amount = serializers.FloatField()
+    user_id = serializers.CharField()
+
+
+class PathPaymentStrictReceiveResponseSerializer(serializers.Serializer):
+    envelope_xdr = serializers.CharField()
+    final_cost = serializers.FloatField()
+    required_signatures = serializers.ListField(
+        child=serializers.CharField(),
+        required=False,
+        allow_null=True,
+    )
+    usd_price = serializers.FloatField()
 
 
 class BalanceSerializer(serializers.Serializer):
     balance = serializers.FloatField()
     asset_code = serializers.CharField(max_length=STELLAR_CODE_MAX_LENGTH)
     asset_issuer = serializers.CharField(max_length=STELLAR_KEY_MAX_LENGTH)
+
+
+class SubmitEnvelopeRequestSerializer(serializers.Serializer):
+    envelope_xdr = serializers.CharField(max_length=10000)
+    sign = serializers.BooleanField(default=False)
+    user_id = serializers.CharField()

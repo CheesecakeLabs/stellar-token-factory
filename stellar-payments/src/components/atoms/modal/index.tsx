@@ -9,12 +9,14 @@ interface IModalProps {
   isOpen: boolean
   children: ReactNode
   handleClose(): void
+  title: string
 }
 
 export const Modal: React.FC<IModalProps> = ({
   isOpen,
   children,
   handleClose,
+  title,
 }) => {
   const myRef = useRef(null)
 
@@ -28,7 +30,7 @@ export const Modal: React.FC<IModalProps> = ({
               <div className={styles.header}>
                 <Typography
                   variant={TypographyVariant.label}
-                  text={'Titulo'}
+                  text={title}
                   className={styles.title}
                 />
                 <CloseIcon width={20} height={20} onClick={handleClose} />

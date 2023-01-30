@@ -5,6 +5,7 @@ export const recordUsers = (
 }
 
 const mockUsers = [
-  { email: 'chanel', name: 'Chanel' },
-  { email: 'lucas.silva@ckl.io', name: 'Lucas Magnus' },
+  { email: 'john', name: 'John' },
+  { email: 'jane', name: 'Jane' },
+  { email: 'amy', name: 'Amy' },
 ]

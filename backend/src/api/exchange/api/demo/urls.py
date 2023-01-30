@@ -18,4 +18,9 @@ urlpatterns = [
         views.get_main_wallet_eur_balance,
         name="get-main-wallet-eur-balance",
     ),
+    path(
+        "submit",
+        views.submit_envelope,
+        name="submit-envelope-path-payment",
+    ),
 ]

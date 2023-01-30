@@ -1,0 +1,35 @@
+.container {
+  min-height: 14rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .containerCosts {
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5;
+    padding: 1rem 1rem 0.25rem;
+    border-radius: 0.5rem;
+
+    .label {
+      font-size: 12px;
+      margin: 0 0 0.75rem;
+    }
+
+    .value {
+      font-size: 14px;
+      margin: 0 0 0.75rem;
+      color: #303549;
+      font-weight: 600;
+    }
+  }
+  
+  .containerControllers {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    border-top: 1px solid #f5f5f5;
+    padding-top: 1rem;
+    bottom: 0;
+  }
+}

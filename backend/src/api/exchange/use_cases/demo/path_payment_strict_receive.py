@@ -1,10 +1,15 @@
+import math
+
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from rest_framework import status
 
 from api.core.helpers.business_errors import (
     ACCOUNT_NOT_FOUND,
     INVALID_TARGET_PUBLIC_KEY,
     TARGET_ACCOUNT_NOT_FOUND,
+    USER_NOT_FOUND,
+    BusinessException,
 )
 from api.core.use_cases.base_stellar import BaseStellarUseCase
 
@@ -13,6 +18,7 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
     def execute(
         self,
         network: str,
+        user_id: str,
         destination_public_key: str,
         receive_amount: float,
     ) -> dict:
@@ -28,7 +34,16 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
         # Mocked values
         send_asset = {"code": settings.EUR_CODE, "issuer": settings.EUR_ISSUER}
         receive_asset = {"code": settings.USD_CODE, "issuer": settings.USD_ISSUER}
-        send_max = round(settings.SEND_MAX_EUR * receive_amount, 7)
+        # Round up the final cost
+        send_max = math.ceil(settings.EUR_PRICE * receive_amount * 100) / 100
+
+        # Get user signature
+        try:
+            user_secret, user_threshold = settings.USERS[user_id]
+        except KeyError:
+            raise BusinessException(
+                USER_NOT_FOUND, status_code=status.HTTP_400_BAD_REQUEST
+            )
 
         # Check if public key is valid
         self._validate_public_key(destination_public_key, INVALID_TARGET_PUBLIC_KEY)
@@ -58,10 +73,22 @@ class CreatePathPaymentStrictReceiveUseCase(BaseStellarUseCase):
 
         # Sign transaction
         transaction_envelope = stellar.sign_transaction(
-            signatures=[settings.MAIN_WALLET_SK], envelope=transaction_envelope
+            signatures=[user_secret], envelope=transaction_envelope
         )
 
         # Converts envelope to XDR
         envelope_xdr = stellar.envelope_to_xdr(transaction_envelope)
 
-        return {"envelope_xdr": envelope_xdr, "final_cost": send_max}
+        required_signatures = []
+        if user_threshold == 1:
+            for key, value in settings.USERS.items():
+                if key != user_id and value[1] == 1:
+                    required_signatures.append(key)
+                    break
+
+        return {
+            "envelope_xdr": envelope_xdr,
+            "final_cost": send_max,
+            "required_signatures": required_signatures,
+            "usd_price": settings.USD_PRICE,
+        }
