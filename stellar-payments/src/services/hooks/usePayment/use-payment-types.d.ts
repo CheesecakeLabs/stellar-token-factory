@@ -35,6 +35,13 @@ declare namespace Hooks {
       payee: string
     }
 
+    interface IPaymentData {
+      payee: string
+      amount: number
+      createdAt: number
+      expirationAt: number
+    }
+
     interface IPaymentContext {
       createPayment(params: IPaymentParams): Promise<IPayment | undefined>
       loading: boolean

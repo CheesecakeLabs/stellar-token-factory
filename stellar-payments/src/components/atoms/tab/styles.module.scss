@@ -1,0 +1,29 @@
+.container {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  margin-right: 1rem;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.active {
+  display: flex;
+  background-color: #ffffff;
+  color: #2c3e50;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+}
+
+.disabled {
+  display: flex;
+  color: #ffffff;
+
+  svg {
+    margin-right: 0.5rem;
+    fill: #ffffff;
+  }
+}
