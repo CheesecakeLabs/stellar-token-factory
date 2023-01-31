@@ -56,10 +56,10 @@ export const ItemPayment: React.FC<IItemPaymentProps> = ({ payment }) => {
         <td>
           {payment.status == StatusPayment.concluded ? (
             <CheckCircleOutlined
-              style={{ fontSize: '1rem', color: '#16a085' }}
+              style={{ fontSize: '18px', color: '#16a085' }}
             />
           ) : (
-            <FieldTimeOutlined style={{ fontSize: '1rem', color: '#a2a2a2' }} />
+            <FieldTimeOutlined style={{ fontSize: '18px', color: '#2c3e50' }} />
           )}
         </td>
         <td>{payment.payee}</td>

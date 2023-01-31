@@ -33,6 +33,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
         isOpen={isOpenModal}
         setOpenModal={setModal}
         payee={payee}
+        isSelectPayee={false}
       />
       <tr onClick={(): void => setExpanded(!isExpanded)}>
         <td className={styles.tdDetails}>

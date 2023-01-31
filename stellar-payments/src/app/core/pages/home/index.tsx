@@ -32,7 +32,7 @@ export const Home: React.FC = () => {
       <div className={styles.container}>
         <Header tab={tab} setTab={setTab} />
         {tab == 0 ? (
-          <ListPayments loading={loading} payments={localPayments} />
+          <ListPayments loading={loading} payments={localPayments} payees={payees} />
         ) : (
           <ListPayees loading={loading} payees={payees} />
         )}

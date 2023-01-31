@@ -11,13 +11,10 @@ export const PaymentContext = createContext(
 )
 
 export const PaymentProvider: React.FC = ({ children }) => {
-  const PENDING_SIGNERS = `${LOCAL_STORAGE_PREFIX}/pending_signers`
   const PAYMENTS = `${LOCAL_STORAGE_PREFIX}/payments`
 
   const [payment, setPayment] = useState<Hooks.UsePaymentTypes.IPayment>()
   const [submit, setSubmit] = useState<Hooks.UsePaymentTypes.ISubmit>()
-  const [pendingSigners, setPendingSigners] =
-    useState<Hooks.UsePaymentTypes.IPendingSigner[]>()
   const [localPayments, setLocalPayments] =
     useState<Hooks.UsePaymentTypes.IPaymentData[]>()
   const [loading, setLoading] = useState(false)
@@ -78,21 +75,6 @@ export const PaymentProvider: React.FC = ({ children }) => {
     []
   )
 
-  const addUserToPendingSigners = (
-    data: Hooks.UsePaymentTypes.IPendingSigner
-  ): boolean => {
-    try {
-      const list = localStorage.getItem(PENDING_SIGNERS)
-      const result = list ? JSON.parse(list) : []
-      result.push(data)
-
-      localStorage.setItem(PENDING_SIGNERS, JSON.stringify(result))
-      return true
-    } catch (error) {
-      return false
-    }
-  }
-
   const updatePayment = (data: Hooks.UsePaymentTypes.IPaymentData): boolean => {
     try {
       const list = localStorage.getItem(PAYMENTS)
@@ -115,25 +97,12 @@ export const PaymentProvider: React.FC = ({ children }) => {
     }
   }
 
-  const getPendingSigners = (
-    user: string,
-    payee: string
-  ): Hooks.UsePaymentTypes.IPendingSigner[] => {
-    const list = localStorage.getItem(PENDING_SIGNERS)
-    const result = list ? JSON.parse(list) : []
-    const filtered = result.filter(
-      (item: Hooks.UsePaymentTypes.IPendingSigner) =>
-        item.user_id == user && item.payee == payee
-    )
-    return filtered
-  }
-
   const getLocalPayments = (
     user: string
   ): Hooks.UsePaymentTypes.IPaymentData[] => {
     const list = localStorage.getItem(PAYMENTS)
     const result = list ? JSON.parse(list) : []
-    const filtered = result.filter(
+    const filtered = result.reverse().filter(
       (item: Hooks.UsePaymentTypes.IPaymentData) =>
         item.createdBy == user || item.user_id == user
     )
@@ -149,12 +118,8 @@ export const PaymentProvider: React.FC = ({ children }) => {
         payment,
         submit,
         makeSubmit,
-        addUserToPendingSigners,
-        getPendingSigners,
-        pendingSigners,
         updatePayment,
         setSubmit,
-        setPendingSigners,
         addLocalPayment,
         getLocalPayments,
         localPayments,

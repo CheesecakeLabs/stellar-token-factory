@@ -8,6 +8,7 @@ import styles from './styles.module.scss'
 export enum InputTextVariant {
   primary = 'primary',
   secondary = 'secondary',
+  tertiary = 'tertiary',
 }
 
 export interface IInputProps {

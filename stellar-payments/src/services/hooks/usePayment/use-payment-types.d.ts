@@ -24,17 +24,6 @@ declare namespace Hooks {
       transaction_link: string
     }
 
-    interface IPendingSigner {
-      envelope_xdr: string
-      final_cost: number
-      usd_price: number
-      amount: number
-      sign: number
-      user_id: string
-      date: number
-      payee: string
-    }
-
     interface IPaymentData {
       amount: number
       payee: string
@@ -56,12 +45,8 @@ declare namespace Hooks {
       payment: IPayment | undefined
       submit: ISubmit | undefined
       makeSubmit(params: ISubmitParams): Promise<ISubmit | undefined>
-      addUserToPendingSigners(params: IPendingSigner): boolean
-      getPendingSigners(user: string, payee: string): IPendingSigner[]
-      pendingSigners: IPendingSigner[] | undefined
       updatePayment(params: IPaymentData): boolean
       setSubmit: Dispatch<SetStateAction<ISubmit | undefined>>
-      setPendingSigners: Dispatch<SetStateAction<IPendingSigner[] | undefined>>
       addLocalPayment(params: IPaymentData): boolean
       getLocalPayments(user: string): IPaymentData[]
       localPayments: IPaymentData[] | undefined

@@ -1,27 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-import { PlusCircleOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined, ReloadOutlined } from '@ant-design/icons'
 
 import { Button, ButtonVariant, Loading, Row } from 'components/atoms'
 
+import { AddPayment } from '../add-payment'
 import { ItemPayment } from '../item-payment'
+import { ModalStellarPay } from '../modal-stellar-pay'
 import styles from './styles.module.scss'
 
 interface IListPaymentsProps {
   loading: boolean
   payments: Hooks.UsePaymentTypes.IPaymentData[] | undefined
+  payees: Hooks.UsePayeesTypes.IPayee[] | undefined
 }
 
 export const ListPayments: React.FC<IListPaymentsProps> = ({
   loading,
   payments,
+  payees,
 }) => {
+  const [isOpenModal, setModal] = useState(false)
   return (
     <div className={styles.container}>
-      <table>
-        {loading ? (
-          <Loading />
-        ) : (
+      <ModalStellarPay
+        isOpen={isOpenModal}
+        setOpenModal={setModal}
+        payees={payees}
+        isSelectPayee={true}
+      />
+      {loading ? (
+        <Loading />
+      ) : (
+        <table>
           <>
             <thead>
               <tr>
@@ -37,20 +48,35 @@ export const ListPayments: React.FC<IListPaymentsProps> = ({
                       variant={ButtonVariant.add}
                       label={'Create new payment'}
                       icon={<PlusCircleOutlined />}
+                      onClick={(): void => {
+                        setModal(true)
+                      }}
                     />
+      <ReloadOutlined/>
                   </Row>
                 </th>
               </tr>
             </thead>
             <tbody>
-              {payments &&
+              {payments && payments.length > 0 ? (
                 payments.map(item => {
                   return <ItemPayment payment={item} key={item.createdAt} />
-                })} 
+                })
+              ) : (
+                <tr>
+                  <td colSpan={12}>
+                    <AddPayment
+                      onClick={(): void => {
+                        setModal(true)
+                      }}
+                    />
+                  </td>
+                </tr>
+              )}
             </tbody>
           </>
-        )}
-      </table>
+        </table>
+      )}
     </div>
   )
 }

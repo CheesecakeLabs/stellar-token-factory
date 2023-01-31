@@ -43,6 +43,17 @@
   margin-top: 1rem;
 }
 
+.tertiary {
+  background-color: #ecf2f7;
+  border-radius: 0.25rem;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.tertiary input {
+  text-align: end;
+}
+
 .prefix {
   font-weight: 700;
   color: #2c3e50;

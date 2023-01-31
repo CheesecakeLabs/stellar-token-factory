@@ -16,17 +16,22 @@ import styles from './styles.module.scss'
 interface IModalStellarPayProps {
   isOpen: boolean
   setOpenModal: Dispatch<SetStateAction<boolean>>
-  payee: Hooks.UsePayeesTypes.IPayee
+  payee?: Hooks.UsePayeesTypes.IPayee
+  payees?: Hooks.UsePayeesTypes.IPayee[] | undefined
+  isSelectPayee: boolean
 }
 
 export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
   isOpen,
   setOpenModal,
   payee,
+  payees,
+  isSelectPayee,
 }) => {
   const [current, setCurrent] = useState(0)
   const [amount, setAmount] = useState<string>()
   const [formPayment, setFormPayment] = useState<TypePayment>()
+  const [selectedPayee, setPayee] = useState(payee)
   const {
     createPayment,
     loading,
@@ -55,11 +60,13 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     setFormPayment(undefined)
     setSubmit(undefined)
     setOpenModal(false)
+    setPayee(undefined)
   }
 
   const sendAmount = async (): Promise<void> => {
+    if (!selectedPayee) return
     const data = {
-      destination_public_key: payee.stellar_wallet,
+      destination_public_key: selectedPayee.stellar_wallet,
       receive_amount: formatValueToNumber(amount),
       user_id: AuthService.currentUser().email,
     }
@@ -105,10 +112,10 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     typePayment: TypePayment,
     transactionLink?: string
   ): void => {
-    if (!payment) return
+    if (!payment || !selectedPayee) return
     const paymentData = {
       amount: formatValueToNumber(amount),
-      payee: payee.name,
+      payee: selectedPayee.name,
       createdAt: Date.now(),
       envelope_xdr: payment.envelope_xdr,
       final_cost: payment.final_cost,
@@ -144,7 +151,14 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     {
       title: 'Order',
       content: (
-        <Amount amount={amount} onChangeText={handleChange} payee={payee} />
+        <Amount
+          amount={amount}
+          onChangeText={handleChange}
+          payee={selectedPayee}
+          payees={payees}
+          setPayee={setPayee}
+          isSelectPayee={isSelectPayee}
+        />
       ),
       label: 'Create payment',
       action: sendAmount,
@@ -170,7 +184,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
           amount={formatValueToNumber(amount)}
           submit={submit}
           formPayment={formPayment}
-          payee={payee}
+          payee={selectedPayee}
           isMultiSignatures={!noRequestSignature()}
         />
       ),

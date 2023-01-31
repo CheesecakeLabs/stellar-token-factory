@@ -13,10 +13,10 @@ interface IListPayeesProps {
 export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
   return (
     <div className={styles.container}>
-      <table>
-        {loading ? (
-          <Loading />
-        ) : (
+      {loading ? (
+        <Loading />
+      ) : (
+        <table>
           <>
             <thead>
               <tr>
@@ -29,14 +29,12 @@ export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
             <tbody>
               {payees &&
                 payees.map(item => {
-                  return (
-                    <ItemPayee payee={item} />
-                  )
+                  return <ItemPayee payee={item} key={item.name} />
                 })}
             </tbody>
           </>
-        )}
-      </table>
+        </table>
+      )}
     </div>
   )
 }
