@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
 import { InfoCircleFilled } from '@ant-design/icons'
 import { Radio, RadioChangeEvent } from 'antd'
@@ -28,8 +28,21 @@ export const Payment: React.FC<IEstimatedCost> = ({
   setFormPayment,
   formPayment,
 }) => {
+  const [isOpenStellarPay, setOpenStellarPay] = useState(false)
+  const [isOpenWireTransfer, setOpenWireTransfer] = useState(false)
+
   const onChange = (e: RadioChangeEvent): void => {
     setFormPayment(e.target.value)
+  }
+
+  const setPayment = (type: TypePayment): void => {
+    if (type == TypePayment.stellar) {
+      setOpenStellarPay(true)
+    }
+    if (type == TypePayment.wire) {
+      setOpenWireTransfer(true)
+    }
+    setFormPayment(type)
   }
 
   return (
@@ -57,7 +70,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
       <Radio.Group onChange={onChange} value={formPayment}>
         <div
           className={styles.containerFormPayment}
-          onClick={(): void => setFormPayment(TypePayment.wire)}
+          onClick={(): void => setPayment(TypePayment.wire)}
         >
           <Radio value={TypePayment.wire} />
           <div className={styles.formPayment}>
@@ -69,7 +82,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                 className={styles.title}
               />
             </div>
-            {formPayment == TypePayment.wire && (
+            {isOpenWireTransfer && (
               <>
                 <Row justifyContent={RowContent.spaceBetween}>
                   <Typography
@@ -79,9 +92,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={`${toEur(
-                      payment ? payment?.final_cost * 0.00044 : 0
-                    )}`}
+                    text={`${toEur(20)}`}
                     className={styles.value}
                   />
                 </Row>
@@ -93,7 +104,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={'3 - 4 days'}
+                    text={'2 - 5 days'}
                     className={styles.value}
                   />
                 </Row>
@@ -105,7 +116,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={`1.09 USD/EUR`}
+                    text={`${toCurrency(payment?.usd_price ?? 0)} USD/EUR`}
                     className={styles.value}
                   />
                 </Row>
@@ -120,7 +131,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                     variant={TypographyVariant.p}
                     text={toEur(
                       payment
-                        ? payment?.final_cost + payment?.final_cost * 0.00044
+                        ? payment?.final_cost + 20
                         : 0
                     )}
                     className={styles.value}
@@ -133,7 +144,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
 
         <div
           className={styles.containerFormPayment}
-          onClick={(): void => setFormPayment(TypePayment.stellar)}
+          onClick={(): void => setPayment(TypePayment.stellar)}
         >
           <Radio value={TypePayment.stellar} />
           <div className={styles.formPayment}>
@@ -145,7 +156,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                 className={styles.title}
               />
             </div>
-            {formPayment == TypePayment.stellar && payment && (
+            {isOpenStellarPay && payment && (
               <>
                 <Row justifyContent={RowContent.spaceBetween}>
                   <Typography
@@ -155,7 +166,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={'< $ 0.01'}
+                    text={'< € 0.01'}
                     className={styles.value}
                   />
                 </Row>
