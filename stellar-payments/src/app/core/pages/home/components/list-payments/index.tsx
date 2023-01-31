@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
-import { PlusCircleOutlined, ReloadOutlined } from '@ant-design/icons'
+import { PlusCircleOutlined } from '@ant-design/icons'
 
-import { Button, ButtonVariant, Loading, Row } from 'components/atoms'
+import { Button, ButtonVariant, Loading } from 'components/atoms'
 
 import { AddPayment } from '../add-payment'
 import { ItemPayment } from '../item-payment'
@@ -42,8 +42,8 @@ export const ListPayments: React.FC<IListPaymentsProps> = ({
                 <th>Final Cost</th>
                 <th>Type</th>
                 <th>Creation date</th>
-                <th className={styles.thAddPayment}>
-                  <Row>
+                <th className={styles.alignEnd}>
+                  <div className={styles.containerAction}>
                     <Button
                       variant={ButtonVariant.add}
                       label={'Create new payment'}
@@ -52,8 +52,7 @@ export const ListPayments: React.FC<IListPaymentsProps> = ({
                         setModal(true)
                       }}
                     />
-      <ReloadOutlined/>
-                  </Row>
+                  </div>
                 </th>
               </tr>
             </thead>

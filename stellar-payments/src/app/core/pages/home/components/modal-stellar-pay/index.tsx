@@ -32,6 +32,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
   const [amount, setAmount] = useState<string>()
   const [formPayment, setFormPayment] = useState<TypePayment>()
   const [selectedPayee, setPayee] = useState(payee)
+  const { getLocalPayments } = usePayment()
   const {
     createPayment,
     loading,
@@ -61,6 +62,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     setSubmit(undefined)
     setOpenModal(false)
     setPayee(undefined)
+    getLocalPayments(AuthService.currentUser().email)
   }
 
   const sendAmount = async (): Promise<void> => {
@@ -124,7 +126,10 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
       createdBy: AuthService.currentUser().email,
       status: status,
       transactionLink: transactionLink,
-      user_id: payment.required_signatures[0],
+      user_id:
+        typePayment == TypePayment.stellar
+          ? payment.required_signatures[0]
+          : undefined,
       typePayment: typePayment,
     } as Hooks.UsePaymentTypes.IPaymentData
 

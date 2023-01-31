@@ -6,6 +6,7 @@ import { usePayment } from 'services/hooks/usePayment'
 import { Header } from './components/header'
 import { ListPayees } from './components/list-payees'
 import { ListPayments } from './components/list-payments'
+import { Settings } from './components/settings'
 import { Footer } from 'components/molecules'
 
 import { AuthService } from 'app/core/auth/auth-service'
@@ -19,23 +20,23 @@ export const Home: React.FC = () => {
 
   useEffect(() => {
     getPayees()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [getPayees])
 
   useEffect(() => {
     getLocalPayments(AuthService.currentUser().email)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [getLocalPayments])
+
+  const steps = [
+    <ListPayments loading={loading} payments={localPayments} payees={payees} />,
+    <ListPayees loading={loading} payees={payees} />,
+    <Settings />,
+  ]
 
   return (
     <main>
       <div className={styles.container}>
         <Header tab={tab} setTab={setTab} />
-        {tab == 0 ? (
-          <ListPayments loading={loading} payments={localPayments} payees={payees} />
-        ) : (
-          <ListPayees loading={loading} payees={payees} />
-        )}
+        {steps[tab]}
       </div>
       <Footer />
     </main>

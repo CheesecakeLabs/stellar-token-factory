@@ -4,6 +4,7 @@ import { LOCAL_STORAGE_PREFIX } from 'services/utils/constants'
 
 import { StatusPayment } from 'components/enums'
 
+import { AuthService } from 'app/core/auth/auth-service'
 import { http } from 'interfaces/http'
 
 export const PaymentContext = createContext(
@@ -97,17 +98,33 @@ export const PaymentProvider: React.FC = ({ children }) => {
     }
   }
 
-  const getLocalPayments = (
-    user: string
-  ): Hooks.UsePaymentTypes.IPaymentData[] => {
+  const getLocalPayments = useCallback(
+    (user: string): Hooks.UsePaymentTypes.IPaymentData[] => {
+      const list = localStorage.getItem(PAYMENTS)
+      const result = list ? JSON.parse(list) : []
+      const filtered = result
+        .reverse()
+        .filter(
+          (item: Hooks.UsePaymentTypes.IPaymentData) =>
+            item.createdBy == user || item.user_id == user
+        )
+      setLocalPayments(filtered)
+      return filtered
+    },
+    [PAYMENTS]
+  )
+
+  const clearPayments = (): void => {
+    const user = AuthService.currentUser().email
+
     const list = localStorage.getItem(PAYMENTS)
-    const result = list ? JSON.parse(list) : []
-    const filtered = result.reverse().filter(
-      (item: Hooks.UsePaymentTypes.IPaymentData) =>
-        item.createdBy == user || item.user_id == user
+    const result = (
+      list ? JSON.parse(list) : []
+    ) as Hooks.UsePaymentTypes.IPaymentData[]
+    const filteredList = result.filter(
+      (item: Hooks.UsePaymentTypes.IPaymentData) => item.createdBy != user
     )
-    setLocalPayments(filtered)
-    return filtered
+    localStorage.setItem(PAYMENTS, JSON.stringify(filteredList))
   }
 
   return (
@@ -123,6 +140,7 @@ export const PaymentProvider: React.FC = ({ children }) => {
         addLocalPayment,
         getLocalPayments,
         localPayments,
+        clearPayments,
       }}
     >
       {children}

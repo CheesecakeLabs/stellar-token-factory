@@ -99,20 +99,34 @@
   }
 }
 
-
 .add {
-  height: 2rem;
+  height: 2.5rem;
   border: 1px solid #e1e1e1;
-  border-radius: 0.35rem;
+  border-radius: 0.25rem;
   font-weight: 700;
   color: #2c3e50;
   background-color: #ffffff;
   font-size: 14px;
-  box-shadow: 0 0 5px rgba(164, 165, 165, 0.5);
+  box-shadow: 0 0 5px #b5b7b780;
 
   svg {
     fill: #2c3e50;
     stroke: #2c3e50;
+  }
+}
+
+.delete {
+  height: 2.5rem;
+  border: 1px solid #ffffff;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #d26666;
+  font-size: 14px;
+
+  svg {
+    fill: #ffffff;
+    stroke: #ffffff;
   }
 }
 

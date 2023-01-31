@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect } from 'react'
 
-import { HomeOutlined, TeamOutlined } from '@ant-design/icons'
+import { HomeOutlined, SettingOutlined, TeamOutlined } from '@ant-design/icons'
 import { Row } from 'antd'
 import { useAccount } from 'services/hooks/useAccount'
 
@@ -42,6 +42,12 @@ export const Header: React.FC<IHeaderProps> = ({ tab, setTab }) => {
               icon={<TeamOutlined />}
               isActived={tab == 1}
               onClick={(): void => setTab(1)}
+            />
+            <Tab
+              title="Settings"
+              icon={<SettingOutlined />}
+              isActived={tab == 2}
+              onClick={(): void => setTab(2)}
             />
           </Row>
           <Balance balance={balance} loading={loading} />

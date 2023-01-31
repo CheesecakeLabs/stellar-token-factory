@@ -11,7 +11,7 @@ interface IAddPaymentProps {
 export const AddPayment: React.FC<IAddPaymentProps> = ({ onClick }) => {
   return (
     <div className={styles.container}>
-      <Empty />
+      <Empty description={'No payments to show'}/>
       <Button
         variant={ButtonVariant.tertiary}
         label={'Create new payment'}

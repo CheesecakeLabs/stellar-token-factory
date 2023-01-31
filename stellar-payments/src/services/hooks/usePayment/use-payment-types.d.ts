@@ -50,6 +50,7 @@ declare namespace Hooks {
       addLocalPayment(params: IPaymentData): boolean
       getLocalPayments(user: string): IPaymentData[]
       localPayments: IPaymentData[] | undefined
+      clearPayments(): void
     }
   }
 }

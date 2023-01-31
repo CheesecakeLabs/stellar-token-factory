@@ -74,7 +74,7 @@ export const ItemPayment: React.FC<IItemPaymentProps> = ({ payment }) => {
         <td>{payment.typePayment}</td>
         <td>{formatDate(payment.createdAt)}</td>
         <td className={styles.alignEnd}>
-          {showButton() && (
+          {showButton() ? (
             <Row>
               <Button
                 variant={
@@ -97,7 +97,7 @@ export const ItemPayment: React.FC<IItemPaymentProps> = ({ payment }) => {
                 }
               />
             </Row>
-          )}
+          ) : payment.typePayment != TypePayment.wire && <div>Waiting for pending approval</div>}
         </td>
       </tr>
     </>
