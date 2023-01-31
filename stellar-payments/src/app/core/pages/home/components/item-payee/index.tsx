@@ -46,16 +46,16 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
         <td>{payee.name}</td>
         <td className={styles.tdPhone}>{payee.phone}</td>
         <td className={styles.alignEnd}>
-          {true && (
-            <Row>
-              <Button
-                variant={ButtonVariant.primary}
-                label={'Create payment order'}
-                icon={<DollarOutlined />}
-                onClick={openModal}
-              />
-            </Row>
-          )}
+          <Row>
+            <Button
+              variant={
+                isPending() ? ButtonVariant.warning : ButtonVariant.primary
+              }
+              label={isPending() ? 'Pending approval' : 'Create payment order'}
+              icon={isPending() ? <WarningOutlined /> : <DollarOutlined />}
+              onClick={isPending() ? openModalPending : openModalStellar}
+            />
+          </Row>
         </td>
       </tr>
       {isExpanded && (

@@ -87,8 +87,11 @@ const QuickstartTemplate = (): JSX.Element => {
                 <Button onClick={goToHome}>Get Started</Button>
               </div>
               <p>
-                Questions? To learn more about Asset Issuance on Stellar visit
-                stellar.org/asset-issuance or contact our partnerships team at
+                Questions? To learn more about Asset Issuance on Stellar visit{' '}
+                <a href="https://stellar.org/asset-issuance" target="_blank">
+                  stellar.org/asset-issuance
+                </a>{' '}
+                or contact our partnerships team at
                 <a href="mailto:partnerships@stellar.org">
                   {` partnerships@stellar.org`}
                 </a>
@@ -97,6 +100,7 @@ const QuickstartTemplate = (): JSX.Element => {
             </div>
           </Card>
         </Layout.Inset>
+        <Layout.Footer />
       </Layout.Content>
     </main>
   )

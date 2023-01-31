@@ -11,10 +11,7 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "react-hooks",
-    "jest",
-    "jest-dom",
-    "testing-library"
+    "react-hooks"
   ],
   "extends": [
     "eslint:recommended",

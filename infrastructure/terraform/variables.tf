@@ -245,6 +245,27 @@ variable "services_config" {
       env_vars       = any
       protected_envs = any
     })
+    frontend_payment = object({
+      get_imagetag_ecs  = bool
+      task_count        = number
+      container_port    = number
+      log_retention     = number
+      health_check_path = string
+      features = object({
+        http                 = bool
+        force_https_redirect = bool
+        service_discovery    = bool
+      })
+      access_aws = object({
+        s3_private = bool
+        s3_public  = bool
+        ses        = bool
+        cloudwatch = bool
+      })
+      cronjobs       = any
+      env_vars       = any
+      protected_envs = any
+    })
   })
 }
 
