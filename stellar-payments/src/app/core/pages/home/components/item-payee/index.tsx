@@ -71,7 +71,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
               variant={
                 isPending() ? ButtonVariant.warning : ButtonVariant.primary
               }
-              label={isPending() ? 'Pending payment' : 'Create payment order'}
+              label={isPending() ? 'Pending approval' : 'Create payment order'}
               icon={isPending() ? <WarningOutlined /> : <DollarOutlined />}
               onClick={isPending() ? openModalPending : openModalStellar}
             />
