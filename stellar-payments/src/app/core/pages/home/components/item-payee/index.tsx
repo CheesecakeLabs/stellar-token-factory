@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { DollarOutlined, WarningOutlined } from '@ant-design/icons'
+import { DollarOutlined } from '@ant-design/icons'
 
 import {
   Button,
@@ -11,7 +11,6 @@ import {
 } from 'components/atoms'
 import { ArrowDown, ArrowUp } from 'components/icons'
 
-import { ModalPending } from '../modal-pending'
 import { ModalStellarPay } from '../modal-stellar-pay'
 import styles from './styles.module.scss'
 
@@ -21,39 +20,19 @@ interface IItemPayeeProps {
 
 export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
   const [isExpanded, setExpanded] = useState(false)
-  const [isOpenStellarPay, setModalStellarPay] = useState(false)
-  const [isOpenPending, setModalPending] = useState(false)
+  const [isOpenModal, setModal] = useState(false)
 
-  const openModalStellar = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  const openModal = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.stopPropagation()
-    setModalStellarPay(true)
-  }
-
-  const openModalPending = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
-    event.stopPropagation()
-    setModalPending(true)
-  }
-
-  const isPending = (): boolean => {
-    if (!payee || !payee.payments) return false
-    return payee.payments.length > 0
+    setModal(true)
   }
 
   return (
     <>
       <ModalStellarPay
-        isOpen={isOpenStellarPay}
-        setOpenModal={setModalStellarPay}
+        isOpen={isOpenModal}
+        setOpenModal={setModal}
         payee={payee}
-      />
-      <ModalPending
-        isOpen={isOpenPending}
-        setOpenModal={setModalPending}
-        pendingPayments={payee.payments}
       />
       <tr onClick={(): void => setExpanded(!isExpanded)}>
         <td className={styles.tdDetails}>
@@ -66,16 +45,16 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
         <td>{payee.name}</td>
         <td className={styles.tdPhone}>{payee.phone}</td>
         <td className={styles.alignEnd}>
-          <Row>
-            <Button
-              variant={
-                isPending() ? ButtonVariant.warning : ButtonVariant.primary
-              }
-              label={isPending() ? 'Pending payment' : 'Create payment order'}
-              icon={isPending() ? <WarningOutlined /> : <DollarOutlined />}
-              onClick={isPending() ? openModalPending : openModalStellar}
-            />
-          </Row>
+          {true && (
+            <Row>
+              <Button
+                variant={ButtonVariant.primary}
+                label={'Create payment order'}
+                icon={<DollarOutlined />}
+                onClick={openModal}
+              />
+            </Row>
+          )}
         </td>
       </tr>
       {isExpanded && (

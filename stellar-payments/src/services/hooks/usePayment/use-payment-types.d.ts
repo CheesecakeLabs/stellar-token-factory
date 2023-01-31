@@ -36,10 +36,18 @@ declare namespace Hooks {
     }
 
     interface IPaymentData {
-      payee: string
       amount: number
+      payee: string
       createdAt: number
-      expirationAt: number
+      envelope_xdr: string
+      final_cost: number
+      usd_price: number
+      sign: number
+      user_id?: string
+      createdBy: string
+      status: StatusPayment
+      transactionLink?: string
+      typePayment: TypePayment
     }
 
     interface IPaymentContext {
@@ -51,9 +59,12 @@ declare namespace Hooks {
       addUserToPendingSigners(params: IPendingSigner): boolean
       getPendingSigners(user: string, payee: string): IPendingSigner[]
       pendingSigners: IPendingSigner[] | undefined
-      removePendingSigners(params: IPendingSigner): boolean
+      updatePayment(params: IPaymentData): boolean
       setSubmit: Dispatch<SetStateAction<ISubmit | undefined>>
       setPendingSigners: Dispatch<SetStateAction<IPendingSigner[] | undefined>>
+      addLocalPayment(params: IPaymentData): boolean
+      getLocalPayments(user: string): IPaymentData[]
+      localPayments: IPaymentData[] | undefined
     }
   }
 }

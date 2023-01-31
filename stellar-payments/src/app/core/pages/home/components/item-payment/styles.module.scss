@@ -1,0 +1,21 @@
+table td {
+  border-bottom: 1px solid #eaebef;
+  padding: 0.5rem;
+  height: 3.5rem;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 0 1.5rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-direction: row;
+  cursor: auto;
+}
+
+.alignEnd {
+  justify-content: flex-end;
+  display: flex;
+}

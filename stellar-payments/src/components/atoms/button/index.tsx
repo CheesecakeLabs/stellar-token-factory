@@ -20,6 +20,7 @@ export enum ButtonVariant {
   login = 'login',
   icon = 'icon',
   warning = 'warning',
+  add = 'add',
 }
 
 export interface IButtonProps {

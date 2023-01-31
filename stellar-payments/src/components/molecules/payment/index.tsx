@@ -80,7 +80,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   <Typography
                     variant={TypographyVariant.p}
                     text={`${toEur(
-                      payment ? payment?.final_cost * 0.00044 : 0
+                      20
                     )}`}
                     className={styles.value}
                   />
@@ -93,7 +93,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={'3 - 4 days'}
+                    text={'2 - 5 days'}
                     className={styles.value}
                   />
                 </Row>
@@ -120,7 +120,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
                     variant={TypographyVariant.p}
                     text={toEur(
                       payment
-                        ? payment?.final_cost + payment?.final_cost * 0.00044
+                        ? payment?.final_cost + 20
                         : 0
                     )}
                     className={styles.value}

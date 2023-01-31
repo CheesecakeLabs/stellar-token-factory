@@ -99,6 +99,23 @@
   }
 }
 
+
+.add {
+  height: 2rem;
+  border: 1px solid #e1e1e1;
+  border-radius: 0.35rem;
+  font-weight: 700;
+  color: #2c3e50;
+  background-color: #ffffff;
+  font-size: 14px;
+  box-shadow: 0 0 5px rgba(164, 165, 165, 0.5);
+
+  svg {
+    fill: #2c3e50;
+    stroke: #2c3e50;
+  }
+}
+
 .label {
   font-weight: 400;
   font-size: 16px;

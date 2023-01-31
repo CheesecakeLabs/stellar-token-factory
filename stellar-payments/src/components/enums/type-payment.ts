@@ -1,4 +1,4 @@
 export enum TypePayment {
-  wire = 'WIRE',
-  stellar = 'STELLAR',
+  wire = 'Wire transfer',
+  stellar = 'Stellar pay',
 }

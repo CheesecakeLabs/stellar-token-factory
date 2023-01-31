@@ -6,7 +6,7 @@ import { usePayment } from 'services/hooks/usePayment'
 import { formatValueToNumber } from 'services/utils/utils'
 
 import { Button, ButtonVariant, Modal } from 'components/atoms'
-import { TypePayment } from 'components/enums'
+import { StatusPayment, TypePayment } from 'components/enums'
 import { Amount, Payment, StatusTransaction } from 'components/molecules'
 
 import { AuthService } from 'app/core/auth/auth-service'
@@ -33,8 +33,8 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     payment,
     makeSubmit,
     submit,
-    addUserToPendingSigners,
     setSubmit,
+    addLocalPayment,
   } = usePayment()
 
   const next = (): void => {
@@ -73,6 +73,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
 
   const confirmPayment = async (): Promise<void> => {
     if (formPayment == TypePayment.wire) {
+      addPayment(0, StatusPayment.waiting, TypePayment.wire)
       next()
       return
     }
@@ -86,30 +87,48 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
 
     await makeSubmit(data).then(result => {
       if (result != null) {
+        addPayment(
+          0,
+          StatusPayment.concluded,
+          TypePayment.stellar,
+          result.transaction_link
+        )
         return next()
       }
       message.error('An error occurred. Please try again...')
     })
   }
 
-  const addToPendingSigner = async (): Promise<void> => {
+  const addPayment = (
+    sign: number,
+    status: StatusPayment,
+    typePayment: TypePayment,
+    transactionLink?: string
+  ): void => {
     if (!payment) return
-
-    const data = {
+    const paymentData = {
+      amount: formatValueToNumber(amount),
+      payee: payee.name,
+      createdAt: Date.now(),
       envelope_xdr: payment.envelope_xdr,
       final_cost: payment.final_cost,
       usd_price: payment.usd_price,
-      amount: formatValueToNumber(amount),
-      sign: 1,
+      sign: sign,
+      createdBy: AuthService.currentUser().email,
+      status: status,
+      transactionLink: transactionLink,
       user_id: payment.required_signatures[0],
-      date: Date.now(),
-      payee: payee.name,
-    }
+      typePayment: typePayment,
+    } as Hooks.UsePaymentTypes.IPaymentData
 
-    if (addUserToPendingSigners(data)) {
-      return next()
-    }
-    message.error('An error occurred. Please try again...')
+    addLocalPayment(paymentData)
+  }
+
+  const addToPendingApprove = async (): Promise<void> => {
+    if (!payment) return
+
+    addPayment(1, StatusPayment.waiting, TypePayment.stellar)
+    next()
   }
 
   const noRequestSignature = (): boolean => {
@@ -142,7 +161,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
         />
       ),
       label: noRequestSignature() ? 'Confirm payment' : 'Approve payment',
-      action: noRequestSignature() ? confirmPayment : addToPendingSigner,
+      action: noRequestSignature() ? confirmPayment : addToPendingApprove,
     },
     {
       title: 'Confirmation',

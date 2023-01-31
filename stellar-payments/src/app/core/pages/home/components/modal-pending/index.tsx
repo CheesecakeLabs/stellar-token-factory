@@ -23,15 +23,15 @@ import styles from './styles.module.scss'
 interface IModalStellarPayProps {
   isOpen: boolean
   setOpenModal: Dispatch<SetStateAction<boolean>>
-  pendingPayments: Hooks.UsePaymentTypes.IPendingSigner[] | undefined
+  payment: Hooks.UsePaymentTypes.IPaymentData
 }
 
 export const ModalPending: React.FC<IModalStellarPayProps> = ({
   isOpen,
   setOpenModal,
-  pendingPayments,
+  payment,
 }) => {
-  const { loading, makeSubmit, submit, removePendingSigners } = usePayment()
+  const { loading, makeSubmit, submit, updatePayment } = usePayment()
 
   const closeModal = (): void => {
     setOpenModal(false)
@@ -39,17 +39,18 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
   }
 
   const confirmPayment = async (): Promise<void> => {
-    if (!pendingPayments || !pendingPayments[0]) return
+    if (!payment) return
 
     try {
       const data = {
-        envelope_xdr: pendingPayments[0].envelope_xdr,
-        sign: pendingPayments[0].sign,
+        envelope_xdr: payment.envelope_xdr,
+        sign: payment.sign,
         user_id: AuthService.currentUser().email,
       }
 
-      await makeSubmit(data).then(() => {
-        removePendingSigners(pendingPayments[0])
+      await makeSubmit(data).then(result => {
+        payment.transactionLink = result?.transaction_link
+        updatePayment(payment)
         return
       })
     } catch (error) {
@@ -60,14 +61,13 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
   return (
     <Modal isOpen={isOpen} handleClose={closeModal} title="Pending payment">
       {submit ? (
-        pendingPayments &&
-        pendingPayments[0] && (
+        payment && (
           <StatusTransaction
-            amount={pendingPayments[0].amount}
+            amount={payment.amount}
             submit={submit}
             formPayment={TypePayment.stellar}
             payee={{
-              name: pendingPayments[0].payee,
+              name: payment.payee,
               address: '',
               phone: '',
               bank_account: '',
@@ -78,7 +78,7 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
         )
       ) : (
         <>
-          {pendingPayments && pendingPayments[0] && (
+          {payment && (
             <div className={styles.container}>
               <div className={styles.containerCosts}>
                 <Row justifyContent={RowContent.spaceBetween}>
@@ -89,18 +89,18 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
                   />
                   <Typography
                     variant={TypographyVariant.p}
-                    text={toUsd(pendingPayments[0].amount)}
+                    text={toUsd(payment.amount)}
                     className={styles.value}
                   />
                 </Row>
               </div>
               <EstimatedCost
-                amount={pendingPayments[0].amount ?? 0}
+                amount={payment.amount ?? 0}
                 payment={{
-                  envelope_xdr: pendingPayments[0].envelope_xdr,
-                  final_cost: pendingPayments[0].final_cost,
+                  envelope_xdr: payment.envelope_xdr,
+                  final_cost: payment.final_cost,
                   required_signatures: [],
-                  usd_price: pendingPayments[0].usd_price,
+                  usd_price: payment.usd_price,
                 }}
               />
               <Button

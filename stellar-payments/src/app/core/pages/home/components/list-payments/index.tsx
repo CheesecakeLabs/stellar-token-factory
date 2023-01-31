@@ -1,7 +1,10 @@
 import React from 'react'
 
-import { Loading } from 'components/atoms'
+import { PlusCircleOutlined } from '@ant-design/icons'
 
+import { Button, ButtonVariant, Loading, Row } from 'components/atoms'
+
+import { ItemPayment } from '../item-payment'
 import styles from './styles.module.scss'
 
 interface IListPaymentsProps {
@@ -22,18 +25,28 @@ export const ListPayments: React.FC<IListPaymentsProps> = ({
           <>
             <thead>
               <tr>
+                <th></th>
                 <th>Payee</th>
                 <th>Amount</th>
+                <th>Final Cost</th>
+                <th>Type</th>
                 <th>Creation date</th>
-                <th>Expiration date</th>
-                <th></th>
+                <th className={styles.thAddPayment}>
+                  <Row>
+                    <Button
+                      variant={ButtonVariant.add}
+                      label={'Create new payment'}
+                      icon={<PlusCircleOutlined />}
+                    />
+                  </Row>
+                </th>
               </tr>
             </thead>
             <tbody>
               {payments &&
                 payments.map(item => {
-                  return <div>oi</div>
-                })}
+                  return <ItemPayment payment={item} key={item.createdAt} />
+                })} 
             </tbody>
           </>
         )}
