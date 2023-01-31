@@ -97,6 +97,7 @@ const QuickstartTemplate = (): JSX.Element => {
             </div>
           </Card>
         </Layout.Inset>
+        <Layout.Footer/>
       </Layout.Content>
     </main>
   )
