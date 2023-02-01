@@ -1,6 +1,4 @@
 export * from './button'
-export * from './icon'
-export * from './select'
 export * from './input-text'
 export * from './typography'
 export * from './row'
