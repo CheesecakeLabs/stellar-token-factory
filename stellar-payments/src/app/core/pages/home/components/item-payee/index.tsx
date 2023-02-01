@@ -48,12 +48,10 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
         <td className={styles.alignEnd}>
           <Row>
             <Button
-              variant={
-                isPending() ? ButtonVariant.warning : ButtonVariant.primary
-              }
-              label={isPending() ? 'Pending approval' : 'Create payment order'}
-              icon={isPending() ? <WarningOutlined /> : <DollarOutlined />}
-              onClick={isPending() ? openModalPending : openModalStellar}
+              variant={ButtonVariant.primary}
+              label={'Create payment order'}
+              icon={<DollarOutlined />}
+              onClick={openModal}
             />
           </Row>
         </td>

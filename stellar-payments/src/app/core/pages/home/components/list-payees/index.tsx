@@ -23,7 +23,6 @@ export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
                 <th></th>
                 <th>Company name</th>
                 <th className={styles.thPhone}>Phone</th>
-                <th></th>
               </tr>
             </thead>
             <tbody>
