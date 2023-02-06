@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 
 import { LeftOutlined } from '@ant-design/icons'
 import { ConfigProvider, message, Steps } from 'antd'
+import { useAccount } from 'services/hooks/useAccount'
 import { usePayment } from 'services/hooks/usePayment'
 import { formatValueToNumber } from 'services/utils/utils'
 
@@ -36,6 +37,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     addUserToPendingSigners,
     setSubmit,
   } = usePayment()
+  const { getBalance } = useAccount()
 
   const next = (): void => {
     setCurrent(current + 1)
@@ -55,6 +57,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     setFormPayment(undefined)
     setSubmit(undefined)
     setOpenModal(false)
+    getBalance()
   }
 
   const sendAmount = async (): Promise<void> => {
