@@ -7,6 +7,7 @@ import { ReactComponent as FinanceIcon } from './fonts/finance.svg'
 import { ReactComponent as LoadingIcon } from './fonts/loading.svg'
 import { ReactComponent as StellarIcon } from './fonts/stellar.svg'
 import { ReactComponent as UserIcon } from './fonts/user.svg'
+import WireTransferIcon from './fonts/wire-transfer.png'
 
 export {
   StellarIcon,
@@ -18,4 +19,5 @@ export {
   CloseIcon,
   BlockchainIcon,
   FinanceIcon,
+  WireTransferIcon
 }

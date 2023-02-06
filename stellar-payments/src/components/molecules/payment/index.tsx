@@ -11,7 +11,7 @@ import {
   TypographyVariant,
 } from 'components/atoms'
 import { TypePayment } from 'components/enums'
-import { BlockchainIcon, FinanceIcon } from 'components/icons'
+import { BlockchainIcon, WireTransferIcon } from 'components/icons'
 
 import styles from './styles.module.scss'
 
@@ -75,7 +75,7 @@ export const Payment: React.FC<IEstimatedCost> = ({
           <Radio value={TypePayment.wire} />
           <div className={styles.formPayment}>
             <div className={styles.containerTitle}>
-              <FinanceIcon width={48} height={32} />
+              <img src={WireTransferIcon} width={48} height={40} />
               <Typography
                 variant={TypographyVariant.p}
                 text={'Wire Transfer'}
