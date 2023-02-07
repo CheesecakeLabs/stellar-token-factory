@@ -25,6 +25,11 @@ table {
 
 .tdRight {
   text-align: right;
+  padding-right: 1rem;
+}
+
+.tdSymbol {
+  padding-right: 1rem;
 }
 
 .tableHeader {
@@ -39,6 +44,7 @@ table {
   border-bottom: 1px solid var(--pal-border-primary) !important;
   line-height: 60px;
   font-size: 13px;
+  cursor: pointer;
 }
 
 .tdIssuer{
