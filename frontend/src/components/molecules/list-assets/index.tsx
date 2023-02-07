@@ -1,5 +1,5 @@
 import { FunctionComponent, useCallback } from 'react'
-import { Card, Heading6 } from '@stellar/design-system'
+import { Button, Card, Heading6 } from '@stellar/design-system'
 import { CustomLoader, CustomTag } from 'components/atoms'
 
 import styles from './styles.module.scss'
@@ -44,9 +44,10 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
           <table>
             <tbody>
               <tr className={styles.tableHeader}>
-                <td>SYMBOL</td>
+                <td className={styles.tdSymbol}>SYMBOL</td>
                 <td>ADDRESS</td>
                 <td className={styles.tdRight}>TOTAL SUPPLY</td>
+                <td></td>
               </tr>
               {props.issuerInfo.assets.map((item, index) => (
                 <tr
@@ -65,6 +66,15 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
                     )}
                   </td>
                   <td className={styles.tdRight}>{item.supply}</td>
+                  <td>
+                    <Button
+                      size={Button.size.small}
+                      variant={Button.variant.secondary}
+                      style={{width: '70px'}}
+                    >
+                      {isReadOnly(item.issuer) ? 'View' : 'Manage'}
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
