@@ -1,6 +1,11 @@
-import { FunctionComponent, useState } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
 import { Button, Card, IconButton, Input, Toggle } from '@stellar/design-system'
-import { CustomError, TokenMessage } from 'components/atoms'
+import {
+  CustomError,
+  FabHelper,
+  FabHelperVariant,
+  TokenMessage,
+} from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
 import { Info, Key } from 'react-feather'
 import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
@@ -11,12 +16,14 @@ import styles from './styles.module.scss'
 import { clawbackErrors, defaultClawback } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 import { UnauthorizedMessage } from 'components/atoms/unauthorized-message'
+import { TabsManagementEnum } from 'components/templates'
 
 export interface IClawbackProps {
   distribution: string
   assetCode: string
   issuer: string
   authorized: boolean
+  setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
 const Clawback: FunctionComponent<IClawbackProps> = props => {
@@ -97,6 +104,10 @@ const Clawback: FunctionComponent<IClawbackProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
+      <FabHelper
+        onClick={(): void => props.setShowHelper(TabsManagementEnum.CLAWBACK)}
+        variant={FabHelperVariant.fixedRight}
+      />
       {props.authorized ? (
         <div>
           <div className={styles.toogle}>

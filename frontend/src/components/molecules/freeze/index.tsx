@@ -1,6 +1,12 @@
-import { FunctionComponent, useState } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
 import { Button, Card, IconButton, Input } from '@stellar/design-system'
-import { ConfirmModal, CustomError, TokenMessage } from 'components/atoms'
+import {
+  ConfirmModal,
+  CustomError,
+  FabHelper,
+  FabHelperVariant,
+  TokenMessage,
+} from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
 import { Key } from 'react-feather'
 import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
@@ -11,12 +17,14 @@ import styles from './styles.module.scss'
 import { defaultFreeze, freezeErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 import { UnauthorizedMessage } from 'components/atoms/unauthorized-message'
+import { TabsManagementEnum } from 'components/templates'
 
 export interface IFreezeProps {
   distribution: string
   assetCode: string
   issuer: string
   authorized: boolean
+  setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
 const Freeze: FunctionComponent<IFreezeProps> = props => {
@@ -106,6 +114,10 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
+      <FabHelper
+        onClick={(): void => props.setShowHelper(TabsManagementEnum.FREEZE)}
+        variant={FabHelperVariant.fixedRight}
+      />
       {props.authorized ? (
         <div>
           <Input
@@ -120,7 +132,7 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
             rightElement={
               <IconButton
                 altText="Get Public Key"
-                icon={<Key key='target'/>}
+                icon={<Key key="target" />}
                 onClick={(): Promise<void> => getKey('target')}
               />
             }
@@ -142,7 +154,7 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
             <Button
               isLoading={isLoadingFreeze}
               onClick={(): void => confirmOperation(true)}
-              key='freeze'
+              key="freeze"
             >
               Freeze
             </Button>
@@ -150,7 +162,7 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
               isLoading={isLoadingUnfreeze}
               onClick={(): void => confirmOperation(false)}
               variant={Button.variant.tertiary}
-              key='unfreeze'
+              key="unfreeze"
             >
               Unfreeze
             </Button>
@@ -170,7 +182,7 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
           />
         </div>
       ) : (
-        <UnauthorizedMessage message='You are not authorized to perform Freeze, please check permission in settings'/>
+        <UnauthorizedMessage message="You are not authorized to perform Freeze, please check permission in settings" />
       )}
     </Card>
   )

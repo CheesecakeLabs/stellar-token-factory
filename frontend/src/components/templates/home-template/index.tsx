@@ -2,7 +2,12 @@ import { Button, Card, Layout } from '@stellar/design-system'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { isConnected, getPublicKey, getNetwork } from '@stellar/freighter-api'
-import { CustomLoader, HeaderStatus } from 'components/atoms'
+import {
+  CustomLoader,
+  FabHelper,
+  FabHelperVariant,
+  HeaderStatus,
+} from 'components/atoms'
 import { CustomError } from 'components/atoms/custom-error'
 import { InputKey } from 'components/molecules'
 
@@ -12,12 +17,14 @@ import 'react-tabs/style/react-tabs.css'
 import { FactoryService } from 'services/factory'
 import { messageError } from 'services/factory/constants'
 import { Download } from 'react-feather'
+import { HelperHome } from './components/helper-home'
 
 const HomeTemplate = (): JSX.Element => {
   const navigate = useNavigate()
   const [publicKey, setPublicKey] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [showHelper, setShowHelper] = useState(false)
 
   const handlePublicKey = useCallback(
     async (publicKey: string) => {
@@ -81,6 +88,13 @@ const HomeTemplate = (): JSX.Element => {
 
   return (
     <main className={styles.main}>
+      <FabHelper
+        variant={FabHelperVariant.primary}
+        onClick={(): void => {
+          setShowHelper(true)
+        }}
+      />
+      {showHelper && <HelperHome setShowHelper={setShowHelper} />}
       <Layout.Header
         hasDarkModeToggle
         projectTitle="Stellar Asset Sandbox"

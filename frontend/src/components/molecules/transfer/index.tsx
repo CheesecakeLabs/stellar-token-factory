@@ -1,6 +1,12 @@
-import { FunctionComponent, useState } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
 import { Button, Card, IconButton, Input } from '@stellar/design-system'
-import { CustomError, ConfirmModal, TokenMessage } from 'components/atoms'
+import {
+  CustomError,
+  ConfirmModal,
+  TokenMessage,
+  FabHelper,
+  FabHelperVariant,
+} from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
 import { Key } from 'react-feather'
 import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
@@ -10,11 +16,13 @@ import { FreighterService } from 'services/freighter'
 import styles from './styles.module.scss'
 import { getInitialTransfer, transferErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
+import { TabsManagementEnum } from 'components/templates'
 
 export interface ITransferProps {
   distribution: string
   assetCode: string
   issuer: string
+  setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
 const Transfer: FunctionComponent<ITransferProps> = props => {
@@ -107,6 +115,10 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
+      <FabHelper
+        onClick={(): void => props.setShowHelper(TabsManagementEnum.TRANSFER)}
+        variant={FabHelperVariant.fixedRight}
+      />
       <div className={styles.fieldAmount}>
         <Input
           name="amount"
@@ -134,7 +146,7 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
           rightElement={
             <IconButton
               altText="Get Public Key"
-              icon={<Key key='distributor'/>}
+              icon={<Key key="distributor" />}
               onClick={(): Promise<void> => getKey('distributor')}
             />
           }
@@ -144,7 +156,7 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
         name="recipient"
         id="input-recipient-address"
         label="Recipient Address"
-        placeholder="Address will receive the new tokens"
+        placeholder="Address will receive the new assets"
         value={inputs.recipient || ''}
         onChange={handleChange}
         error={inputsErrors.target}
@@ -152,7 +164,7 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
         rightElement={
           <IconButton
             altText="Get Public Key"
-            icon={<Key key='recipient'/>}
+            icon={<Key key="recipient" />}
             onClick={(): Promise<void> => getKey('recipient')}
           />
         }

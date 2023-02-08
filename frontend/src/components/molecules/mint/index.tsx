@@ -1,6 +1,12 @@
-import { FunctionComponent, useState } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
 import { Button, Card, IconButton, Input } from '@stellar/design-system'
-import { CustomError, ConfirmModal, TokenMessage } from 'components/atoms'
+import {
+  CustomError,
+  ConfirmModal,
+  TokenMessage,
+  FabHelper,
+  FabHelperVariant,
+} from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
 import { Key } from 'react-feather'
 import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
@@ -10,11 +16,13 @@ import { FreighterService } from 'services/freighter'
 import styles from './styles.module.scss'
 import { getInitialMint, mintErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
+import { TabsManagementEnum } from 'components/templates'
 
 export interface IMintProps {
   distribution: string
   assetCode: string
   issuer: string
+  setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
 const Mint: FunctionComponent<IMintProps> = props => {
@@ -106,6 +114,10 @@ const Mint: FunctionComponent<IMintProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
+      <FabHelper
+        onClick={(): void => props.setShowHelper(TabsManagementEnum.MINT)}
+        variant={FabHelperVariant.fixedRight}
+      />
       <div className={styles.fieldAmount}>
         <Input
           name="amount"
@@ -124,7 +136,7 @@ const Mint: FunctionComponent<IMintProps> = props => {
         name="distributor"
         id="input-recipient-address"
         label="To Distribution Address"
-        placeholder="Address will receive the new tokens"
+        placeholder="Address will receive the new assets"
         value={inputs.distributor || ''}
         onChange={handleChange}
         error={inputsErrors.distributor}

@@ -9,6 +9,8 @@ import '@stellar/design-system/build/styles.min.css'
 import { CustomError, HeaderStatus } from 'components/atoms'
 import { IAssetProps, IIssuerInfo } from 'services/factory/interfaces'
 import { FactoryService } from 'services/factory'
+import { HelperAssets } from './components/helper-assets'
+import { HelperForging } from './components/helper-forging'
 
 type LocationState = {
   state: {
@@ -25,6 +27,8 @@ const FactoryTemplate = (): JSX.Element => {
   const { state } = location as LocationState
   const [isModalVisible, setModalVisible] = useState(false)
   const [issuerInfo, setIssuerInfo] = useState<IIssuerInfo>()
+  const [showHelperAssets, setShowHelperAssets] = useState(false)
+  const [showHelperForging, setShowHelperForging] = useState(false)
 
   const redirectHome = useCallback(() => {
     navigate('/home')
@@ -64,56 +68,69 @@ const FactoryTemplate = (): JSX.Element => {
 
   return (
     <main className={styles.main}>
-      <Layout.Header
-        hasDarkModeToggle
-        projectTitle="Stellar Asset Sandbox"
-        projectLink=""
-        contentRight={<HeaderStatus key={'network'} />}
-      />
-      <Layout.Content>
-        <Layout.Inset>
-          <Card variant={Card.variant.highlight}>
-            <div className={styles.cardAddress}>
-              <p className={styles.textAddress}>Issuer: {state?.publicKey}</p>
-              <div className={styles.issuerActions}>
-                <Button
-                  variant={Button.variant.tertiary}
-                  size={Button.size.small}
-                  onClick={(): void => setModalVisible(true)}
-                >
-                  Settings
-                </Button>
-                <Button
-                  variant={Button.variant.tertiary}
-                  size={Button.size.small}
-                  onClick={redirectHome}
-                >
-                  Change
-                </Button>
-              </div>
-            </div>
-          </Card>
-          <br />
-          {error ? <CustomError message={error} /> : <div />}
-          <ListAssets
-            issuerInfo={issuerInfo}
-            isLoading={isLoading}
-            issuer={state?.publicKey}
-          />
-          <br />
-          <FormToken publicKey={state?.publicKey} loadTokens={loadTokens} />
-        </Layout.Inset>
-      </Layout.Content>
-      <Layout.Footer />
-      {isModalVisible && (
-        <SettingsModal
-          isModalVisible={isModalVisible}
-          closeModal={closeModal}
-          issuer={state?.publicKey}
-          isReadOnly={isReadOnly()}
-          loadTokens={loadTokens}
+      <>
+        {showHelperAssets && (
+          <HelperAssets setShowHelper={setShowHelperAssets} />
+        )}
+        {showHelperForging && (
+          <HelperForging setShowHelper={setShowHelperForging} />
+        )}
+        <Layout.Header
+          hasDarkModeToggle
+          projectTitle="Stellar Asset Sandbox"
+          projectLink=""
+          contentRight={<HeaderStatus key={'network'} />}
         />
-      )}
+        <Layout.Content>
+          <Layout.Inset>
+            <Card variant={Card.variant.highlight}>
+              <div className={styles.cardAddress}>
+                <p className={styles.textAddress}>Issuer: {state?.publicKey}</p>
+                <div className={styles.issuerActions}>
+                  <Button
+                    variant={Button.variant.tertiary}
+                    size={Button.size.small}
+                    onClick={(): void => setModalVisible(true)}
+                  >
+                    Settings
+                  </Button>
+                  <Button
+                    variant={Button.variant.tertiary}
+                    size={Button.size.small}
+                    onClick={redirectHome}
+                  >
+                    Change
+                  </Button>
+                </div>
+              </div>
+            </Card>
+            <br />
+            {error ? <CustomError message={error} /> : <div />}
+            <ListAssets
+              issuerInfo={issuerInfo}
+              isLoading={isLoading}
+              issuer={state?.publicKey}
+              setShowHelper={setShowHelperAssets}
+            />
+            <br />
+            <FormToken
+              publicKey={state?.publicKey}
+              loadTokens={loadTokens}
+              setShowHelper={setShowHelperForging}
+            />
+          </Layout.Inset>
+        </Layout.Content>
+        <Layout.Footer />
+        {isModalVisible && (
+          <SettingsModal
+            isModalVisible={isModalVisible}
+            closeModal={closeModal}
+            issuer={state?.publicKey}
+            isReadOnly={isReadOnly()}
+            loadTokens={loadTokens}
+          />
+        )}
+      </>
     </main>
   )
 }

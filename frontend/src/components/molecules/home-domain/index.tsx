@@ -1,6 +1,6 @@
-import { FunctionComponent, useState } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
 import { Button, Card, Input } from '@stellar/design-system'
-import { CustomError, TokenMessage } from 'components/atoms'
+import { CustomError, FabHelper, FabHelperVariant, TokenMessage } from 'components/atoms'
 import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
 import { FactoryService } from 'services/factory'
 import { FreighterService } from 'services/freighter'
@@ -8,9 +8,11 @@ import { FreighterService } from 'services/freighter'
 import styles from './styles.module.scss'
 import { defaultHomeDomain, homeDomainErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
+import { TabsManagementEnum } from 'components/templates'
 
 export interface IHomeDomainProps {
   issuer: string
+  setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
 const HomeDomain: FunctionComponent<IHomeDomainProps> = props => {
@@ -77,6 +79,10 @@ const HomeDomain: FunctionComponent<IHomeDomainProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
+      <FabHelper
+        onClick={(): void => props.setShowHelper(TabsManagementEnum.HOME_DOMAIN)}
+        variant={FabHelperVariant.fixedRight}
+      />
       <Input
         name="home_domain"
         id="input-home_domain"
