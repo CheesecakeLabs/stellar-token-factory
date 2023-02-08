@@ -6,10 +6,19 @@ import {
   Toggle,
   Tooltip,
 } from '@stellar/design-system'
-import { CustomError, CustomLoader, TokenMessage } from 'components/atoms'
-import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
 import {
+  CustomError,
+  CustomLoader,
+  FabHelper,
+  FabHelperVariant,
+  TokenMessage,
+} from 'components/atoms'
+import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
+import { HelperFactoryEnum } from 'components/templates'
+import {
+  Dispatch,
   FunctionComponent,
+  SetStateAction,
   useCallback,
   useEffect,
   useRef,
@@ -27,6 +36,7 @@ export interface ISettingsProps {
   issuer: string
   isReadOnly: boolean
   loadTokens: () => void
+  setShowHelper: Dispatch<SetStateAction<HelperFactoryEnum | undefined>>
 }
 
 const SettingsModal: FunctionComponent<ISettingsProps> = props => {
@@ -128,6 +138,12 @@ const SettingsModal: FunctionComponent<ISettingsProps> = props => {
             <CustomLoader />
           ) : (
             <div>
+              <FabHelper
+                variant={FabHelperVariant.fixedRight}
+                onClick={(): void =>
+                  props.setShowHelper(HelperFactoryEnum.SETTINGS)
+                }
+              />
               <Eyebrow className={styles.titles}>
                 <Tooltip content="You can enable Freeze and Clawback functionality. Clawback requires Freeze to be enabled as well.">
                   Control access

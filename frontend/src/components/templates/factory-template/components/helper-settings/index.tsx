@@ -2,11 +2,11 @@ import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { HelperItem, HelperPanel } from 'components/molecules'
 import { HelperFactoryEnum } from 'components/templates'
 
-export interface IHelperAssetsProps {
+export interface IHelperSettingsProps {
   setShowHelper: Dispatch<SetStateAction<HelperFactoryEnum | undefined>>
 }
 
-const HelperAssets: FunctionComponent<IHelperAssetsProps> = ({
+const HelperSettings: FunctionComponent<IHelperSettingsProps> = ({
   setShowHelper,
 }) => {
   return (
@@ -15,7 +15,7 @@ const HelperAssets: FunctionComponent<IHelperAssetsProps> = ({
         setShowHelper(undefined)
       }}
     >
-      <HelperItem title="Token Creation">
+      <HelperItem title="Token Settings">
         Following up on the main screen, we have the Token Creation formulary.
         Basically, what it does is to create a trustline between the Issuer
         Address and the Treasury Address (Distributor) with the change_trust
@@ -27,4 +27,4 @@ const HelperAssets: FunctionComponent<IHelperAssetsProps> = ({
   )
 }
 
-export { HelperAssets }
+export { HelperSettings }

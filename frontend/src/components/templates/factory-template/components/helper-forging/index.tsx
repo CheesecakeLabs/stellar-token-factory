@@ -1,8 +1,9 @@
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { HelperItem, HelperPanel } from 'components/molecules'
+import { HelperFactoryEnum } from 'components/templates'
 
 export interface IHelperForgingProps {
-  setShowHelper: Dispatch<SetStateAction<boolean>>
+  setShowHelper: Dispatch<SetStateAction<HelperFactoryEnum | undefined>>
 }
 
 const HelperForging: FunctionComponent<IHelperForgingProps> = ({
@@ -11,7 +12,7 @@ const HelperForging: FunctionComponent<IHelperForgingProps> = ({
   return (
     <HelperPanel
       onClick={(): void => {
-        setShowHelper(false)
+        setShowHelper(undefined)
       }}
     >
       <HelperItem title="Token Forging">

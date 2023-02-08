@@ -11,12 +11,13 @@ import styles from './styles.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { IAssetProps, IIssuerInfo } from 'services/factory/interfaces'
 import { List } from 'react-feather'
+import { HelperFactoryEnum } from 'components/templates'
 
 export interface IListAssetsProps {
   issuerInfo?: IIssuerInfo
   isLoading: boolean
   issuer: string
-  setShowHelper: Dispatch<SetStateAction<boolean>>
+  setShowHelper: Dispatch<SetStateAction<HelperFactoryEnum | undefined>>
 }
 
 const ListAssets: FunctionComponent<IListAssetsProps> = props => {
@@ -47,7 +48,7 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
           <Heading6>Assets</Heading6>
           <FabHelper
             variant={FabHelperVariant.secondary}
-            onClick={(): void => props.setShowHelper(true)}
+            onClick={(): void => props.setShowHelper(HelperFactoryEnum.ASSETS)}
           />
         </div>
         {props.isLoading ? (

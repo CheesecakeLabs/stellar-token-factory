@@ -25,11 +25,12 @@ import {
 import { validateInputError, handleSubmitErrors } from './form-validation'
 import { FactoryService } from 'services/factory'
 import { FreighterService } from 'services/freighter'
+import { HelperFactoryEnum } from 'components/templates'
 
 export interface IFormTokenProps {
   publicKey: string
   loadTokens: () => void
-  setShowHelper: Dispatch<SetStateAction<boolean>>
+  setShowHelper: Dispatch<SetStateAction<HelperFactoryEnum | undefined>>
 }
 
 const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
@@ -113,7 +114,9 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
         <Heading6>Asset forging operation</Heading6>
         <FabHelper
           variant={FabHelperVariant.secondary}
-          onClick={(): void => formTokenProps.setShowHelper(true)}
+          onClick={(): void =>
+            formTokenProps.setShowHelper(HelperFactoryEnum.FORGING)
+          }
         />
       </div>
       <div className={styles.contentForm}>
