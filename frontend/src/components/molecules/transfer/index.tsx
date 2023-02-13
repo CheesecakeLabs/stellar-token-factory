@@ -115,10 +115,12 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
-      <FabHelper
-        onClick={(): void => props.setShowHelper(TabsManagementEnum.TRANSFER)}
-        variant={FabHelperVariant.fixedRight}
-      />
+      {false && (
+        <FabHelper
+          onClick={(): void => props.setShowHelper(TabsManagementEnum.TRANSFER)}
+          variant={FabHelperVariant.fixedRight}
+        />
+      )}
       <div className={styles.fieldAmount}>
         <Input
           name="amount"

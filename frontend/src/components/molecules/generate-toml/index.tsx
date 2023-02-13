@@ -100,12 +100,16 @@ const GenerateToml: FunctionComponent<IGenerateTomlProps> = props => {
         <CustomLoader />
       ) : (
         <Card variant={Card.variant.highlight}>
-          <div className={styles.helper}>
-            <FabHelper
-              onClick={(): void => props.setShowHelper(TabsManagementEnum.TOML)}
-              variant={FabHelperVariant.fixedRight}
-            />
-          </div>
+          {false && (
+            <div className={styles.helper}>
+              <FabHelper
+                onClick={(): void =>
+                  props.setShowHelper(TabsManagementEnum.TOML)
+                }
+                variant={FabHelperVariant.fixedRight}
+              />
+            </div>
+          )}
           <AccordionGeneralInfo toml={toml} setToml={setToml} />
           <AccordionOrgDoc toml={toml} setToml={setToml} />
           <AccordionCurrencyDoc toml={toml} setToml={setToml} />

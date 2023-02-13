@@ -114,10 +114,12 @@ const Burn: FunctionComponent<IBurnProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
-      <FabHelper
-        onClick={(): void => props.setShowHelper(TabsManagementEnum.BURN)}
-        variant={FabHelperVariant.fixedRight}
-      />
+      {false && (
+        <FabHelper
+          onClick={(): void => props.setShowHelper(TabsManagementEnum.BURN)}
+          variant={FabHelperVariant.fixedRight}
+        />
+      )}
       <div className={styles.fieldAmount}>
         <Input
           name="amount"

@@ -1,6 +1,11 @@
 import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
 import { Button, Card, Input } from '@stellar/design-system'
-import { CustomError, FabHelper, FabHelperVariant, TokenMessage } from 'components/atoms'
+import {
+  CustomError,
+  FabHelper,
+  FabHelperVariant,
+  TokenMessage,
+} from 'components/atoms'
 import { defaultResponseSubmit } from 'components/organisms/form-token/constants'
 import { FactoryService } from 'services/factory'
 import { FreighterService } from 'services/freighter'
@@ -79,10 +84,14 @@ const HomeDomain: FunctionComponent<IHomeDomainProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
-      <FabHelper
-        onClick={(): void => props.setShowHelper(TabsManagementEnum.HOME_DOMAIN)}
-        variant={FabHelperVariant.fixedRight}
-      />
+      {false && (
+        <FabHelper
+          onClick={(): void =>
+            props.setShowHelper(TabsManagementEnum.HOME_DOMAIN)
+          }
+          variant={FabHelperVariant.fixedRight}
+        />
+      )}
       <Input
         name="home_domain"
         id="input-home_domain"

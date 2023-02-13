@@ -104,10 +104,12 @@ const Clawback: FunctionComponent<IClawbackProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
-      <FabHelper
-        onClick={(): void => props.setShowHelper(TabsManagementEnum.CLAWBACK)}
-        variant={FabHelperVariant.fixedRight}
-      />
+      {false && (
+        <FabHelper
+          onClick={(): void => props.setShowHelper(TabsManagementEnum.CLAWBACK)}
+          variant={FabHelperVariant.fixedRight}
+        />
+      )}
       {props.authorized ? (
         <div>
           <div className={styles.toogle}>

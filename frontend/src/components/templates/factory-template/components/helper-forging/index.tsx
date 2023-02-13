@@ -19,7 +19,7 @@ const HelperForging: FunctionComponent<IHelperForgingProps> = ({
       <HelperTopic title="Forging">
         <HelperItem>
           The forging areas allows for a new asset to be created for the issuing
-          account indicated. During this process a a first trustline is created
+          account indicated. During this process a first trustline is created
           for the distribution account, therefore it is necessary to sign and
           authorize the transaction for the distribution account using
           Freighter.
@@ -38,7 +38,7 @@ const HelperForging: FunctionComponent<IHelperForgingProps> = ({
           desired accounts.
           <img src={FlowImg} />
           <br />
-          <b>Issuing account Field:</b> Requires the public key of the account
+          <b>Issuing account field:</b> Requires the public key of the account
           that will be used as the issuing account for this asset. By default,
           the same account used to load the sandbox comes prefilled.
           <br />
@@ -47,7 +47,7 @@ const HelperForging: FunctionComponent<IHelperForgingProps> = ({
           selected on Freighter.
           <br />
           <br />
-          <b>Distribution account Field:</b> Requires the public key of the
+          <b>Distribution account field:</b> Requires the public key of the
           account that will be used as the distribution account for this asset.
           <br />
           <br />

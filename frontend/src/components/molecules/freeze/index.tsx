@@ -114,10 +114,12 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
 
   return (
     <Card variant={Card.variant.highlight}>
-      <FabHelper
-        onClick={(): void => props.setShowHelper(TabsManagementEnum.FREEZE)}
-        variant={FabHelperVariant.fixedRight}
-      />
+      {false && (
+        <FabHelper
+          onClick={(): void => props.setShowHelper(TabsManagementEnum.FREEZE)}
+          variant={FabHelperVariant.fixedRight}
+        />
+      )}
       {props.authorized ? (
         <div>
           <Input
