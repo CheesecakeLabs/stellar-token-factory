@@ -12,12 +12,14 @@ import 'react-tabs/style/react-tabs.css'
 import { FactoryService } from 'services/factory'
 import { messageError } from 'services/factory/constants'
 import { Download } from 'react-feather'
+import { HelperHome } from './components/helper-home'
 
 const HomeTemplate = (): JSX.Element => {
   const navigate = useNavigate()
   const [publicKey, setPublicKey] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [showHelper, setShowHelper] = useState(false)
 
   const handlePublicKey = useCallback(
     async (publicKey: string) => {
@@ -81,6 +83,7 @@ const HomeTemplate = (): JSX.Element => {
 
   return (
     <main className={styles.main}>
+      {showHelper && <HelperHome setShowHelper={setShowHelper} />}
       <Layout.Header
         hasDarkModeToggle
         projectTitle="Stellar Asset Sandbox"
@@ -99,6 +102,7 @@ const HomeTemplate = (): JSX.Element => {
                     publicKey={publicKey}
                     getKey={getKey}
                     handleChange={handleChange}
+                    setShowHelper={setShowHelper}
                   />
                 )}
               </div>

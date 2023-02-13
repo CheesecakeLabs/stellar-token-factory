@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--pal-border-primary);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+
+  p {
+    font-size: 14px;
+    line-height: 22px;
+  }
+
+  img {
+    margin: 1rem auto;
+    max-width: 100%;
+    display: block;
+    box-shadow: 0 0.5rem 1.5rem -0.5rem var(--pal-background-tooltip);
+    border-radius: 0.5rem;
+  }
+
+  a {
+    color: var(--pal-text-primary);
+  }
+
+  li {
+    font-size: 14px;
+    line-height: 22px;
+    margin-top: 0.25rem;
+  }
+
+  b {
+    font-weight: bold;
+    font-size: 15px;
+  }
+}

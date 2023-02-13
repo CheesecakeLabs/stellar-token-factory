@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
 import {
   Button,
   Card,
@@ -9,7 +9,12 @@ import {
 } from '@stellar/design-system'
 import { Info, Key } from 'react-feather'
 import { getPublicKey } from '@stellar/freighter-api'
-import { CustomError, TokenMessage } from 'components/atoms'
+import {
+  CustomError,
+  FabHelper,
+  FabHelperVariant,
+  TokenMessage,
+} from 'components/atoms'
 
 import styles from './styles.module.scss'
 import {
@@ -20,10 +25,12 @@ import {
 import { validateInputError, handleSubmitErrors } from './form-validation'
 import { FactoryService } from 'services/factory'
 import { FreighterService } from 'services/freighter'
+import { HelperFactoryEnum } from 'components/templates'
 
 export interface IFormTokenProps {
   publicKey: string
   loadTokens: () => void
+  setShowHelper: Dispatch<SetStateAction<HelperFactoryEnum | undefined>>
 }
 
 const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
@@ -103,13 +110,21 @@ const FormToken: FunctionComponent<IFormTokenProps> = formTokenProps => {
 
   return (
     <Card variant={Card.variant.highlight}>
-      <Heading6>Asset forging operation</Heading6>
+      <div className={styles.row}>
+        <Heading6>Asset forging operation</Heading6>
+        <FabHelper
+          variant={FabHelperVariant.secondary}
+          onClick={(): void =>
+            formTokenProps.setShowHelper(HelperFactoryEnum.FORGING)
+          }
+        />
+      </div>
       <div className={styles.contentForm}>
         <Input
           name="issuer"
           id="input-issuer-account"
-          label="Issuer Account"
-          placeholder="Address issuer account"
+          label="Issuing Account"
+          placeholder="Address issuing account"
           value={inputs.issuer || ''}
           required
           onChange={handleChange}

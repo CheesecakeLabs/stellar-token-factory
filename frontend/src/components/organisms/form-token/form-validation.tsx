@@ -13,7 +13,7 @@ export const validateInputError = (
       hasError = true
       setInputsErrors(values => ({
         ...values,
-        ['issuer']: 'The issuer address must be informed',
+        ['issuer']: 'The issuing address must be informed',
       }))
     }
     if (!inputs.distributor) {
@@ -61,7 +61,7 @@ export const handleSubmitErrors = (
     setError(`Limit: ${responseError.limit}`)
   }
   if (responseError?.issuer) {
-    setError(`Issuer account: ${responseError.issuer}`)
+    setError(`Issuing account: ${responseError.issuer}`)
   }
   if (responseError?.distributor) {
     setError(`Distribution account: ${responseError.distributor}`)
