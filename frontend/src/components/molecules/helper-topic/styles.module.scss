@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  .topic {
+    font-size: 18px;
+    border-bottom: 1px solid var(--pal-text-tertiary);
+    padding-bottom: 0.75rem;
+    font-weight: bold;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+}

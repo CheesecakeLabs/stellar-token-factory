@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'react'
 import styles from './styles.module.scss'
 import { HelpCircle } from 'react-feather'
+import { IconButton } from '@stellar/design-system'
 
 export enum FabHelperVariant {
   primary = 'primary',
@@ -19,7 +20,12 @@ const FabHelper: FunctionComponent<IFabHelperProps> = ({
 }) => {
   return (
     <div className={styles[variant]} onClick={onClick}>
-      <HelpCircle size={variant == FabHelperVariant.primary ? 28 : 16} />
+      <IconButton
+        altText="Help"
+        icon={
+          <HelpCircle size={variant == FabHelperVariant.primary ? 28 : 18} />
+        }
+      />
     </div>
   )
 }

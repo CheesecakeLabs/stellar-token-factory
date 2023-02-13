@@ -45,7 +45,7 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
     <div className={styles.content}>
       <Card variant={Card.variant.highlight}>
         <div className={styles.row}>
-          <Heading6>Assets</Heading6>
+          <Heading6>Asset List</Heading6>
           <FabHelper
             variant={FabHelperVariant.secondary}
             onClick={(): void => props.setShowHelper(HelperFactoryEnum.ASSETS)}

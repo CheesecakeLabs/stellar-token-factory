@@ -2,12 +2,7 @@ import { Button, Card, Layout } from '@stellar/design-system'
 import { useNavigate } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { isConnected, getPublicKey, getNetwork } from '@stellar/freighter-api'
-import {
-  CustomLoader,
-  FabHelper,
-  FabHelperVariant,
-  HeaderStatus,
-} from 'components/atoms'
+import { CustomLoader, HeaderStatus } from 'components/atoms'
 import { CustomError } from 'components/atoms/custom-error'
 import { InputKey } from 'components/molecules'
 
@@ -88,12 +83,6 @@ const HomeTemplate = (): JSX.Element => {
 
   return (
     <main className={styles.main}>
-      <FabHelper
-        variant={FabHelperVariant.primary}
-        onClick={(): void => {
-          setShowHelper(true)
-        }}
-      />
       {showHelper && <HelperHome setShowHelper={setShowHelper} />}
       <Layout.Header
         hasDarkModeToggle
@@ -113,6 +102,7 @@ const HomeTemplate = (): JSX.Element => {
                     publicKey={publicKey}
                     getKey={getKey}
                     handleChange={handleChange}
+                    setShowHelper={setShowHelper}
                   />
                 )}
               </div>

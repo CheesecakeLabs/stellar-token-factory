@@ -98,7 +98,9 @@ const FactoryTemplate = (): JSX.Element => {
           <Layout.Inset>
             <Card variant={Card.variant.highlight}>
               <div className={styles.cardAddress}>
-                <p className={styles.textAddress}>Issuer: {state?.publicKey}</p>
+                <p className={styles.textAddress}>
+                  Issuing: {state?.publicKey}
+                </p>
                 <div className={styles.issuerActions}>
                   <Button
                     variant={Button.variant.tertiary}
