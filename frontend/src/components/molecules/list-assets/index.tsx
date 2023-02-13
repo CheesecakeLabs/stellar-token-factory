@@ -1,16 +1,23 @@
-import { FunctionComponent, useCallback } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useCallback } from 'react'
 import { Button, Card, Heading6 } from '@stellar/design-system'
-import { CustomLoader, CustomTag } from 'components/atoms'
+import {
+  CustomLoader,
+  CustomTag,
+  FabHelper,
+  FabHelperVariant,
+} from 'components/atoms'
 
 import styles from './styles.module.scss'
 import { useNavigate } from 'react-router-dom'
 import { IAssetProps, IIssuerInfo } from 'services/factory/interfaces'
 import { List } from 'react-feather'
+import { HelperFactoryEnum } from 'components/templates'
 
 export interface IListAssetsProps {
   issuerInfo?: IIssuerInfo
   isLoading: boolean
   issuer: string
+  setShowHelper: Dispatch<SetStateAction<HelperFactoryEnum | undefined>>
 }
 
 const ListAssets: FunctionComponent<IListAssetsProps> = props => {
@@ -37,7 +44,13 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
   return (
     <div className={styles.content}>
       <Card variant={Card.variant.highlight}>
-        <Heading6>Tokens</Heading6>
+        <div className={styles.row}>
+          <Heading6>Asset List</Heading6>
+          <FabHelper
+            variant={FabHelperVariant.secondary}
+            onClick={(): void => props.setShowHelper(HelperFactoryEnum.ASSETS)}
+          />
+        </div>
         {props.isLoading ? (
           <CustomLoader />
         ) : props.issuerInfo && props.issuerInfo?.assets.length > 0 ? (
@@ -70,7 +83,7 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
                     <Button
                       size={Button.size.small}
                       variant={Button.variant.secondary}
-                      style={{width: '70px'}}
+                      style={{ width: '70px' }}
                     >
                       {isReadOnly(item.issuer) ? 'View' : 'Manage'}
                     </Button>
@@ -82,7 +95,7 @@ const ListAssets: FunctionComponent<IListAssetsProps> = props => {
         ) : (
           <div className={styles.empty}>
             <List size={24} />
-            <p>No tokens created</p>
+            <p>No assets created</p>
           </div>
         )}
       </Card>

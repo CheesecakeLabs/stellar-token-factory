@@ -73,12 +73,12 @@ const FormCurrencyDoc: FunctionComponent<IFormCurrencyDocProps> = props => {
             id="input-issuer"
             label={
               <label>
-                <Tooltip content="Asset issuer Stellar public key">
-                  Issuer <Info size={14} className={styles.iconTooltip} />
+                <Tooltip content="Asset issuing Stellar public key">
+                  Issuing <Info size={14} className={styles.iconTooltip} />
                 </Tooltip>
               </label>
             }
-            placeholder="Issuer"
+            placeholder="Issuing"
             autoComplete="off"
             value={inputs.issuer}
             onChange={handleChange}

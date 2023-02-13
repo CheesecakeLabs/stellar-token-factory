@@ -29,7 +29,7 @@ const ManagementHeader: FunctionComponent<IManagementHeaderProps> = props => {
             Asset code: <b>{props.asset_code}</b>
           </p>
           <p>
-            Issuer: <b>{props.asset_issuer}</b>
+            Issuing: <b>{props.asset_issuer}</b>
           </p>
           <p>
             Distribution:{' '}

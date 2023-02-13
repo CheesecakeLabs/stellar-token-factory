@@ -1,6 +1,18 @@
-import { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { Button, Card, InfoBlock } from '@stellar/design-system'
-import { CustomError, CustomLoader } from 'components/atoms'
+import {
+  CustomError,
+  CustomLoader,
+  FabHelper,
+  FabHelperVariant,
+} from 'components/atoms'
 import { FactoryService } from 'services/factory'
 
 import styles from './styles.module.scss'
@@ -13,9 +25,11 @@ import {
   AccordionOrgDoc,
 } from '..'
 import fileDownload from 'js-file-download'
+import { TabsManagementEnum } from 'components/templates'
 
 export interface IGenerateTomlProps {
   issuer: string
+  setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
 const GenerateToml: FunctionComponent<IGenerateTomlProps> = props => {
@@ -86,6 +100,16 @@ const GenerateToml: FunctionComponent<IGenerateTomlProps> = props => {
         <CustomLoader />
       ) : (
         <Card variant={Card.variant.highlight}>
+          {false && (
+            <div className={styles.helper}>
+              <FabHelper
+                onClick={(): void =>
+                  props.setShowHelper(TabsManagementEnum.TOML)
+                }
+                variant={FabHelperVariant.fixedRight}
+              />
+            </div>
+          )}
           <AccordionGeneralInfo toml={toml} setToml={setToml} />
           <AccordionOrgDoc toml={toml} setToml={setToml} />
           <AccordionCurrencyDoc toml={toml} setToml={setToml} />

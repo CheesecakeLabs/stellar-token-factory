@@ -6,6 +6,11 @@
   h6 {
     margin-bottom: 20px !important;
   }
+
+  .row{
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 .tdContent {

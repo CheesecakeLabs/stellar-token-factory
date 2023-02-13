@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { CustomLoader } from 'components/atoms'
 import {
   Mint,
@@ -11,14 +11,16 @@ import {
 } from 'components/molecules'
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs'
 import styles from './styles.module.scss'
+import { TabsManagementEnum } from 'components/templates'
 
 export interface ITabsManagementProps {
   distribution: string
   issuer: string
   assetCode: string
-  isLoading: boolean,
-  isFreeze: boolean,
+  isLoading: boolean
+  isFreeze: boolean
   isClawback: boolean
+  setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
 const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
@@ -62,6 +64,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
+                setShowHelper={props.setShowHelper}
               />
             </TabPanel>
             <TabPanel>
@@ -69,6 +72,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
+                setShowHelper={props.setShowHelper}
               />
             </TabPanel>
             <TabPanel>
@@ -76,13 +80,20 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 distribution={props.distribution}
                 issuer={props.issuer}
                 assetCode={props.assetCode}
+                setShowHelper={props.setShowHelper}
               />
             </TabPanel>
             <TabPanel>
-              <HomeDomain issuer={props.issuer} />
+              <HomeDomain
+                issuer={props.issuer}
+                setShowHelper={props.setShowHelper}
+              />
             </TabPanel>
             <TabPanel>
-              <GenerateToml issuer={props.issuer} />
+              <GenerateToml
+                issuer={props.issuer}
+                setShowHelper={props.setShowHelper}
+              />
             </TabPanel>
             <TabPanel>
               <Freeze
@@ -90,6 +101,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 authorized={props.isFreeze}
+                setShowHelper={props.setShowHelper}
               />
             </TabPanel>
             <TabPanel>
@@ -98,6 +110,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 authorized={props.isClawback}
+                setShowHelper={props.setShowHelper}
               />
             </TabPanel>
           </Tabs>
