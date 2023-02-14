@@ -4,7 +4,7 @@
   background-color: var(--pal-background-secondary);
   height: 100%;
   border-left: 1px solid var(--pal-background-secondary);
-  box-shadow: 0 0.5rem 1rem -0.5rem var(--pal-background-secondary);
+  box-shadow: 0 0 1rem -0.5rem var(--pal-background-tooltip);
   display: flex;
   flex-direction: column;
   min-width: 20rem;
