@@ -12,6 +12,7 @@ import {
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs'
 import styles from './styles.module.scss'
 import { TabsManagementEnum } from 'components/templates'
+import { General } from 'components/molecules/general'
 
 export interface ITabsManagementProps {
   distribution: string
@@ -35,6 +36,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
             selectedTabClassName={styles.selectedTabClassName}
           >
             <TabList>
+              <Tab className={styles.tab}>General</Tab>
               <Tab className={styles.tab}>Mint</Tab>
               <Tab className={styles.tab}>Burn</Tab>
               <Tab className={styles.tab}>Transfer</Tab>
@@ -59,6 +61,14 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 Clawback
               </Tab>
             </TabList>
+            <TabPanel>
+              <General
+                distribution={props.distribution}
+                issuer={props.issuer}
+                assetCode={props.assetCode}
+                setShowHelper={props.setShowHelper}
+              />
+            </TabPanel>
             <TabPanel>
               <Mint
                 distribution={props.distribution}
