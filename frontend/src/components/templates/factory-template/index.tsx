@@ -1,7 +1,7 @@
 import { Button, Card, Layout } from '@stellar/design-system'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { ListAssets, SettingsModal } from 'components/molecules'
-import { FormToken } from 'components/organisms'
+import { ListAssets } from 'components/molecules'
+import { FormToken, SettingsModal } from 'components/organisms'
 import { ReactNode, useCallback, useEffect, useState } from 'react'
 
 import styles from './styles.module.scss'

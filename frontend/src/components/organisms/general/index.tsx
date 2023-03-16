@@ -1,9 +1,8 @@
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 
 import { TabsManagementEnum } from 'components/templates'
-import { CardInfo } from '../card-info'
 import { Column, Row } from 'components/atoms'
-import { CardChartLine } from '../card-chart-line'
+import { CardInfo, CardChartLine } from 'components/molecules'
 
 export interface IGeneralProps {
   distribution: string

@@ -7,7 +7,7 @@ import {
   Tooltip,
 } from '@stellar/design-system'
 import styles from './styles.module.scss'
-import { ICurrency, inputsCurrencyDoc } from '../generate-toml/constants'
+import { ICurrency, inputsCurrencyDoc } from '../../organisms/generate-toml/constants'
 import { Info } from 'react-feather'
 
 export interface IFormCurrencyDocProps {

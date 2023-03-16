@@ -3,7 +3,7 @@ import { Button, Input } from '@stellar/design-system'
 import { ArrowDown, ArrowUp, Edit, Trash } from 'react-feather'
 
 import styles from './styles.module.scss'
-import { IContact, inputsContact, IToml } from '../generate-toml/constants'
+import { IContact, inputsContact, IToml } from '../../organisms/generate-toml/constants'
 
 export interface IAccordionContactProps {
   toml: IToml

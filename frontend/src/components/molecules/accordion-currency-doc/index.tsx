@@ -3,7 +3,7 @@ import { Button } from '@stellar/design-system'
 import { ArrowDown, ArrowUp, Edit, Trash } from 'react-feather'
 
 import styles from './styles.module.scss'
-import { ICurrency, inputsCurrencyDoc, IToml } from '../generate-toml/constants'
+import { ICurrency, inputsCurrencyDoc, IToml } from '../../organisms/generate-toml/constants'
 import { FormCurrencyDoc } from '../form-currency-doc'
 import { ConfirmModal } from 'components/atoms'
 

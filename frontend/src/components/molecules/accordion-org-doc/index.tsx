@@ -3,7 +3,7 @@ import { Input, Tooltip } from '@stellar/design-system'
 import { ArrowDown, ArrowUp, Info } from 'react-feather';
 
 import styles from './styles.module.scss'
-import { IToml } from '../generate-toml/constants';
+import { IToml } from '../../organisms/generate-toml/constants';
 
 export interface IAccordionOrgDocProps {
   toml: IToml,

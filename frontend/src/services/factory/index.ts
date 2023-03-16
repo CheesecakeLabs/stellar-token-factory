@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { IToml } from 'components/molecules/generate-toml/constants'
+import { IToml } from 'components/organisms/generate-toml/constants'
 import { ISettings } from 'components/molecules/settings-modal/constants'
 import { http } from 'interfaces/http'
 import {

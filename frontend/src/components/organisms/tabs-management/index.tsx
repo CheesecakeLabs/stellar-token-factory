@@ -1,18 +1,16 @@
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 import { CustomLoader } from 'components/atoms'
-import {
-  Mint,
-  Burn,
-  Transfer,
-  HomeDomain,
-  GenerateToml,
-  Freeze,
-  Clawback,
-} from 'components/molecules'
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs'
 import styles from './styles.module.scss'
 import { TabsManagementEnum } from 'components/templates'
-import { General } from 'components/molecules/general'
+import { Burn } from '../burn'
+import { Clawback } from '../clawback'
+import { Freeze } from '../freeze'
+import { General } from '../general'
+import { GenerateToml } from '../generate-toml'
+import { HomeDomain } from '../home-domain'
+import { Mint } from '../mint'
+import { Transfer } from '../transfer'
 
 export interface ITabsManagementProps {
   distribution: string

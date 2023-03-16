@@ -23,7 +23,7 @@ import {
   AccordionCurrencyDoc,
   AccordionGeneralInfo,
   AccordionOrgDoc,
-} from '..'
+} from '../../molecules'
 import fileDownload from 'js-file-download'
 import { TabsManagementEnum } from 'components/templates'
 
