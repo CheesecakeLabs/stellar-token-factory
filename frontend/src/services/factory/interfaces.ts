@@ -87,3 +87,17 @@ export interface IFreezeInfo {
   last_updated: number
   frozen_accounts: IFrozenAccount[]
 }
+
+export interface IClawbackTransaction {
+  date: number
+  account: string
+  amount: number
+  symbol: string
+}
+
+export interface IClawbackInfo {
+  total_clawbacked: number | undefined
+  symbol: string
+  last_updated: number
+  transactions: IClawbackTransaction[]
+}

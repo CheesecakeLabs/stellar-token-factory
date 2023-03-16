@@ -182,3 +182,41 @@ export const mockFreeze = {
     },
   ],
 }
+
+export const mockClawback = {
+  total_clawbacked: 6784,
+  symbol: 'COIN',
+  last_updated: Date.now(),
+  transactions: [
+    {
+      date: Date.now(),
+      account: 'GCUTSA6RR274KNDUKU6G55XLWFOAZHLZHZABW36DSBMD6YZ55UXQKTQJ',
+      symbol: 'COIN',
+      amount: 42383,
+    },
+    {
+      date: Date.now(),
+      account: 'GCUTSA6RR274KNDUKU6G55XLWFOAZHLZHZABW36DSBMD6YZ55UXQKTQJ',
+      symbol: 'COIN',
+      amount: 42383,
+    },
+    {
+      date: Date.now(),
+      account: 'GCUTSA6RR274KNDUKU6G55XLWFOAZHLZHZABW36DSBMD6YZ55UXQKTQJ',
+      symbol: 'COIN',
+      amount: 42383,
+    },
+    {
+      date: Date.now(),
+      account: 'GCUTSA6RR274KNDUKU6G55XLWFOAZHLZHZABW36DSBMD6YZ55UXQKTQJ',
+      symbol: 'COIN',
+      amount: 42383,
+    },
+    {
+      date: Date.now(),
+      account: 'GCUTSA6RR274KNDUKU6G55XLWFOAZHLZHZABW36DSBMD6YZ55UXQKTQJ',
+      symbol: 'COIN',
+      amount: 42383,
+    },
+  ],
+}

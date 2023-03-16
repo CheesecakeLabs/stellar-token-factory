@@ -1,9 +1,20 @@
-import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { Button, Card, IconButton, Input, Toggle } from '@stellar/design-system'
 import {
+  Column,
   CustomError,
+  CustomLoader,
   FabHelper,
   FabHelperVariant,
+  LastUpdated,
+  Row,
   TokenMessage,
 } from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
@@ -17,6 +28,9 @@ import { clawbackErrors, defaultClawback } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 import { UnauthorizedMessage } from 'components/atoms/unauthorized-message'
 import { TabsManagementEnum } from 'components/templates'
+import { CardInfo } from 'components/molecules'
+import { IClawbackInfo } from 'services/factory/interfaces'
+import { ListClawbackAccounts } from './list-clawback-accounts'
 
 export interface IClawbackProps {
   distribution: string
@@ -33,6 +47,8 @@ const Clawback: FunctionComponent<IClawbackProps> = props => {
   const [inputs, setInputs] = useState(defaultClawback)
   const [inputsErrors, setInputsErrors] = useState(clawbackErrors)
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
+  const [isLoadingInfo, setLoadingInfo] = useState(false)
+  const [infoData, setinfoData] = useState<IClawbackInfo>()
 
   const handleChange = (event: {
     target: { name: string; value: string }
@@ -102,105 +118,149 @@ const Clawback: FunctionComponent<IClawbackProps> = props => {
       })
   }
 
+  const getData = useCallback(() => {
+    setLoadingInfo(true)
+    FactoryService.getClawbackInfo()
+      .then(response => {
+        setinfoData(response.data)
+      })
+      .catch(() => {
+        setError('An error occurred while loading the informations')
+      })
+      .finally(() => {
+        setLoadingInfo(false)
+      })
+  }, [])
+
+  useEffect(() => {
+    getData()
+  }, [getData])
+
   return (
-    <Card variant={Card.variant.highlight}>
-      {false && (
-        <FabHelper
-          onClick={(): void => props.setShowHelper(TabsManagementEnum.CLAWBACK)}
-          variant={FabHelperVariant.fixedRight}
-        />
-      )}
-      {props.authorized ? (
-        <div>
-          <div className={styles.toogle}>
-            <div className={styles.infoClaimable}>
-              <Info size={18} className={styles.iconInfo} />
-              <p>
-                You can also use a Claimable ID.{' '}
-                <a
-                  href="https://developers.stellar.org/docs/glossary/claimable-balance"
-                  target="_blank"
-                >
-                  {' '}
-                  More Info
-                </a>
-              </p>
-            </div>
-            <Toggle
-              id="toggle-claimable"
-              labelOn="Use Claimable ID"
-              labelPosition={Toggle.labelPosition.left}
-              onChange={function (): void {
-                setIsClaimableId(!isClaimableId)
-              }}
-              checked={isClaimableId}
-            />
-          </div>
-          {isClaimableId ? (
-            <div className={styles.fields}>
-              <Input
-                name="claimable_id"
-                id="input-claimable-id"
-                label="Claimable ID"
-                placeholder="Claimable ID"
-                value={inputs.claimable_id || ''}
-                onChange={handleChange}
-                error={inputsErrors.claimable_id}
-                autoComplete="off"
+    <>
+      <Card variant={Card.variant.highlight}>
+        {false && (
+          <FabHelper
+            onClick={(): void =>
+              props.setShowHelper(TabsManagementEnum.CLAWBACK)
+            }
+            variant={FabHelperVariant.fixedRight}
+          />
+        )}
+        {props.authorized ? (
+          <div>
+            <div className={styles.toogle}>
+              <div className={styles.infoClaimable}>
+                <Info size={18} className={styles.iconInfo} />
+                <p>
+                  You can also use a Claimable ID.{' '}
+                  <a
+                    href="https://developers.stellar.org/docs/glossary/claimable-balance"
+                    target="_blank"
+                  >
+                    {' '}
+                    More Info
+                  </a>
+                </p>
+              </div>
+              <Toggle
+                id="toggle-claimable"
+                labelOn="Use Claimable ID"
+                labelPosition={Toggle.labelPosition.left}
+                onChange={function (): void {
+                  setIsClaimableId(!isClaimableId)
+                }}
+                checked={isClaimableId}
               />
             </div>
-          ) : (
-            <div>
+            {isClaimableId ? (
               <div className={styles.fields}>
                 <Input
-                  name="amount"
-                  id="input-amount"
-                  label="Amount"
-                  placeholder="Asset amount you want to clawback"
-                  type="number"
-                  value={inputs.amount || ''}
+                  name="claimable_id"
+                  id="input-claimable-id"
+                  label="Claimable ID"
+                  placeholder="Claimable ID"
+                  value={inputs.claimable_id || ''}
                   onChange={handleChange}
-                  error={inputsErrors.amount}
+                  error={inputsErrors.claimable_id}
                   autoComplete="off"
-                  min={0}
                 />
               </div>
-              <div className={styles.fieldTarget}>
-                <Input
-                  name="target"
-                  id="input-target"
-                  label="Target (Investor / Holder) Address"
-                  placeholder="Target"
-                  value={inputs.target || ''}
-                  onChange={handleChange}
-                  error={inputsErrors.target}
-                  autoComplete="off"
-                  rightElement={
-                    <IconButton
-                      altText="Get Public Key"
-                      icon={<Key key="target-clawback" />}
-                      onClick={(): Promise<void> => getKey('target')}
-                    />
-                  }
-                />
+            ) : (
+              <div>
+                <div className={styles.fields}>
+                  <Input
+                    name="amount"
+                    id="input-amount"
+                    label="Amount"
+                    placeholder="Asset amount you want to clawback"
+                    type="number"
+                    value={inputs.amount || ''}
+                    onChange={handleChange}
+                    error={inputsErrors.amount}
+                    autoComplete="off"
+                    min={0}
+                  />
+                </div>
+                <div className={styles.fieldTarget}>
+                  <Input
+                    name="target"
+                    id="input-target"
+                    label="Target (Investor / Holder) Address"
+                    placeholder="Target"
+                    value={inputs.target || ''}
+                    onChange={handleChange}
+                    error={inputsErrors.target}
+                    autoComplete="off"
+                    rightElement={
+                      <IconButton
+                        altText="Get Public Key"
+                        icon={<Key key="target-clawback" />}
+                        onClick={(): Promise<void> => getKey('target')}
+                      />
+                    }
+                  />
+                </div>
               </div>
+            )}
+            <div className={styles.contentSubmit}>
+              <Button isLoading={isLoading} onClick={handleSubmit}>
+                Clawback
+              </Button>
             </div>
-          )}
-          <div className={styles.contentSubmit}>
-            <Button isLoading={isLoading} onClick={handleSubmit}>
-              Clawback
-            </Button>
+            {error ? <CustomError message={error} /> : <div />}
+            <TokenMessage
+              hash={responseSubmit.transaction_hash}
+              link={responseSubmit.transaction_link}
+            />
           </div>
-          {error ? <CustomError message={error} /> : <div />}
-          <TokenMessage
-            hash={responseSubmit.transaction_hash}
-            link={responseSubmit.transaction_link}
-          />
-        </div>
+        ) : (
+          <UnauthorizedMessage message="You are not authorized to perform Clawback, please check permission in settings" />
+        )}
+      </Card>
+      {isLoadingInfo ? (
+        <CustomLoader />
       ) : (
-        <UnauthorizedMessage message="You are not authorized to perform Clawback, please check permission in settings" />
+        <div>
+          <Row>
+            <Column col={8}>
+              <ListClawbackAccounts
+                isLoading={isLoadingInfo}
+                data={infoData?.transactions || []}
+              />
+            </Column>
+            <Column col={4}>
+              <CardInfo
+                label={'Total clawbacked'}
+                value={infoData?.total_clawbacked}
+                description={infoData?.symbol}
+              />
+            </Column>
+          </Row>
+          <LastUpdated date={infoData?.last_updated} />
+        </div>
       )}
-    </Card>
+    </>
   )
 }
 

@@ -4,6 +4,7 @@ import { ISettings } from 'components/organisms/settings-modal/constants'
 import { http } from 'interfaces/http'
 import {
   mockBurn,
+  mockClawback,
   mockFreeze,
   mockGeneral,
   mockMint,
@@ -19,6 +20,7 @@ import {
   IBurnInfo,
   ITransferInfo,
   IFreezeInfo,
+  IClawbackInfo,
 } from './interfaces'
 
 const getIssuerInfo = async (
@@ -242,6 +244,17 @@ const getFreezeInfo = async (): Promise<AxiosResponse<IFreezeInfo>> => {
   }
 }
 
+const getClawbackInfo = async (): Promise<AxiosResponse<IClawbackInfo>> => {
+  //return http.get(`/api/v1/wallets/clawback-info`)
+  return {
+    data: mockClawback,
+    status: 200,
+    statusText: '',
+    headers: {},
+    config: {},
+  }
+}
+
 const FactoryService = {
   getIssuerInfo,
   addAsset,
@@ -263,6 +276,7 @@ const FactoryService = {
   getBurnInfo,
   getTransferInfo,
   getFreezeInfo,
+  getClawbackInfo,
 }
 
 export { FactoryService }
