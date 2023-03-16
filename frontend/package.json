@@ -13,6 +13,7 @@
     "axios": "~0.27.2",
     "env-cmd": "~10.1.0",
     "eslint-plugin-jest-dom": "^4.0.2",
+    "faker": "^6.6.6",
     "js-file-download": "^0.4.12",
     "react": "~18.2.0",
     "react-chartjs-2": "^5.2.0",
@@ -26,6 +27,7 @@
     "web-vitals": "~3.0.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/jest": "~29.0.2",
     "@types/node": "~16.11.7",

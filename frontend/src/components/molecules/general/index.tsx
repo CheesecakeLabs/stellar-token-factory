@@ -1,9 +1,9 @@
 import { Dispatch, FunctionComponent, SetStateAction } from 'react'
 
-import styles from './styles.module.scss'
 import { TabsManagementEnum } from 'components/templates'
 import { CardInfo } from '../card-info'
-import { Column } from 'components/atoms'
+import { Column, Row } from 'components/atoms'
+import { CardChartLine } from '../card-chart-line'
 
 export interface IGeneralProps {
   distribution: string
@@ -12,9 +12,9 @@ export interface IGeneralProps {
   setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
 }
 
-const General: FunctionComponent<IGeneralProps> = props => {
+const General: FunctionComponent<IGeneralProps> = () => {
   return (
-    <div>
+    <Row>
       <Column col={4}>
         <CardInfo
           label={'Total supply'}
@@ -29,7 +29,10 @@ const General: FunctionComponent<IGeneralProps> = props => {
         <CardInfo label={'Total trustlines'} value={'7.203'} />
         <CardInfo label={'Total reserves'} value={'Not available'} />
       </Column>
-    </div>
+      <Column col={8}>
+        <CardChartLine label={'Total supply and Distributor supply'} />
+      </Column>
+    </Row>
   )
 }
 

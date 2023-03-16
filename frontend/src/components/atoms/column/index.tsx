@@ -6,7 +6,7 @@ export interface IColumnProps {
 }
 
 const Column: FunctionComponent<IColumnProps> = ({ children, col }) => {
-  return <div style={{ width: `${100 / (12 / (col || 1))}%` }}>{children}</div>
+  return <div style={{ width: `${100 / (12 / (col || 12))}%` }}>{children}</div>
 }
 
 export { Column }
