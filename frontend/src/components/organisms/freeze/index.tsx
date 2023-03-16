@@ -1,10 +1,14 @@
-import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
+import { Dispatch, FunctionComponent, SetStateAction, useCallback, useEffect, useState } from 'react'
 import { Button, Card, IconButton, Input } from '@stellar/design-system'
 import {
+  Column,
   ConfirmModal,
   CustomError,
+  CustomLoader,
   FabHelper,
   FabHelperVariant,
+  LastUpdated,
+  Row,
   TokenMessage,
 } from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
@@ -18,6 +22,9 @@ import { defaultFreeze, freezeErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 import { UnauthorizedMessage } from 'components/atoms/unauthorized-message'
 import { TabsManagementEnum } from 'components/templates'
+import { CardInfo } from 'components/molecules'
+import { IFreezeInfo } from 'services/factory/interfaces'
+import { ListFrozenAccounts } from './list-frozen-accounts'
 
 export interface IFreezeProps {
   distribution: string
@@ -36,6 +43,8 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
   const [isModalVisible, setModalVisible] = useState(false)
   const [isFreeze, setIsFreeze] = useState(false)
+  const [isLoadingInfo, setLoadingInfo] = useState(false)
+  const [infoData, setinfoData] = useState<IFreezeInfo>()
 
   const handleChange = (event: {
     target: { name: string; value: string }
@@ -112,81 +121,122 @@ const Freeze: FunctionComponent<IFreezeProps> = props => {
     setModalVisible(true)
   }
 
+  const getData = useCallback(() => {
+    setLoadingInfo(true)
+    FactoryService.getFreezeInfo()
+      .then(response => {
+        setinfoData(response.data)
+      })
+      .catch(() => {
+        setError('An error occurred while loading the informations')
+      })
+      .finally(() => {
+        setLoadingInfo(false)
+      })
+  }, [])
+
+  useEffect(() => {
+    getData()
+  }, [getData])
+
   return (
-    <Card variant={Card.variant.highlight}>
-      {false && (
-        <FabHelper
-          onClick={(): void => props.setShowHelper(TabsManagementEnum.FREEZE)}
-          variant={FabHelperVariant.fixedRight}
-        />
-      )}
-      {props.authorized ? (
-        <div>
-          <Input
-            name="target"
-            id="input-target"
-            label="Target Address"
-            placeholder="Target Address"
-            value={inputs.target || ''}
-            onChange={handleChange}
-            error={inputsErrors.target}
-            autoComplete="off"
-            rightElement={
-              <IconButton
-                altText="Get Public Key"
-                icon={<Key key="target" />}
-                onClick={(): Promise<void> => getKey('target')}
-              />
-            }
+    <>
+      <Card variant={Card.variant.highlight}>
+        {false && (
+          <FabHelper
+            onClick={(): void => props.setShowHelper(TabsManagementEnum.FREEZE)}
+            variant={FabHelperVariant.fixedRight}
           />
-          <div className={styles.fieldInfo}>
+        )}
+        {props.authorized ? (
+          <div>
             <Input
-              name="memo_text"
-              id="input-memo-text"
-              label="Memo text"
-              placeholder="Memo text"
-              value={inputs.memo_text || ''}
+              name="target"
+              id="input-target"
+              label="Target Address"
+              placeholder="Target Address"
+              value={inputs.target || ''}
               onChange={handleChange}
-              error={inputsErrors.memo_text}
+              error={inputsErrors.target}
               autoComplete="off"
-              maxLength={28}
+              rightElement={
+                <IconButton
+                  altText="Get Public Key"
+                  icon={<Key key="target" />}
+                  onClick={(): Promise<void> => getKey('target')}
+                />
+              }
+            />
+            <div className={styles.fieldInfo}>
+              <Input
+                name="memo_text"
+                id="input-memo-text"
+                label="Memo text"
+                placeholder="Memo text"
+                value={inputs.memo_text || ''}
+                onChange={handleChange}
+                error={inputsErrors.memo_text}
+                autoComplete="off"
+                maxLength={28}
+              />
+            </div>
+            <div className={styles.contentSubmit}>
+              <Button
+                isLoading={isLoadingFreeze}
+                onClick={(): void => confirmOperation(true)}
+                key="freeze"
+              >
+                Freeze
+              </Button>
+              <Button
+                isLoading={isLoadingUnfreeze}
+                onClick={(): void => confirmOperation(false)}
+                variant={Button.variant.tertiary}
+                key="unfreeze"
+              >
+                Unfreeze
+              </Button>
+            </div>
+            {error ? <CustomError message={error} /> : <div />}
+            <ConfirmModal
+              isModalVisible={isModalVisible}
+              closeModal={closeModal}
+              submit={(): Promise<void> => handleSubmit(isFreeze)}
+              message={`You will ${
+                isFreeze ? 'freeze' : 'unfreeze'
+              } this target, are you sure?`}
+            />
+            <TokenMessage
+              hash={responseSubmit.transaction_hash}
+              link={responseSubmit.transaction_link}
             />
           </div>
-          <div className={styles.contentSubmit}>
-            <Button
-              isLoading={isLoadingFreeze}
-              onClick={(): void => confirmOperation(true)}
-              key="freeze"
-            >
-              Freeze
-            </Button>
-            <Button
-              isLoading={isLoadingUnfreeze}
-              onClick={(): void => confirmOperation(false)}
-              variant={Button.variant.tertiary}
-              key="unfreeze"
-            >
-              Unfreeze
-            </Button>
-          </div>
-          {error ? <CustomError message={error} /> : <div />}
-          <ConfirmModal
-            isModalVisible={isModalVisible}
-            closeModal={closeModal}
-            submit={(): Promise<void> => handleSubmit(isFreeze)}
-            message={`You will ${
-              isFreeze ? 'freeze' : 'unfreeze'
-            } this target, are you sure?`}
-          />
-          <TokenMessage
-            hash={responseSubmit.transaction_hash}
-            link={responseSubmit.transaction_link}
-          />
-        </div>
+        ) : (
+          <UnauthorizedMessage message="You are not authorized to perform Freeze, please check permission in settings" />
+        )}
+      </Card>
+      {isLoadingInfo ? (
+        <CustomLoader />
       ) : (
-        <UnauthorizedMessage message="You are not authorized to perform Freeze, please check permission in settings" />
+        <div>
+          <Row>
+            <Column col={8}>
+              <ListFrozenAccounts
+                isLoading={isLoadingInfo}
+                data={infoData?.frozen_accounts || []}
+              />
+            </Column>
+            <Column col={4}>
+              <CardInfo
+                label={'Total frozen accounts'}
+                value={infoData?.total_frozen_accounts}
+              />
+            </Column>
+          </Row>
+          <LastUpdated date={infoData?.last_updated} />
+        </div>
       )}
-    </Card>
+    </>
   )
 }
 

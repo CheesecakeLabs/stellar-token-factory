@@ -69,3 +69,21 @@ export interface IBurnInfo {
   last_updated: number
   last_transactions: IInfoTransaction[]
 }
+
+export interface ITransferInfo {
+  total_amount_transfered: number | undefined
+  total_transfer_transactions: number | undefined
+  last_updated: number
+  last_transactions: IInfoTransaction[]
+}
+
+export interface IFrozenAccount {
+  date_freeze: number
+  account: string
+}
+
+export interface IFreezeInfo {
+  total_frozen_accounts: number | undefined
+  last_updated: number
+  frozen_accounts: IFrozenAccount[]
+}
