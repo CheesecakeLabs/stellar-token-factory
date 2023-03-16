@@ -2,13 +2,14 @@ import { AxiosResponse } from 'axios'
 import { IToml } from 'components/organisms/generate-toml/constants'
 import { ISettings } from 'components/organisms/settings-modal/constants'
 import { http } from 'interfaces/http'
-import { mockGeneral } from 'services/mocks'
+import { mockGeneral, mockMint } from 'services/mocks'
 import {
   IAssetDistributor,
   ITransactionResponse,
   IEnvelopeResponse,
   IIssuerInfo,
   IGeneralInfo,
+  IMintInfo,
 } from './interfaces'
 
 const getIssuerInfo = async (
@@ -188,6 +189,17 @@ const getGeneralInfo = async (): Promise<AxiosResponse<IGeneralInfo>> => {
   }
 }
 
+const getMintInfo = async (): Promise<AxiosResponse<IMintInfo>> => {
+  //return http.get(`/api/v1/wallets/mint-info`)
+  return {
+    data: mockMint,
+    status: 200,
+    statusText: '',
+    headers: {},
+    config: {},
+  }
+}
+
 const FactoryService = {
   getIssuerInfo,
   addAsset,
@@ -205,6 +217,7 @@ const FactoryService = {
   postSetOptions,
   getSetOptions,
   getGeneralInfo,
+  getMintInfo,
 }
 
 export { FactoryService }

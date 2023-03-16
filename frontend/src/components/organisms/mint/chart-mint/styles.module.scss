@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  margin: 1rem 0.5rem 1rem 0.5rem;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 1.25rem;
+  }
+
+  .value {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .description {
+    margin-top: 0.5rem;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .tickColor {
+    color: var(--pal-text-primary);
+  }
+}

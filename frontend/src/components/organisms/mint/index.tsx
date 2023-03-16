@@ -1,4 +1,11 @@
-import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { Button, Card, IconButton, Input } from '@stellar/design-system'
 import {
   CustomError,
@@ -6,6 +13,10 @@ import {
   TokenMessage,
   FabHelper,
   FabHelperVariant,
+  Column,
+  LastUpdated,
+  Row,
+  CustomLoader,
 } from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
 import { Key } from 'react-feather'
@@ -17,6 +28,10 @@ import styles from './styles.module.scss'
 import { getInitialMint, mintErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 import { TabsManagementEnum } from 'components/templates'
+import { CardInfo } from 'components/molecules'
+import { IMintInfo } from 'services/factory/interfaces'
+import { ListMintTransactions } from './list-mint-transactions'
+import { ChartMint } from './chart-mint'
 
 export interface IMintProps {
   distribution: string
@@ -32,6 +47,8 @@ const Mint: FunctionComponent<IMintProps> = props => {
   const [inputs, setInputs] = useState(getInitialMint(props.distribution))
   const [inputsErrors, setInputsErrors] = useState(mintErrors)
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
+  const [isLoadingInfo, setLoadingInfo] = useState(false)
+  const [infoData, setinfoData] = useState<IMintInfo>()
 
   const handleChange = (event: {
     target: { name: string; value: string }
@@ -112,64 +129,120 @@ const Mint: FunctionComponent<IMintProps> = props => {
     setModalVisible(true)
   }
 
+  const getData = useCallback(() => {
+    setLoadingInfo(true)
+    FactoryService.getMintInfo()
+      .then(response => {
+        setinfoData(response.data)
+      })
+      .catch(() => {
+        setError('An error occurred while loading the informations')
+      })
+      .finally(() => {
+        setLoadingInfo(false)
+      })
+  }, [])
+
+  useEffect(() => {
+    getData()
+  }, [getData])
+
   return (
-    <Card variant={Card.variant.highlight}>
-      {false && (
-        <FabHelper
-          onClick={(): void => props.setShowHelper(TabsManagementEnum.MINT)}
-          variant={FabHelperVariant.fixedRight}
-        />
-      )}
-      <div className={styles.fieldAmount}>
-        <Input
-          name="amount"
-          id="input-amount"
-          label="Amount"
-          placeholder="New asset amount you want to mint"
-          type="number"
-          value={inputs.amount || ''}
-          onChange={handleChange}
-          error={inputsErrors.amount}
-          autoComplete="off"
-          min={0}
-        />
-      </div>
-      <Input
-        name="distributor"
-        id="input-recipient-address"
-        label="To Distribution Address"
-        placeholder="Address will receive the new assets"
-        value={inputs.distributor || ''}
-        onChange={handleChange}
-        error={inputsErrors.distributor}
-        autoComplete="off"
-        rightElement={
-          <IconButton
-            altText="Get Public Key"
-            icon={<Key key="key" />}
-            onClick={(): Promise<void> => getKey('distributor')}
+    <div>
+      <Card variant={Card.variant.highlight}>
+        {false && (
+          <FabHelper
+            onClick={(): void => props.setShowHelper(TabsManagementEnum.MINT)}
+            variant={FabHelperVariant.fixedRight}
           />
-        }
-      />
-      <div className={styles.contentSubmit}>
-        <Button isLoading={isLoading} onClick={validateDistribution}>
-          Mint
-        </Button>
-      </div>
-      {error ? <CustomError message={error} /> : <div />}
-      <ConfirmModal
-        isModalVisible={isModalVisible}
-        closeModal={closeModal}
-        submit={handleSubmit}
-        message={
-          'Make sure to use the Tresury Wallet for the minting process. Are you sure you want to change this address?'
-        }
-      />
-      <TokenMessage
-        hash={responseSubmit.transaction_hash}
-        link={responseSubmit.transaction_link}
-      />
-    </Card>
+        )}
+        <div className={styles.fieldAmount}>
+          <Input
+            name="amount"
+            id="input-amount"
+            label="Amount"
+            placeholder="New asset amount you want to mint"
+            type="number"
+            value={inputs.amount || ''}
+            onChange={handleChange}
+            error={inputsErrors.amount}
+            autoComplete="off"
+            min={0}
+          />
+        </div>
+        <Input
+          name="distributor"
+          id="input-recipient-address"
+          label="To Distribution Address"
+          placeholder="Address will receive the new assets"
+          value={inputs.distributor || ''}
+          onChange={handleChange}
+          error={inputsErrors.distributor}
+          autoComplete="off"
+          rightElement={
+            <IconButton
+              altText="Get Public Key"
+              icon={<Key key="key" />}
+              onClick={(): Promise<void> => getKey('distributor')}
+            />
+          }
+        />
+        <div className={styles.contentSubmit}>
+          <Button isLoading={isLoading} onClick={validateDistribution}>
+            Mint
+          </Button>
+        </div>
+        {error ? <CustomError message={error} /> : <div />}
+        <ConfirmModal
+          isModalVisible={isModalVisible}
+          closeModal={closeModal}
+          submit={handleSubmit}
+          message={
+            'Make sure to use the Tresury Wallet for the minting process. Are you sure you want to change this address?'
+          }
+        />
+        <TokenMessage
+          hash={responseSubmit.transaction_hash}
+          link={responseSubmit.transaction_link}
+        />
+      </Card>
+      {isLoadingInfo ? (
+        <CustomLoader />
+      ) : (
+        <div>
+          <Row>
+            <Column col={4}>
+              <CardInfo
+                label={'Total supply'}
+                value={infoData?.total_supply}
+                description={'COIN'}
+              />
+              <CardInfo
+                label={'Total in-circulation'}
+                value={infoData?.total_in_circulation}
+                description={'COIN'}
+              />
+              <CardInfo
+                label={'Total mint transactions'}
+                value={infoData?.total_mint_transactions}
+              />
+              <CardInfo
+                label={'Total reserves'}
+                value={infoData?.total_reserves}
+              />
+            </Column>
+            <Column col={8}>
+              <ChartMint label={'Minted amount'} />
+              <ListMintTransactions
+                isLoading={isLoading}
+                data={infoData?.last_transactions || []}
+              />
+            </Column>
+          </Row>
+          <LastUpdated date={infoData?.last_updated} />
+        </div>
+      )}
+    </div>
   )
 }
 

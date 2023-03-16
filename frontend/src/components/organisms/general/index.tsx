@@ -34,7 +34,7 @@ const General: FunctionComponent<IGeneralProps> = () => {
         setGeneralInfo(response.data)
       })
       .catch(() => {
-        setError('Could not update asset listing at this time')
+        setError('An error occurred while loading the informations')
       })
       .finally(() => {
         setLoading(false)
@@ -48,9 +48,7 @@ const General: FunctionComponent<IGeneralProps> = () => {
   return (
     <>
       {error ? (
-        <CustomError
-          message={'An error occurred while loading the information'}
-        />
+        <CustomError message={error} />
       ) : (
         <div>
           <Row>

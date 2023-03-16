@@ -44,3 +44,19 @@ export interface IGeneralInfo {
   last_updated: number
   top_holders: ITopHolders[]
 }
+
+export interface IMintTransaction {
+  date: number
+  amount: number
+  symbol: string
+  hash: string
+}
+
+export interface IMintInfo {
+  total_supply: number | undefined
+  total_in_circulation: number | undefined
+  total_mint_transactions: number | undefined
+  total_reserves: number | undefined
+  last_updated: number
+  last_transactions: IMintTransaction[]
+}
