@@ -7,12 +7,12 @@ import { List } from 'react-feather'
 import { IInfoTransaction } from 'services/factory/interfaces'
 import { formatSimpleDate } from 'utils/formatter'
 
-export interface IListMintTransactionsProps {
+export interface IListBurnTransactionsProps {
   isLoading: boolean
   data: IInfoTransaction[]
 }
 
-const ListMintTransactions: FunctionComponent<IListMintTransactionsProps> = ({
+const ListBurnTransactions: FunctionComponent<IListBurnTransactionsProps> = ({
   isLoading,
   data,
 }) => {
@@ -52,4 +52,4 @@ const ListMintTransactions: FunctionComponent<IListMintTransactionsProps> = ({
   )
 }
 
-export { ListMintTransactions }
+export { ListBurnTransactions }

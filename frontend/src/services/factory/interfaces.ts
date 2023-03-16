@@ -45,7 +45,7 @@ export interface IGeneralInfo {
   top_holders: ITopHolders[]
 }
 
-export interface IMintTransaction {
+export interface IInfoTransaction {
   date: number
   amount: number
   symbol: string
@@ -58,5 +58,14 @@ export interface IMintInfo {
   total_mint_transactions: number | undefined
   total_reserves: number | undefined
   last_updated: number
-  last_transactions: IMintTransaction[]
+  last_transactions: IInfoTransaction[]
+}
+
+export interface IBurnInfo {
+  total_supply: number | undefined
+  total_in_circulation: number | undefined
+  total_burn_transactions: number | undefined
+  total_reserves: number | undefined
+  last_updated: number
+  last_transactions: IInfoTransaction[]
 }

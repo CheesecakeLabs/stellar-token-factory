@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios'
 import { IToml } from 'components/organisms/generate-toml/constants'
 import { ISettings } from 'components/organisms/settings-modal/constants'
 import { http } from 'interfaces/http'
-import { mockGeneral, mockMint } from 'services/mocks'
+import { mockBurn, mockGeneral, mockMint } from 'services/mocks'
 import {
   IAssetDistributor,
   ITransactionResponse,
@@ -10,6 +10,7 @@ import {
   IIssuerInfo,
   IGeneralInfo,
   IMintInfo,
+  IBurnInfo,
 } from './interfaces'
 
 const getIssuerInfo = async (
@@ -200,6 +201,17 @@ const getMintInfo = async (): Promise<AxiosResponse<IMintInfo>> => {
   }
 }
 
+const getBurnInfo = async (): Promise<AxiosResponse<IBurnInfo>> => {
+  //return http.get(`/api/v1/wallets/burn-info`)
+  return {
+    data: mockBurn,
+    status: 200,
+    statusText: '',
+    headers: {},
+    config: {},
+  }
+}
+
 const FactoryService = {
   getIssuerInfo,
   addAsset,
@@ -218,6 +230,7 @@ const FactoryService = {
   getSetOptions,
   getGeneralInfo,
   getMintInfo,
+  getBurnInfo,
 }
 
 export { FactoryService }

@@ -1,4 +1,11 @@
-import { Dispatch, FunctionComponent, SetStateAction, useState } from 'react'
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { Button, Card, IconButton, Input } from '@stellar/design-system'
 import {
   CustomError,
@@ -6,6 +13,10 @@ import {
   TokenMessage,
   FabHelper,
   FabHelperVariant,
+  Column,
+  CustomLoader,
+  LastUpdated,
+  Row,
 } from 'components/atoms'
 import { getPublicKey } from '@stellar/freighter-api'
 import { Key } from 'react-feather'
@@ -17,6 +28,10 @@ import styles from './styles.module.scss'
 import { getInitialBurn, burnErrors } from './constants'
 import { handleSubmitErrors, validateInputError } from './form-validation'
 import { TabsManagementEnum } from 'components/templates'
+import { CardInfo } from 'components/molecules'
+import { IBurnInfo } from 'services/factory/interfaces'
+import { ListBurnTransactions } from './list-burn-transactions'
+import { ChartBurn } from './chart-burn'
 
 export interface IBurnProps {
   distribution: string
@@ -32,6 +47,8 @@ const Burn: FunctionComponent<IBurnProps> = props => {
   const [inputs, setInputs] = useState(getInitialBurn(props.distribution))
   const [inputsErrors, setInputsErrors] = useState(burnErrors)
   const [responseSubmit, setResponseSubmit] = useState(defaultResponseSubmit)
+  const [isLoadingInfo, setLoadingInfo] = useState(false)
+  const [infoData, setinfoData] = useState<IBurnInfo>()
 
   const handleChange = (event: {
     target: { name: string; value: string }
@@ -112,64 +129,120 @@ const Burn: FunctionComponent<IBurnProps> = props => {
     setModalVisible(true)
   }
 
+  const getData = useCallback(() => {
+    setLoadingInfo(true)
+    FactoryService.getBurnInfo()
+      .then(response => {
+        setinfoData(response.data)
+      })
+      .catch(() => {
+        setError('An error occurred while loading the informations')
+      })
+      .finally(() => {
+        setLoadingInfo(false)
+      })
+  }, [])
+
+  useEffect(() => {
+    getData()
+  }, [getData])
+
   return (
-    <Card variant={Card.variant.highlight}>
-      {false && (
-        <FabHelper
-          onClick={(): void => props.setShowHelper(TabsManagementEnum.BURN)}
-          variant={FabHelperVariant.fixedRight}
-        />
-      )}
-      <div className={styles.fieldAmount}>
-        <Input
-          name="amount"
-          id="input-amount"
-          label="Amount"
-          placeholder="Asset amount you want to burn"
-          type="number"
-          value={inputs.amount || ''}
-          onChange={handleChange}
-          error={inputsErrors.amount}
-          autoComplete="off"
-          min={0}
-        />
-      </div>
-      <Input
-        name="distributor"
-        id="input-recipient-address"
-        label="From Distribution Address"
-        placeholder="Address will lost the assets"
-        value={inputs.distributor || ''}
-        onChange={handleChange}
-        error={inputsErrors.distributor}
-        autoComplete="off"
-        rightElement={
-          <IconButton
-            altText="Get Public Key"
-            icon={<Key key="key-distributor" />}
-            onClick={(): Promise<void> => getKey('distributor')}
+    <>
+      <Card variant={Card.variant.highlight}>
+        {false && (
+          <FabHelper
+            onClick={(): void => props.setShowHelper(TabsManagementEnum.BURN)}
+            variant={FabHelperVariant.fixedRight}
           />
-        }
-      />
-      <div className={styles.contentSubmit}>
-        <Button isLoading={isLoading} onClick={validateDistribution}>
-          Burn
-        </Button>
-      </div>
-      {error ? <CustomError message={error} /> : <div />}
-      <ConfirmModal
-        isModalVisible={isModalVisible}
-        closeModal={closeModal}
-        submit={handleSubmit}
-        message={
-          'Make sure to use the Tresury Wallet for the burning process. Are you sure you want to change this address?'
-        }
-      />
-      <TokenMessage
-        hash={responseSubmit.transaction_hash}
-        link={responseSubmit.transaction_link}
-      />
-    </Card>
+        )}
+        <div className={styles.fieldAmount}>
+          <Input
+            name="amount"
+            id="input-amount"
+            label="Amount"
+            placeholder="Asset amount you want to burn"
+            type="number"
+            value={inputs.amount || ''}
+            onChange={handleChange}
+            error={inputsErrors.amount}
+            autoComplete="off"
+            min={0}
+          />
+        </div>
+        <Input
+          name="distributor"
+          id="input-recipient-address"
+          label="From Distribution Address"
+          placeholder="Address will lost the assets"
+          value={inputs.distributor || ''}
+          onChange={handleChange}
+          error={inputsErrors.distributor}
+          autoComplete="off"
+          rightElement={
+            <IconButton
+              altText="Get Public Key"
+              icon={<Key key="key-distributor" />}
+              onClick={(): Promise<void> => getKey('distributor')}
+            />
+          }
+        />
+        <div className={styles.contentSubmit}>
+          <Button isLoading={isLoading} onClick={validateDistribution}>
+            Burn
+          </Button>
+        </div>
+        {error ? <CustomError message={error} /> : <div />}
+        <ConfirmModal
+          isModalVisible={isModalVisible}
+          closeModal={closeModal}
+          submit={handleSubmit}
+          message={
+            'Make sure to use the Tresury Wallet for the burning process. Are you sure you want to change this address?'
+          }
+        />
+        <TokenMessage
+          hash={responseSubmit.transaction_hash}
+          link={responseSubmit.transaction_link}
+        />
+      </Card>
+      {isLoadingInfo ? (
+        <CustomLoader />
+      ) : (
+        <div>
+          <Row>
+            <Column col={4}>
+              <CardInfo
+                label={'Total supply'}
+                value={infoData?.total_supply}
+                description={'COIN'}
+              />
+              <CardInfo
+                label={'Total in-circulation'}
+                value={infoData?.total_in_circulation}
+                description={'COIN'}
+              />
+              <CardInfo
+                label={'Total burn transactions'}
+                value={infoData?.total_burn_transactions}
+              />
+              <CardInfo
+                label={'Total reserves'}
+                value={infoData?.total_reserves}
+              />
+            </Column>
+            <Column col={8}>
+              <ChartBurn label={'Burned amount'} />
+              <ListBurnTransactions
+                isLoading={isLoading}
+                data={infoData?.last_transactions || []}
+              />
+            </Column>
+          </Row>
+          <LastUpdated date={infoData?.last_updated} />
+        </div>
+      )}
+    </>
   )
 }
 
