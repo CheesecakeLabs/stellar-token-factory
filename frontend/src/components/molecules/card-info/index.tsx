@@ -5,7 +5,7 @@ import styles from './styles.module.scss'
 
 export interface ICardInfoProps {
   label: string
-  value: string
+  value: number | undefined
   description?: string
 }
 
@@ -18,7 +18,7 @@ const CardInfo: FunctionComponent<ICardInfoProps> = ({
     <div className={styles.container}>
       <Card variant={Card.variant.highlight}>
         <div className={styles.label}>{label}</div>
-        <div className={styles.value}>{value}</div>
+        <div className={styles.value}>{value || 'Not available'}</div>
         {description && <div className={styles.description}>{description}</div>}
       </Card>
     </div>

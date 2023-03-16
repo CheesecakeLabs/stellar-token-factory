@@ -28,3 +28,19 @@ export interface IAssetDistributor {
 export interface ITomlResponse {
   toml: string
 }
+
+export interface ITopHolders {
+  account: string
+  symbol: string
+  balance: number
+  percentage: number
+}
+
+export interface IGeneralInfo {
+  total_supply: number | undefined
+  total_in_circulation: number | undefined
+  total_trustlines: number | undefined
+  total_reserves: number | undefined
+  last_updated: number
+  top_holders: ITopHolders[]
+}

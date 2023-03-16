@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useState } from 'react'
 import { Card } from '@stellar/design-system'
 import {
   Chart as ChartJS,
@@ -15,8 +15,9 @@ import { faker } from '@faker-js/faker'
 
 import styles from './styles.module.scss'
 import { textColorByTheme } from 'services/theme-utils'
+import { ChartFilter } from 'components/atoms'
 
-export interface ICardChartLineProps {
+export interface IChartGeneralProps {
   label: string
 }
 
@@ -30,7 +31,11 @@ ChartJS.register(
   Legend
 )
 
-const CardChartLine: FunctionComponent<ICardChartLineProps> = ({ label }) => {
+const ChartGeneral: FunctionComponent<IChartGeneralProps> = ({ label }) => {
+  const [optionFilter, setOptionFilter] = useState<'MONTH' | 'YEAR' | 'ALL'>(
+    'MONTH'
+  )
+
   const options = {
     responsive: true,
     scales: {
@@ -98,11 +103,14 @@ const CardChartLine: FunctionComponent<ICardChartLineProps> = ({ label }) => {
   return (
     <div className={styles.container}>
       <Card variant={Card.variant.highlight}>
-        <div className={styles.label}>{label}</div>
+        <div className={styles.header}>
+          <div className={styles.label}>{label}</div>
+          <ChartFilter option={optionFilter} setOption={setOptionFilter} />
+        </div>
         <Line options={options} data={data} className={styles.chart} />
       </Card>
     </div>
   )
 }
 
-export { CardChartLine }
+export { ChartGeneral }

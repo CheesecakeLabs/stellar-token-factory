@@ -1,8 +1,19 @@
-import { Dispatch, FunctionComponent, SetStateAction } from 'react'
+import {
+  Dispatch,
+  FunctionComponent,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
 import { TabsManagementEnum } from 'components/templates'
-import { Column, Row } from 'components/atoms'
-import { CardInfo, CardChartLine } from 'components/molecules'
+import { Column, CustomError, LastUpdated, Row } from 'components/atoms'
+import { CardInfo } from 'components/molecules'
+import { ChartGeneral } from './chart-general'
+import { ListHolders } from './list-holders'
+import { FactoryService } from 'services/factory'
+import { IGeneralInfo } from 'services/factory/interfaces'
 
 export interface IGeneralProps {
   distribution: string
@@ -12,26 +23,69 @@ export interface IGeneralProps {
 }
 
 const General: FunctionComponent<IGeneralProps> = () => {
+  const [isLoading, setLoading] = useState(false)
+  const [generalInfo, setGeneralInfo] = useState<IGeneralInfo>()
+  const [error, setError] = useState<string>()
+
+  const getData = useCallback(() => {
+    setLoading(true)
+    FactoryService.getGeneralInfo()
+      .then(response => {
+        setGeneralInfo(response.data)
+      })
+      .catch(() => {
+        setError('Could not update asset listing at this time')
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [])
+
+  useEffect(() => {
+    getData()
+  }, [getData])
+
   return (
-    <Row>
-      <Column col={4}>
-        <CardInfo
-          label={'Total supply'}
-          value={'1000,00'}
-          description={'COIN'}
+    <>
+      {error ? (
+        <CustomError
+          message={'An error occurred while loading the information'}
         />
-        <CardInfo
-          label={'Total in-circulation'}
-          value={'980,302'}
-          description={'COIN'}
-        />
-        <CardInfo label={'Total trustlines'} value={'7.203'} />
-        <CardInfo label={'Total reserves'} value={'Not available'} />
-      </Column>
-      <Column col={8}>
-        <CardChartLine label={'Total supply and Distributor supply'} />
-      </Column>
-    </Row>
+      ) : (
+        <div>
+          <Row>
+            <Column col={4}>
+              <CardInfo
+                label={'Total supply'}
+                value={generalInfo?.total_supply}
+                description={'COIN'}
+              />
+              <CardInfo
+                label={'Total in-circulation'}
+                value={generalInfo?.total_in_circulation}
+                description={'COIN'}
+              />
+              <CardInfo
+                label={'Total trustlines'}
+                value={generalInfo?.total_trustlines}
+              />
+              <CardInfo
+                label={'Total reserves'}
+                value={generalInfo?.total_reserves}
+              />
+            </Column>
+            <Column col={8}>
+              <ChartGeneral label={'Total supply and Distributor supply'} />
+              <ListHolders
+                isLoading={isLoading}
+                data={generalInfo?.top_holders || []}
+              />
+            </Column>
+          </Row>
+          <LastUpdated date={generalInfo?.last_updated} />
+        </div>
+      )}
+    </>
   )
 }
 

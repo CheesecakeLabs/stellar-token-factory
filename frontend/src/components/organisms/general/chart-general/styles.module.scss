@@ -2,6 +2,11 @@
   display: flex;
   margin: 1rem 0.5rem 1rem 0.5rem;
 
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .label {
     font-weight: 600;
     font-size: 14px;
