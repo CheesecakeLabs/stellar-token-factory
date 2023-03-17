@@ -5,17 +5,16 @@ import styles from './styles.module.scss'
 import { CustomLoader } from 'components/atoms'
 import { List } from 'react-feather'
 import { IInfoTransaction } from 'services/factory/interfaces'
-import { formatSimpleDate } from 'utils/formatter'
+import { formatNumber, formatSimpleDate } from 'utils/formatter'
 
 export interface IListTransferTransactionsProps {
   isLoading: boolean
   data: IInfoTransaction[]
 }
 
-const ListTransferTransactions: FunctionComponent<IListTransferTransactionsProps> = ({
-  isLoading,
-  data,
-}) => {
+const ListTransferTransactions: FunctionComponent<
+  IListTransferTransactionsProps
+> = ({ isLoading, data }) => {
   return (
     <div className={styles.container}>
       <Card variant={Card.variant.highlight}>
@@ -34,7 +33,7 @@ const ListTransferTransactions: FunctionComponent<IListTransferTransactionsProps
                 <tr className={styles.trContent} key={index}>
                   <td>{formatSimpleDate(item.date)}</td>
                   <td>
-                    {item.amount} {item.symbol}
+                    {formatNumber(item.amount)} {item.symbol}
                   </td>
                   <td className={styles.tdHash}>{item.hash}</td>
                 </tr>

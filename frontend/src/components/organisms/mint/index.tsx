@@ -38,6 +38,7 @@ export interface IMintProps {
   assetCode: string
   issuer: string
   setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
+  isDarkMode: boolean | undefined
 }
 
 const Mint: FunctionComponent<IMintProps> = props => {
@@ -215,12 +216,12 @@ const Mint: FunctionComponent<IMintProps> = props => {
               <CardInfo
                 label={'Total supply'}
                 value={infoData?.total_supply}
-                description={'COIN'}
+                description={infoData?.symbol}
               />
               <CardInfo
                 label={'Total in-circulation'}
                 value={infoData?.total_in_circulation}
-                description={'COIN'}
+                description={infoData?.symbol}
               />
               <CardInfo
                 label={'Total mint transactions'}
@@ -232,7 +233,10 @@ const Mint: FunctionComponent<IMintProps> = props => {
               />
             </Column>
             <Column col={8}>
-              <ChartMint label={'Minted amount'} />
+              <ChartMint
+                label={'Minted amount'}
+                isDarkMode={props.isDarkMode}
+              />
               <ListMintTransactions
                 isLoading={isLoading}
                 data={infoData?.last_transactions || []}

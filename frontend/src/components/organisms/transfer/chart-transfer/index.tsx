@@ -10,15 +10,19 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import { Line } from 'react-chartjs-2'
+import { Chart } from 'react-chartjs-2'
 import { faker } from '@faker-js/faker'
+
+import 'chart.js/auto'
 
 import styles from './styles.module.scss'
 import { textColorByTheme } from 'services/theme-utils'
 import { ChartFilter } from 'components/atoms'
+import { labelsChart } from 'utils/chart-utils'
 
 export interface IChartTransferProps {
   label: string
+  isDarkMode: boolean | undefined
 }
 
 ChartJS.register(
@@ -31,72 +35,68 @@ ChartJS.register(
   Legend
 )
 
-const ChartTransfer: FunctionComponent<IChartTransferProps> = ({ label }) => {
+const ChartTransfer: FunctionComponent<IChartTransferProps> = ({
+  label,
+  isDarkMode,
+}) => {
   const [optionFilter, setOptionFilter] = useState<'MONTH' | 'YEAR' | 'ALL'>(
     'MONTH'
   )
 
   const options = {
     responsive: true,
-    scales: {
-      x: {
-        ticks: {
-          color: textColorByTheme(document.body.className),
-        },
-      },
-      y: {
-        ticks: {
-          color: textColorByTheme(document.body.className),
-        },
-      },
-    },
     plugins: {
       tooltip: {
-        bodyColor: textColorByTheme(document.body.className),
+        bodyColor: textColorByTheme(isDarkMode),
       },
       legend: {
         display: false,
         labels: {
-          color: textColorByTheme(document.body.className),
+          color: textColorByTheme(isDarkMode),
         },
       },
       color: {
-        color: textColorByTheme(document.body.className),
+        color: textColorByTheme(isDarkMode),
       },
       title: {
         display: false,
       },
     },
+    scales: {
+      x: {
+        ticks: {
+          color: textColorByTheme(isDarkMode),
+        },
+      },
+      y: {
+        ticks: {
+          color: textColorByTheme(isDarkMode),
+        },
+      },
+    },
   }
 
-  const labels = [
-    '1 Jan',
-    '3 Jan',
-    '6 Jan',
-    '9 Jan',
-    '12 Jan',
-    '15 Jan',
-    '18 Jan',
-  ]
-
   const data = {
-    labels,
+    labels: labelsChart(optionFilter),
     datasets: [
       {
-        label: 'Minted amount',
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
+        label: 'Amount',
+        data: labelsChart(optionFilter).map(() =>
+          faker.datatype.number({ min: 0, max: 1000 })
         ),
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: 'rgb(56,147,138)',
+        backgroundColor: 'rgba(56,147,138,0.5)',
+        order: 1,
       },
       {
-        label: 'Minted amount',
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
+        label: 'Volume',
+        data: labelsChart(optionFilter).map(() =>
+          faker.datatype.number({ min: 0, max: 1000 })
         ),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        type: 'line' as never,
+        order: 0,
       },
     ],
   }
@@ -108,7 +108,12 @@ const ChartTransfer: FunctionComponent<IChartTransferProps> = ({ label }) => {
           <div className={styles.label}>{label}</div>
           <ChartFilter option={optionFilter} setOption={setOptionFilter} />
         </div>
-        <Line options={options} data={data} className={styles.chart} />
+        <Chart
+          type="bar"
+          options={options}
+          data={data}
+          className={styles.chart}
+        />
       </Card>
     </div>
   )

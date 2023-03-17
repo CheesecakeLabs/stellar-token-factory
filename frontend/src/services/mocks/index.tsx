@@ -3,6 +3,7 @@ export const mockGeneral = {
   total_in_circulation: 980302,
   total_trustlines: 7203,
   total_reserves: undefined,
+  symbol: 'COIN',
   last_updated: Date.now(),
   top_holders: [
     {
@@ -43,6 +44,7 @@ export const mockMint = {
   total_in_circulation: 980302,
   total_mint_transactions: 7203,
   total_reserves: undefined,
+  symbol: 'COIN',
   last_updated: Date.now(),
   last_transactions: [
     {
@@ -83,6 +85,7 @@ export const mockBurn = {
   total_in_circulation: 980302,
   total_burn_transactions: 7203,
   total_reserves: undefined,
+  symbol: 'COIN',
   last_updated: Date.now(),
   last_transactions: [
     {
@@ -121,6 +124,7 @@ export const mockBurn = {
 export const mockTransfer = {
   total_amount_transfered: 1000000,
   total_transfer_transactions: 980302,
+  symbol: 'COIN',
   last_updated: Date.now(),
   last_transactions: [
     {

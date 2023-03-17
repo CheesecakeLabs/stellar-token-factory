@@ -41,6 +41,7 @@ export interface IGeneralInfo {
   total_in_circulation: number | undefined
   total_trustlines: number | undefined
   total_reserves: number | undefined
+  symbol: string
   last_updated: number
   top_holders: ITopHolders[]
 }
@@ -57,6 +58,7 @@ export interface IMintInfo {
   total_in_circulation: number | undefined
   total_mint_transactions: number | undefined
   total_reserves: number | undefined
+  symbol: string
   last_updated: number
   last_transactions: IInfoTransaction[]
 }
@@ -66,6 +68,7 @@ export interface IBurnInfo {
   total_in_circulation: number | undefined
   total_burn_transactions: number | undefined
   total_reserves: number | undefined
+  symbol: string
   last_updated: number
   last_transactions: IInfoTransaction[]
 }
@@ -73,6 +76,7 @@ export interface IBurnInfo {
 export interface ITransferInfo {
   total_amount_transfered: number | undefined
   total_transfer_transactions: number | undefined
+  symbol: string
   last_updated: number
   last_transactions: IInfoTransaction[]
 }

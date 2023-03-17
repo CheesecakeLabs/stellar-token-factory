@@ -5,7 +5,7 @@ import styles from './styles.module.scss'
 import { CustomLoader } from 'components/atoms'
 import { List } from 'react-feather'
 import { IInfoTransaction } from 'services/factory/interfaces'
-import { formatSimpleDate } from 'utils/formatter'
+import { formatNumber, formatSimpleDate } from 'utils/formatter'
 
 export interface IListBurnTransactionsProps {
   isLoading: boolean
@@ -34,7 +34,7 @@ const ListBurnTransactions: FunctionComponent<IListBurnTransactionsProps> = ({
                 <tr className={styles.trContent} key={index}>
                   <td>{formatSimpleDate(item.date)}</td>
                   <td>
-                    {item.amount} {item.symbol}
+                    {formatNumber(item.amount)} {item.symbol}
                   </td>
                   <td className={styles.tdHash}>{item.hash}</td>
                 </tr>

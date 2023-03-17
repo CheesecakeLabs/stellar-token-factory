@@ -5,6 +5,7 @@ import styles from './styles.module.scss'
 import { CustomLoader } from 'components/atoms'
 import { List } from 'react-feather'
 import { ITopHolders } from 'services/factory/interfaces'
+import { formatNumber } from 'utils/formatter'
 
 export interface IListHoldersProps {
   isLoading: boolean
@@ -32,7 +33,9 @@ const ListHolders: FunctionComponent<IListHoldersProps> = ({
               {data.map((item, index) => (
                 <tr className={styles.trContent} key={index}>
                   <td className={styles.tdAccount}>{item.account}</td>
-                  <td className={styles.tdIssuer}>{item.balance} {item.symbol}</td>
+                  <td className={styles.tdIssuer}>
+                    {formatNumber(item.balance)} {item.symbol}
+                  </td>
                   <td className={styles.tdRight}>{item.percentage}%</td>
                 </tr>
               ))}

@@ -42,6 +42,7 @@ const ManagementTemplate = (): JSX.Element => {
   const [assetDistributor, setAssetDistributor] = useState('')
   const location = useLocation()
   const [showHelper, setShowHelper] = useState<TabsManagementEnum>()
+  const [isDarkMode, setMode] = useState<boolean>()
 
   const { state } = location as LocationState
 
@@ -102,6 +103,9 @@ const ManagementTemplate = (): JSX.Element => {
             isLoading={isLoading}
           />
         }
+        onDarkModeToggleEnd={(isDarkMode: boolean): void => {
+          setMode(isDarkMode)
+        }}
       />
       <Layout.Content>
         <Layout.Inset>
@@ -116,6 +120,7 @@ const ManagementTemplate = (): JSX.Element => {
               isFreeze={state?.freeze}
               isClawback={state?.clawback}
               setShowHelper={setShowHelper}
+              isDarkMode={isDarkMode}
             />
           )}
         </Layout.Inset>

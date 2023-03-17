@@ -20,6 +20,7 @@ export interface ITabsManagementProps {
   isFreeze: boolean
   isClawback: boolean
   setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
+  isDarkMode: boolean | undefined
 }
 
 const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
@@ -65,6 +66,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 setShowHelper={props.setShowHelper}
+                isDarkMode={props.isDarkMode}
               />
             </TabPanel>
             <TabPanel>
@@ -73,6 +75,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 setShowHelper={props.setShowHelper}
+                isDarkMode={props.isDarkMode}
               />
             </TabPanel>
             <TabPanel>
@@ -81,6 +84,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 setShowHelper={props.setShowHelper}
+                isDarkMode={props.isDarkMode}
               />
             </TabPanel>
             <TabPanel>
@@ -89,6 +93,7 @@ const TabsManagement: FunctionComponent<ITabsManagementProps> = props => {
                 issuer={props.issuer}
                 assetCode={props.assetCode}
                 setShowHelper={props.setShowHelper}
+                isDarkMode={props.isDarkMode}
               />
             </TabPanel>
             <TabPanel>

@@ -20,9 +20,10 @@ export interface IGeneralProps {
   assetCode: string
   issuer: string
   setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
+  isDarkMode: boolean | undefined
 }
 
-const General: FunctionComponent<IGeneralProps> = () => {
+const General: FunctionComponent<IGeneralProps> = ({ isDarkMode }) => {
   const [isLoading, setLoading] = useState(false)
   const [generalInfo, setGeneralInfo] = useState<IGeneralInfo>()
   const [error, setError] = useState<string>()
@@ -56,12 +57,12 @@ const General: FunctionComponent<IGeneralProps> = () => {
               <CardInfo
                 label={'Total supply'}
                 value={generalInfo?.total_supply}
-                description={'COIN'}
+                description={generalInfo?.symbol}
               />
               <CardInfo
                 label={'Total in-circulation'}
                 value={generalInfo?.total_in_circulation}
-                description={'COIN'}
+                description={generalInfo?.symbol}
               />
               <CardInfo
                 label={'Total trustlines'}
@@ -73,7 +74,10 @@ const General: FunctionComponent<IGeneralProps> = () => {
               />
             </Column>
             <Column col={8}>
-              <ChartGeneral label={'Total supply and Distributor supply'} />
+              <ChartGeneral
+                label={'Total supply and Distribution supply'}
+                isDarkMode={isDarkMode}
+              />
               <ListHolders
                 isLoading={isLoading}
                 data={generalInfo?.top_holders || []}

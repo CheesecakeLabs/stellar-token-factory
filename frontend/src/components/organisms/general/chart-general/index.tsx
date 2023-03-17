@@ -16,9 +16,11 @@ import { faker } from '@faker-js/faker'
 import styles from './styles.module.scss'
 import { textColorByTheme } from 'services/theme-utils'
 import { ChartFilter } from 'components/atoms'
+import { labelsChart } from 'utils/chart-utils'
 
 export interface IChartGeneralProps {
   label: string
+  isDarkMode: boolean | undefined
 }
 
 ChartJS.register(
@@ -31,7 +33,10 @@ ChartJS.register(
   Legend
 )
 
-const ChartGeneral: FunctionComponent<IChartGeneralProps> = ({ label }) => {
+const ChartGeneral: FunctionComponent<IChartGeneralProps> = ({
+  label,
+  isDarkMode,
+}) => {
   const [optionFilter, setOptionFilter] = useState<'MONTH' | 'YEAR' | 'ALL'>(
     'MONTH'
   )
@@ -41,26 +46,23 @@ const ChartGeneral: FunctionComponent<IChartGeneralProps> = ({ label }) => {
     scales: {
       x: {
         ticks: {
-          color: textColorByTheme(document.body.className),
+          color: textColorByTheme(isDarkMode),
         },
       },
       y: {
         ticks: {
-          color: textColorByTheme(document.body.className),
+          color: textColorByTheme(isDarkMode),
         },
       },
     },
     plugins: {
-      tooltip: {
-        bodyColor: textColorByTheme(document.body.className),
-      },
       legend: {
         labels: {
-          color: textColorByTheme(document.body.className),
+          color: textColorByTheme(isDarkMode),
         },
       },
       color: {
-        color: textColorByTheme(document.body.className),
+        color: textColorByTheme(isDarkMode),
       },
       title: {
         display: false,
@@ -68,34 +70,24 @@ const ChartGeneral: FunctionComponent<IChartGeneralProps> = ({ label }) => {
     },
   }
 
-  const labels = [
-    '1 Jan',
-    '3 Jan',
-    '6 Jan',
-    '9 Jan',
-    '12 Jan',
-    '15 Jan',
-    '18 Jan',
-  ]
-
   const data = {
-    labels,
+    labels: labelsChart(optionFilter),
     datasets: [
       {
         label: 'Total supply',
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
+        data: labelsChart(optionFilter).map(() =>
+          faker.datatype.number({ min: 0, max: 1000 })
         ),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
       {
-        label: 'Distributor supply',
-        data: labels.map(() =>
-          faker.datatype.number({ min: -1000, max: 1000 })
+        label: 'Distribution supply',
+        data: labelsChart(optionFilter).map(() =>
+          faker.datatype.number({ min: 0, max: 1000 })
         ),
-        borderColor: 'rgb(53, 162, 235)',
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        borderColor: 'rgb(56,147,138)',
+        backgroundColor: 'rgba(56,147,138,0.5)',
       },
     ],
   }

@@ -1,15 +1,6 @@
-export const toMoney = (value: number): string => {
-  const moneyFormatter = new Intl.NumberFormat('pt-br', {
-    style: 'currency',
-    currency: 'BRL',
-  })
-
+export const formatNumber = (value: number): string => {
+  const moneyFormatter = new Intl.NumberFormat('en-US')
   return moneyFormatter.format(value)
-}
-
-export const toCrypto = (value?: number): string => {
-  if (!value) value = 0
-  return value.toFixed(4).replace('.', ',')
 }
 
 export const formatDate = (date: number): string => {
@@ -29,6 +20,15 @@ export const formatSimpleDate = (date: number): string => {
     day: 'numeric',
     month: 'short',
     year: 'numeric',
+  })
+
+  return formattedDate
+}
+
+export const formatMonth = (date: number): string => {
+  const formattedDate = new Date(date).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
   })
 
   return formattedDate

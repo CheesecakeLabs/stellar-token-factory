@@ -38,6 +38,7 @@ export interface ITransferProps {
   assetCode: string
   issuer: string
   setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
+  isDarkMode: boolean | undefined
 }
 
 const Transfer: FunctionComponent<ITransferProps> = props => {
@@ -232,7 +233,10 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
         <CustomLoader />
       ) : (
         <div>
-          <ChartTransfer label={'Amount and volume of transfer transactions'} />
+          <ChartTransfer
+            label={'Amount and volume of transfer transactions'}
+            isDarkMode={props.isDarkMode}
+          />
           <Row>
             <Column col={8}>
               <ListTransferTransactions
@@ -244,12 +248,12 @@ const Transfer: FunctionComponent<ITransferProps> = props => {
               <CardInfo
                 label={'Total amount transfered'}
                 value={infoData?.total_amount_transfered}
-                description={'COIN'}
+                description={infoData?.symbol}
               />
               <CardInfo
                 label={'Total transfer transactions'}
                 value={infoData?.total_transfer_transactions}
-                description={'COIN'}
+                description={infoData?.symbol}
               />
             </Column>
           </Row>

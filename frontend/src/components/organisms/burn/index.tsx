@@ -38,6 +38,7 @@ export interface IBurnProps {
   assetCode: string
   issuer: string
   setShowHelper: Dispatch<SetStateAction<TabsManagementEnum | undefined>>
+  isDarkMode: boolean | undefined
 }
 
 const Burn: FunctionComponent<IBurnProps> = props => {
@@ -215,12 +216,12 @@ const Burn: FunctionComponent<IBurnProps> = props => {
               <CardInfo
                 label={'Total supply'}
                 value={infoData?.total_supply}
-                description={'COIN'}
+                description={infoData?.symbol}
               />
               <CardInfo
                 label={'Total in-circulation'}
                 value={infoData?.total_in_circulation}
-                description={'COIN'}
+                description={infoData?.symbol}
               />
               <CardInfo
                 label={'Total burn transactions'}
@@ -232,7 +233,10 @@ const Burn: FunctionComponent<IBurnProps> = props => {
               />
             </Column>
             <Column col={8}>
-              <ChartBurn label={'Burned amount'} />
+              <ChartBurn
+                label={'Burned amount'}
+                isDarkMode={props.isDarkMode}
+              />
               <ListBurnTransactions
                 isLoading={isLoading}
                 data={infoData?.last_transactions || []}

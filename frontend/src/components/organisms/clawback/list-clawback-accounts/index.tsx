@@ -5,7 +5,7 @@ import styles from './styles.module.scss'
 import { CustomLoader } from 'components/atoms'
 import { List } from 'react-feather'
 import { IClawbackTransaction } from 'services/factory/interfaces'
-import { formatSimpleDate } from 'utils/formatter'
+import { formatNumber, formatSimpleDate } from 'utils/formatter'
 
 export interface IListClawbackAccountsProps {
   isLoading: boolean
@@ -33,7 +33,9 @@ const ListClawbackAccounts: FunctionComponent<IListClawbackAccountsProps> = ({
               {data.map((item, index) => (
                 <tr className={styles.trContent} key={index}>
                   <td>{formatSimpleDate(item.date)}</td>
-                  <td>{item.amount}</td>
+                  <td>
+                    {formatNumber(item.amount)} {item.symbol}
+                  </td>
                   <td className={styles.tdAccount}>{item.account}</td>
                 </tr>
               ))}
