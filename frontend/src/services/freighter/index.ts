@@ -4,7 +4,10 @@ import { ITransactionResponse } from 'services/factory/interfaces';
 const toSign = async (xdr: string, signWith: string): Promise<string> => {
   let signedTransaction = '';
   const network = await getNetwork();
-  signedTransaction = await signTransaction(xdr, network == "TESTNET" ? "TESTNET" : "PUBLIC", signWith);
+  signedTransaction = await signTransaction(xdr, {
+    network: network == 'TESTNET' ? 'TESTNET' : 'PUBLIC',
+    accountToSign: signWith,
+  })
   return signedTransaction;
 }
 
