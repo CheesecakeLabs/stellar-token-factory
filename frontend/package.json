@@ -6,7 +6,7 @@
     "@sentry/react": "^7.12.1",
     "@sentry/tracing": "^7.12.1",
     "@stellar/design-system": "^0.8.1",
-    "@stellar/freighter-api": "^1.2.0",
+    "@stellar/freighter-api": "^1.4.0",
     "@testing-library/react": "~13.4.0",
     "@types/react": "~18.0.20",
     "@types/react-router-dom": "~5.3.3",
