@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { Loading } from 'components/atoms'
 
@@ -11,6 +12,8 @@ interface IListPayeesProps {
 }
 
 export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.container}>
       <table>
@@ -21,17 +24,15 @@ export const ListPayees: React.FC<IListPayeesProps> = ({ loading, payees }) => {
             <thead>
               <tr>
                 <th></th>
-                <th>Company name</th>
-                <th className={styles.thPhone}>Phone</th>
+                <th>{t('company_name')}</th>
+                <th className={styles.thPhone}>{t('phone')}</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               {payees &&
                 payees.map(item => {
-                  return (
-                    <ItemPayee payee={item} />
-                  )
+                  return <ItemPayee payee={item} />
                 })}
             </tbody>
           </>

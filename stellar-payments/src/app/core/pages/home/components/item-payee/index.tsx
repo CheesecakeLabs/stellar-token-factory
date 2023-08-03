@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { DollarOutlined, WarningOutlined } from '@ant-design/icons'
 
@@ -23,6 +24,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
   const [isExpanded, setExpanded] = useState(false)
   const [isOpenStellarPay, setModalStellarPay] = useState(false)
   const [isOpenPending, setModalPending] = useState(false)
+  const { t } = useTranslation()
 
   const openModalStellar = (
     event: React.MouseEvent<HTMLButtonElement>
@@ -71,7 +73,9 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
               variant={
                 isPending() ? ButtonVariant.warning : ButtonVariant.primary
               }
-              label={isPending() ? 'Pending approval' : 'Create payment order'}
+              label={
+                isPending() ? t('pending_approval') : t('create_payment_order')
+              }
               icon={isPending() ? <WarningOutlined /> : <DollarOutlined />}
               onClick={isPending() ? openModalPending : openModalStellar}
             />
@@ -84,7 +88,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
             <div className={styles.containerDatails}>
               <Typography
                 variant={TypographyVariant.label}
-                text={'Address'}
+                text={t('address')}
                 className={styles.label}
               />
               <Typography
@@ -95,7 +99,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
               <div className={styles.detailPhone}>
                 <Typography
                   variant={TypographyVariant.label}
-                  text={'Phone'}
+                  text={t('phone')}
                   className={styles.label}
                 />
                 <Typography
@@ -106,7 +110,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
               </div>
               <Typography
                 variant={TypographyVariant.label}
-                text={'Bank account'}
+                text={t('bank_account')}
                 className={styles.label}
               />
               <Typography
@@ -116,7 +120,7 @@ export const ItemPayee: React.FC<IItemPayeeProps> = ({ payee }) => {
               />
               <Typography
                 variant={TypographyVariant.label}
-                text={'Stellar wallet'}
+                text={t('stellar_wallet')}
                 className={styles.label}
               />
               <Typography

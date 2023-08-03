@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { message } from 'antd'
 import { usePayment } from 'services/hooks/usePayment'
@@ -32,6 +33,7 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
   pendingPayments,
 }) => {
   const { loading, makeSubmit, submit, removePendingSigners } = usePayment()
+  const { t } = useTranslation()
 
   const closeModal = (): void => {
     setOpenModal(false)
@@ -53,12 +55,16 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
         return
       })
     } catch (error) {
-      message.error('An error occurred. Please try again...')
+      message.error(t('error_occurred'))
     }
   }
 
   return (
-    <Modal isOpen={isOpen} handleClose={closeModal} title="Pending payment">
+    <Modal
+      isOpen={isOpen}
+      handleClose={closeModal}
+      title={t('pending_payment')}
+    >
       {submit ? (
         pendingPayments &&
         pendingPayments[0] && (
@@ -84,7 +90,7 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
                 <Row justifyContent={RowContent.spaceBetween}>
                   <Typography
                     variant={TypographyVariant.label}
-                    text={'Payment amount'}
+                    text={t('payment_amount')}
                     className={styles.label}
                   />
                   <Typography
@@ -105,7 +111,7 @@ export const ModalPending: React.FC<IModalStellarPayProps> = ({
               />
               <Button
                 variant={ButtonVariant.tertiary}
-                label={'Approve payment'}
+                label={t('approve_payment')}
                 isLoading={loading}
                 onClick={confirmPayment}
               />
