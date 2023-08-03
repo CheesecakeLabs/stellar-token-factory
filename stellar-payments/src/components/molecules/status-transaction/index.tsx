@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import {
   CheckCircleFilled,
   FieldTimeOutlined,
@@ -30,6 +32,8 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
   payee,
   isMultiSignatures,
 }) => {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.container}>
       {isMultiSignatures ? (
@@ -46,11 +50,13 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
         variant={TypographyVariant.label}
         text={
           isMultiSignatures
-            ? 'Waiting for approvals (1/2)'
-            : `You made a payment of ${toUsd(amount)} to ${payee.name} using ${
+            ? `${t('waiting_approvals')} (1/2)`
+            : `${t('you_made_payment')} ${toUsd(amount)} ${t('to')} ${
+                payee.name
+              } ${t('using')} ${
                 formPayment == TypePayment.stellar
-                  ? 'Stellar Pay'
-                  : 'Wire Transfer'
+                  ? t('stellar_pay')
+                  : t('wire_transfer')
               }`
         }
         className={styles.descriptionMessage}
@@ -59,7 +65,7 @@ export const StatusTransaction: React.FC<IStatusTransaction> = ({
         <div className={styles.openLink}>
           <Button
             variant={ButtonVariant.primary}
-            label={'Open in Stellar Expert'}
+            label={t('open_stellar_expert')}
             onClick={(): Window | null =>
               window.open(submit?.transaction_link, '_blank')
             }

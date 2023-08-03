@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { InfoCircleFilled } from '@ant-design/icons'
 import { toEur } from 'services/utils/utils'
 
@@ -16,9 +18,9 @@ interface IEstimatedCost {
   payment: Hooks.UsePaymentTypes.IPayment | undefined
 }
 
-export const EstimatedCost: React.FC<IEstimatedCost> = ({
-  payment,
-}) => {
+export const EstimatedCost: React.FC<IEstimatedCost> = ({ payment }) => {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.container}>
       <div className={styles.containerFormPayment}>
@@ -27,7 +29,7 @@ export const EstimatedCost: React.FC<IEstimatedCost> = ({
             <BlockchainIcon width={48} height={48} />
             <Typography
               variant={TypographyVariant.p}
-              text={'Stellar pay'}
+              text={t('stellar_pay')}
               className={styles.title}
             />
           </div>
@@ -35,7 +37,7 @@ export const EstimatedCost: React.FC<IEstimatedCost> = ({
             <Row justifyContent={RowContent.spaceBetween}>
               <Typography
                 variant={TypographyVariant.label}
-                text={'Fees'}
+                text={t('fees')}
                 className={styles.label}
               />
               <Typography
@@ -47,7 +49,7 @@ export const EstimatedCost: React.FC<IEstimatedCost> = ({
             <Row justifyContent={RowContent.spaceBetween}>
               <Typography
                 variant={TypographyVariant.label}
-                text={'ETA'}
+                text={t('eta')}
                 className={styles.label}
               />
               <Typography
@@ -59,7 +61,7 @@ export const EstimatedCost: React.FC<IEstimatedCost> = ({
             <Row justifyContent={RowContent.spaceBetween}>
               <Typography
                 variant={TypographyVariant.label}
-                text={'Exchange'}
+                text={t('exchange')}
                 className={styles.label}
               />
               <Typography
@@ -72,7 +74,7 @@ export const EstimatedCost: React.FC<IEstimatedCost> = ({
             <Row justifyContent={RowContent.spaceBetween}>
               <Typography
                 variant={TypographyVariant.label}
-                text={'Final cost'}
+                text={t('final_cost')}
                 className={styles.label}
               />
               <Typography
@@ -85,7 +87,7 @@ export const EstimatedCost: React.FC<IEstimatedCost> = ({
               <InfoCircleFilled style={{ fontSize: '16px' }} />
               <Typography
                 variant={TypographyVariant.label}
-                text={`1/2 approvals required`}
+                text={`1/2 ${t('approvals_required')}}`}
                 className={styles.message}
               />
             </div>

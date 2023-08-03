@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 
 import { message } from 'antd'
@@ -13,10 +14,13 @@ import {
   TypographyVariant,
 } from 'components/atoms'
 
+import '../../../../../../i18n/config'
+
 import styles from './styles.module.scss'
 
 export const LoginModal: React.FC = () => {
   const history = useHistory()
+  const { t } = useTranslation()
   const { signIn, loading } = useAccount()
   const [inputs, setInputs] = useState<Hooks.UseAccountTypes.ISignIn>({
     email: '',
@@ -39,7 +43,7 @@ export const LoginModal: React.FC = () => {
       if (isSuccess) {
         return history.push('/')
       }
-      message.error('Unauthenticated user!')
+      message.error(t('unauthenticated_user'))
     })
   }
 
@@ -47,26 +51,26 @@ export const LoginModal: React.FC = () => {
     <div className={styles.container}>
       <Typography
         variant={TypographyVariant.label}
-        text={'Access payment module'}
+        text={t('access_payment_module')}
         className={styles.signInText}
       />
       <InputText
         variant={InputTextVariant.secondary}
         name={'email'}
-        placeHolder={'Email'}
+        placeHolder={t('email')}
         handleChange={handleChange}
         type={'email'}
       />
       <InputText
         variant={InputTextVariant.secondary}
         name={'password'}
-        placeHolder={'Password'}
+        placeHolder={t('password')}
         handleChange={handleChange}
         type={'password'}
       />
       <Button
         variant={ButtonVariant.login}
-        label={'Login'}
+        label={t('login')}
         onClick={login}
         isLoading={loading}
         isDisabled={!inputs.email || !inputs.password}

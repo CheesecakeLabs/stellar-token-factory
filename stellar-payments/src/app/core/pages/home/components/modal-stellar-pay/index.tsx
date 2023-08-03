@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { LeftOutlined } from '@ant-design/icons'
 import { ConfigProvider, message, Steps } from 'antd'
@@ -38,6 +39,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     setSubmit,
   } = usePayment()
   const { getBalance } = useAccount()
+  const { t } = useTranslation()
 
   const next = (): void => {
     setCurrent(current + 1)
@@ -70,7 +72,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
       if (payment != null) {
         return next()
       }
-      message.error('An error occurred. Please try again...')
+      message.error(t('error_occurred'))
     })
   }
 
@@ -91,7 +93,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
       if (result != null) {
         return next()
       }
-      message.error('An error occurred. Please try again...')
+      message.error(t('error_occurred'))
     })
   }
 
@@ -112,7 +114,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
     if (addUserToPendingSigners(data)) {
       return next()
     }
-    message.error('An error occurred. Please try again...')
+    message.error(t('error_occurred'))
   }
 
   const noRequestSignature = (): boolean => {
@@ -126,16 +128,16 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
 
   const steps = [
     {
-      title: 'Order',
+      title: t('order'),
       content: (
         <Amount amount={amount} onChangeText={handleChange} payee={payee} />
       ),
-      label: 'Create payment',
+      label: t('create_payment'),
       action: sendAmount,
       isDisabled: !amount,
     },
     {
-      title: 'Payment Quote',
+      title: t('payment_quote'),
       content: (
         <Payment
           amount={formatValueToNumber(amount)}
@@ -148,7 +150,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
       action: noRequestSignature() ? confirmPayment : addToPendingSigner,
     },
     {
-      title: 'Confirmation',
+      title: t('confirmation'),
       content: (
         <StatusTransaction
           amount={formatValueToNumber(amount)}
@@ -158,7 +160,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
           isMultiSignatures={!noRequestSignature()}
         />
       ),
-      label: 'Next',
+      label: t('next'),
       action: closeModal,
     },
   ]
@@ -166,7 +168,7 @@ export const ModalStellarPay: React.FC<IModalStellarPayProps> = ({
   const items = steps.map(item => ({ key: item.title, title: item.title }))
 
   return (
-    <Modal isOpen={isOpen} handleClose={closeModal} title="Payment">
+    <Modal isOpen={isOpen} handleClose={closeModal} title={t('payment')}>
       <div className={styles.container}>
         <div>
           <ConfigProvider

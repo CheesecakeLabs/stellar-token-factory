@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import {
   InputText,
   InputTextVariant,
@@ -18,6 +20,8 @@ export const Amount: React.FC<IAmountProps> = ({
   onChangeText,
   payee,
 }) => {
+  const { t } = useTranslation()
+
   function onChange(event: React.ChangeEvent<HTMLInputElement>): void {
     let value = event.target.value
     value = value.replace(/\D/g, '')
@@ -31,7 +35,7 @@ export const Amount: React.FC<IAmountProps> = ({
     <div className={styles.container}>
       <Typography
         variant={TypographyVariant.label}
-        text={`Amount in USD destined to pay ${payee.name}`}
+        text={`${t('amount_to_pay')} ${payee.name}`}
         className={styles.title}
       />
       <InputText
