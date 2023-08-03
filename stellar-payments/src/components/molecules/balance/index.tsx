@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 import { toEur } from 'services/utils/utils'
 
 import { Typography, TypographyVariant } from 'components/atoms'
@@ -11,12 +13,14 @@ interface IBalanceProps {
 }
 
 export const Balance: React.FC<IBalanceProps> = ({ balance, loading }) => {
+  const { t } = useTranslation()
+
   return (
     <div className={styles.container}>
       <BalanceIcon width={24} height={24} />
       <Typography
         variant={TypographyVariant.p}
-        text={loading || !balance ? 'Loading...' : `${toEur(balance.balance)}`}
+        text={loading || !balance ? t('loading') : `${toEur(balance.balance)}`}
         className={styles.balanceText}
       />
     </div>

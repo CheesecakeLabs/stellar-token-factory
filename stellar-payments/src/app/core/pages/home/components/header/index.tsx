@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import { useAccount } from 'services/hooks/useAccount'
 
@@ -10,6 +11,7 @@ import styles from './styles.module.scss'
 
 export const Header: React.FC = () => {
   const { getBalance, loading, balance } = useAccount()
+  const { t } = useTranslation()
 
   useEffect(() => {
     getBalance()
@@ -25,7 +27,7 @@ export const Header: React.FC = () => {
         <div className={styles.containerData}>
           <Typography
             variant={TypographyVariant.p}
-            text={'Payments > Payees'}
+            text={t('breadcrumb')}
             className={styles.moduleText}
           />
           <Balance balance={balance} loading={loading} />
