@@ -68,11 +68,11 @@ jobs:
     if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.code-quality.result == 'success'
     environment: ${{ needs.code-quality.outputs.environment }}
     env:
-      ECR_REPOSITORY: ${{ needs.code-quality.outputs.resource_base_name }}-frontend
+      ECR_REPOSITORY: ${{ needs.code-quality.outputs.resource_base_name }}-tf-frontend
       ECS_CLUSTER_NAME: ${{ needs.code-quality.outputs.resource_base_name }}
-      ECS_SERVICE_NAME: ${{ needs.code-quality.outputs.resource_base_name }}-frontend
-      ECS_CONTAINER_NAME: ${{ needs.code-quality.outputs.resource_base_name }}-frontend
-      ECS_TASK_NAME: ${{ needs.code-quality.outputs.resource_base_name }}-frontend
+      ECS_SERVICE_NAME: ${{ needs.code-quality.outputs.resource_base_name }}-tf-frontend
+      ECS_CONTAINER_NAME: ${{ needs.code-quality.outputs.resource_base_name }}-tf-frontend
+      ECS_TASK_NAME: ${{ needs.code-quality.outputs.resource_base_name }}-tf-frontend
       IMAGE_TAG: ${{ github.sha }}
     permissions:
       contents: read
