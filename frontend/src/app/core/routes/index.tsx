@@ -9,7 +9,7 @@ export interface IProps {
 }
 
 const CoreRouter = (): JSX.Element => (
-  <BrowserRouter>
+  <BrowserRouter basename='/sandbox/v1'>
     <Routes>
       <Route path="/" element={<Quickstart />} />
       <Route path="/home" element={<Home />} />

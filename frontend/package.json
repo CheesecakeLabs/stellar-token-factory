@@ -2,6 +2,7 @@
   "name": "mb-token-factory",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/sandbox/v1",
   "dependencies": {
     "@sentry/react": "^7.12.1",
     "@sentry/tracing": "^7.12.1",
@@ -45,7 +46,7 @@
     "start": "react-scripts --max_old_space_size=8128 start",
     "start:dev": "env-cmd -f ./src/config/.env.local npm start",
     "start:dev-docker": "npm start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && mkdir -p build/sandbox/v1/ && cp -Rp build/static build/sandbox/v1/",
     "test": "react-scripts test",
     "test:coverage": "npm run test -- --coverage --watchAll=false",
     "eject": "react-scripts eject",
