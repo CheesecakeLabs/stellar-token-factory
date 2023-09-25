@@ -2,6 +2,7 @@
   "name": "mb-token-factory",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/sandbox/v1",
   "dependencies": {
     "@sentry/react": "^7.12.1",
     "@sentry/tracing": "^7.12.1",
