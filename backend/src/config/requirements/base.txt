@@ -17,7 +17,7 @@ django-cors-headers==3.8.0
 whitenoise==5.3.0
 
 # Webserver
-gunicorn==20.1.0
+gunicorn==22.0.0
 
 # Sentry
 sentry-sdk==1.5.1
