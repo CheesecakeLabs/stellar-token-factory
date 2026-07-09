@@ -29,7 +29,6 @@ jobs:
         python-version: ['3.10']
     outputs:
       environment: ${{ steps.set-outputs.outputs.environment }}
-      resource_base_name: ${{ steps.set-outputs.outputs.resource_base_name }}
     steps:
       - name: Checkout to current branch
         uses: actions/checkout@v3
@@ -39,10 +38,8 @@ jobs:
         run: |
           if [[ "${{ github.ref }}" = "refs/heads/main" ]]; then
             echo "environment=Production" >> $GITHUB_OUTPUT
-            echo "resource_base_name=${{ vars.RESOURCE_BASE_NAME }}-prod" >> $GITHUB_OUTPUT
           else
             echo "environment=NotFound" >> $GITHUB_OUTPUT
-            echo "resource_base_name=NotFound" >> $GITHUB_OUTPUT
             echo "Branch not match"
           fi
 
@@ -81,7 +78,7 @@ jobs:
     if: always() && github.ref == 'refs/heads/main' && github.event_name == 'push' && needs.code-quality.result == 'success'
     environment: ${{ needs.code-quality.outputs.environment }}
     env:
-      ECR_REPOSITORY: ${{ needs.code-quality.outputs.resource_base_name }}-tf-backend
+      ECR_REPOSITORY: ${{ vars.RESOURCE_BASE_NAME }}-tf-backend
       IMAGE_TAG: ${{ github.sha }}
     permissions:
       contents: read
